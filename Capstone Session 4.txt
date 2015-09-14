@@ -1,0 +1,9 @@
+1. Hierarchy [Anton]
+1.1 Show Hierarcy - Show Supervisor [Anton]
+2. Apply to all days button(Schedule Maintenance) - JS copy fields [Rock Well]
+2.2 Install FPDF (Reports Generation) for Laravel [Rock Well] and LEARN!
+3. DTR Layout (Transaction) [Lorenzo]
+4. Remove employees from schedule (Ilipat sa transaction, tanggalin sa view!)[Josh]
+5. Lagyan niyo na ng link yung transaction [Josh]
+6. Check all inputs, if relevant. QA if there's bugs [Josh]
+	

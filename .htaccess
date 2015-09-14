@@ -1,0 +1,6 @@
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^bizify\.org\.ph$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.bizify\.org\.ph$
+RewriteRule ^/?$ "http\:\/\/bizify\.com\.ph\/" [R=301,L]
+

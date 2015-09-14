@@ -1,0 +1,18 @@
+<?php
+
+class AttendancesTableSeeder extends Seeder {
+
+	public function run()
+	{
+		// Uncomment the below to wipe the table clean before populating
+		// DB::table('attendances')->truncate();
+
+		$attendances = array(
+
+		);
+
+		// Uncomment the below to run the seeder
+		// DB::table('attendances')->insert($attendances);
+	}
+
+}

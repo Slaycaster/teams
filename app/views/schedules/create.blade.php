@@ -1,0 +1,840 @@
+@extends("layout")
+@section("content")
+
+<head>
+    <title>Create Schedule | Time and Electronic Attendance Monitoring System</title>
+</head>
+
+<div class="col-md-12" style="margin-bottom:15px; margin-left:-15px">
+    <h1>Create Schedule</h1>
+
+    @if ($errors->any())
+    <ul>
+        {{ implode('', $errors->all('<li class="error">:message')) }}
+    </ul>
+    @endif
+        <div class="btn-group btn-breadcrumb">
+            <a href="{{ URL::to('dashboard') }}"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+            <a href="{{ URL::to('maintenance') }}"  class="btn btn-default">Maintenance</a>
+            <a href="{{ URL::to('schedules') }}"  class="btn btn-default">Schedules</a>
+            <a class="btn btn-default">Add Schedule</a>
+        </div>
+  </div>
+
+
+       
+    <div class="row">
+        <div class="col-md-5">
+
+        {{ Form::open(array('route' => 'schedules.store')) }}
+        
+            <div class="label_white">{{ Form::label('schedule_name', 'Schedule name:') }}</div>
+            {{ Form::text('schedule_name', Input::get('schedule_name'), array('placeholder' => 'Schedule name','autocomplete' => 'off', 'size' => '40')) }}<br>
+        
+            <div class="label_white">{{ Form::label('description', 'Description:') }}</div>
+            {{ Form::textarea('description') }}<br>
+        
+            <div class="label_white">{{ Form::label('break_duration', 'Break duration:') }}</div>
+           
+            {{ Form::input('number', 'break_duration', Input::get('break_duration'), array('placeholder' => 'Number of Hours','autocomplete' => 'off', 'size' => '40')) }}
+            
+            
+        </div>
+        <div class="col-md-7">
+            <fieldset class="field">
+                <legend>Schedules</legend>
+             <div class="panel with-nav-tabs panel-primary">   
+            <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab1primary" data-toggle="tab">Sunday</a></li>
+                            <li><a href="#tab2primary" data-toggle="tab">Monday</a></li>
+                            <li><a href="#tab3primary" data-toggle="tab">Tuesday</a></li>
+                            <li><a href="#tab4primary" data-toggle="tab">Wednesday</a></li>
+                            <li><a href="#tab5primary" data-toggle="tab">Thurday</a></li>
+                            <li><a href="#tab6primary" data-toggle="tab">Friday</a></li>
+                            <li><a href="#tab7primary" data-toggle="tab">Saturday</a></li>
+                        </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        
+                        <div class="tab-pane fade in active" id="tab1primary" >
+                            <div>
+                            
+                            {{ Form::label('sun_timein', 'Sunday time-in:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('sun_timein', Input::get('sun_timein'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                            <div>{{ Form::label('sun_timeout', 'Sunday time-out:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('sun_timeout', Input::get('sun_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                    
+                                    
+
+                                    <div>{{ Form::label('Break:')  }}  <button type="button" id="show">+
+                                    </button>
+                                    </div>
+                                   
+                                    <fieldset class = "hideit">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insSun[][break_inSun]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                            </div>     
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsSun[][break_outSun]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                    </div>
+                                        {{ Form::hidden('day','Sunday') }}
+                                        <br>  <button type="button" id="show1">+
+                                    </button> <button type="reset" id="hide">-
+                                    </button>
+                                    </fieldset> 
+
+                                    <fieldset class = "hideit1">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insSun[][break_inSun]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                                   </div>          
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsSun[][break_outSun]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                        </div>
+                                        {{ Form::hidden('day','Sunday') }}
+                                        <br>  <button type="button" id="show2">+
+                                    </button> <button type="reset" id="hide1">-
+                                    </button>          
+                                    </fieldset>  
+
+                                     <fieldset class = "hideit2">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insSun[][break_inSun]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>              
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsSun[][break_outSun]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>
+                                        {{ Form::hidden('day','Sunday') }}
+                                        <br>   <button type="reset" id="hide2">-
+                                    </button>          
+                                    </fieldset>  
+
+                                                        
+                                                   
+
+                                                    
+                        </div>
+                        <div class="tab-pane fade" id="tab2primary">
+                            <div>{{ Form::label('m_timein', 'Monday time-in:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('m_timein', Input::get('m_timein'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                            
+                            <div>{{ Form::label('m_timeout', 'Monday time-out:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('m_timeout', Input::get('m_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                            
+                                     <div>{{ Form::label('Break:')  }}  <button type="button" id="show3">+
+                                    </button>
+                                    </div>
+                                   
+                                    <fieldset class = "hideit3">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insMon[][break_inMon]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                            </div>     
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsMon[][break_outMon]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                    </div>
+                                        {{ Form::hidden('day','Monday') }}
+                                        <br>  <button type="button" id="show4">+
+                                    </button> <button type="reset" id="hide3">-
+                                    </button>
+                                    </fieldset> 
+
+                                    <fieldset class = "hideit4">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insMon[][break_inMon]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                                   </div>          
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsMon[][break_outMon]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                        </div>
+                                        {{ Form::hidden('day','Monday') }}
+                                        <br>  <button type="button" id="show5">+
+                                    </button> <button type="reset" id="hide4">-
+                                    </button>          
+                                    </fieldset>  
+
+                                     <fieldset class = "hideit5">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insMon[][break_inMon]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>              
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsMon[][break_outMon]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>
+                                        {{ Form::hidden('day','Monday') }}
+                                        <br>   <button type="reset" id="hide5">-
+                                    </button>          
+                                    </fieldset>  
+
+                        </div>
+                        <div class="tab-pane fade" id="tab3primary">
+                            <div>{{ Form::label('t_timein', 'Tuesday time-in:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('t_timein', Input::get('t_timein'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                            <div>{{ Form::label('t_timeout', 'Tuesday time-out:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('t_timeout', Input::get('t_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                                
+
+                                    <div>{{ Form::label('Break:')  }}  <button type="button" id="show6">+
+                                    </button>
+                                    </div>
+                                   
+                                    <fieldset class = "hideit6">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insTue[][break_inTue]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                            </div>     
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsTue[][break_outTue]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                    </div>
+                                        {{ Form::hidden('day','Tuesday') }}
+                                        <br>  <button type="button" id="show7">+
+                                    </button> <button type="reset" id="hide6">-
+                                    </button>
+                                    </fieldset> 
+
+                                    <fieldset class = "hideit7">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insTue[][break_inTue]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                                   </div>          
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsTue[][break_outTue]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                        </div>
+                                        {{ Form::hidden('day','Tuesday') }}
+                                        <br>  <button type="button" id="show8">+
+                                    </button> <button type="reset" id="hide7">-
+                                    </button>          
+                                    </fieldset>  
+
+                                     <fieldset class = "hideit8">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insTue[][break_inTue]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>              
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsTue[][break_outTue]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>
+                                        {{ Form::hidden('day','Tuesday') }}
+                                        <br>   <button type="reset" id="hide8">-
+                                    </button>          
+                                    </fieldset>
+                        </div>
+                        <div class="tab-pane fade" id="tab4primary">
+                            <div>{{ Form::label('w_timein', 'Wednesday time-in:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('w_timein', Input::get('w_timein'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                            <div>{{ Form::label('w_timeout', 'Wednesday time-out:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('w_timeout', Input::get('w_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+
+                                    <div>{{ Form::label('Break:')  }}  <button type="button" id="show9">+
+                                    </button>
+                                    </div>
+                                   
+                                    <fieldset class = "hideit9">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insWed[][break_inWed]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                            </div>     
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsWed[][break_outWed]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                    </div>
+                                        {{ Form::hidden('day','Wednesday') }}
+                                        <br>  <button type="button" id="show10">+
+                                    </button> <button type="reset" id="hide9">-
+                                    </button>
+                                    </fieldset> 
+
+                                    <fieldset class = "hideit10">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insWed[][break_inWed]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                                   </div>          
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsWed[][break_outWed]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                        </div>
+                                        {{ Form::hidden('day','Wednesday') }}
+                                        <br>  <button type="button" id="show11">+
+                                    </button> <button type="reset" id="hide10">-
+                                    </button>          
+                                    </fieldset>  
+
+                                     <fieldset class = "hideit11">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insWed[][break_inWed]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>              
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsWed[][break_outWed]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>
+                                        {{ Form::hidden('day','Wednesday') }}
+                                        <br>   <button type="reset" id="hide11">-
+                                    </button>          
+                                    </fieldset>
+                        </div>
+                        <div class="tab-pane fade" id="tab5primary">
+                           <div>{{ Form::label('th_timein', 'Thursday time-in:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('th_timein', Input::get('th_timein'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                            <div>{{ Form::label('th_timeout', 'Thursday time-out:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('th_timeout', Input::get('th_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                                    <div>{{ Form::label('Break:')  }}  <button type="button" id="show12">+
+                                    </button>
+                                    </div>
+                                   
+                                    <fieldset class = "hideit12">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insThu[][break_inThu]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                            </div>     
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsThu[][break_outThu]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                    </div>
+                                        {{ Form::hidden('day','Thursday') }}
+                                        <br>  <button type="button" id="show13">+
+                                    </button> <button type="reset" id="hide12">-
+                                    </button>
+                                    </fieldset> 
+
+                                    <fieldset class = "hideit13">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insThu[][break_inThu]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                                   </div>          
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsThu[][break_outThu]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                        </div>
+                                        {{ Form::hidden('day','Thursday') }}
+                                        <br>  <button type="button" id="show14">+
+                                    </button> <button type="reset" id="hide13">-
+                                    </button>          
+                                    </fieldset>  
+
+                                     <fieldset class = "hideit14">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insThu[][break_inThu]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>              
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsThu[][break_outThu]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>
+                                        {{ Form::hidden('day','Thursday') }}
+                                        <br>   <button type="reset" id="hide14">-
+                                    </button>          
+                                    </fieldset>
+
+                        </div>
+                        <div class="tab-pane fade" id="tab6primary">
+                           <div>{{ Form::label('f_timein', 'Friday time-in:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('f_timein', Input::get('f_timein'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                            <div>{{ Form::label('f_timeout', 'Friday time-out:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('f_timeout', Input::get('f_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                                    <div>{{ Form::label('Break:')  }}  <button type="button" id="show15">+
+                                    </button>
+                                    </div>
+                                   
+                                    <fieldset class = "hideit15">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insFri[][break_inFri]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                            </div>     
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsFri[][break_outFri]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                    </div>
+                                        {{ Form::hidden('day','Frirsday') }}
+                                        <br>  <button type="button" id="show16">+
+                                    </button> <button type="reset" id="hide15">-
+                                    </button>
+                                    </fieldset> 
+
+                                    <fieldset class = "hideit16">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insFri[][break_inFri]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                                   </div>          
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsFri[][break_outFri]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                        </div>
+                                        {{ Form::hidden('day','Friday') }}
+                                        <br>  <button type="button" id="show17">+
+                                    </button> <button type="reset" id="hide16">-
+                                    </button>          
+                                    </fieldset>  
+
+                                     <fieldset class = "hideit17">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insFri[][break_inFri]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>              
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsFri[][break_outFri]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>
+                                        {{ Form::hidden('day','Friday') }}
+                                        <br>   <button type="reset" id="hide17">-
+                                    </button>          
+                                    </fieldset>
+                        </div>
+                        <div class="tab-pane fade" id="tab7primary">
+                           <div>{{ Form::label('sat_timein', 'Saturday time-in:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('sat_timein', Input::get('sat_timein'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                            <div>{{ Form::label('sat_timeout', 'Saturday time-out:') }}</div>
+                            <div class="input-group clockpicker" style = "background-color:white;">
+                            {{ Form::text('sat_timeout', Input::get('sat_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}</div><br>
+                        
+                                                <div>{{ Form::label('Break:')  }}  <button type="button" id="show18">+
+                                    </button>
+                                    </div>
+                                   
+                                    <fieldset class = "hideit18">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insSat[][break_inSat]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                            </div>     
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsSat[][break_outSat]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                    </div>
+                                        {{ Form::hidden('day','Saturday') }}
+                                        <br>  <button type="button" id="show19">+
+                                    </button> <button type="reset" id="hide18">-
+                                    </button>
+                                    </fieldset> 
+
+                                    <fieldset class = "hideit19">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insSat[][break_inSat]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                                   </div>          
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsSat[][break_outSat]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                        </div>
+                                        {{ Form::hidden('day','Saturday') }}
+                                        <br>  <button type="button" id="show20">+
+                                    </button> <button type="reset" id="hide19">-
+                                    </button>          
+                                    </fieldset>  
+
+                                     <fieldset class = "hideit20">
+                                        <div style="color:black">{{ Form::label('break_in', 'Break in:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_insSat[][break_inSat]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>              
+                                        <div style="color:black">{{ Form::label('break_out', 'Break out:') }}</div>
+                                         <div class="input-group clockpicker" style = "background-color:white; color:black">
+                                        {{ Form::text('break_outsSat[][break_outSat]', null, array('placeholder' => 'hh:mm:ss','autocomplete' => 'off', 'size' => '40')) }}<br>
+                                             </div>
+                                        {{ Form::hidden('day','Saturday') }}
+                                        <br>   <button type="reset" id="hide20">-
+                                    </button>          
+                                    </fieldset>
+                        </div>
+                    </div>
+                    </div>
+            </fieldset>
+            <br><br>
+            {{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
+        </div>
+        
+        {{ Form::close() }}
+        </div>
+    </div>
+
+<script>
+$(document).ready(function(){
+    $(".hideit").hide();
+
+    $("#hide").click(function(){
+         $(".hideit").hide();
+    });
+    $("#show").click(function(){
+        $(".hideit").show();
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    $(".hideit1").hide();
+    $("#hide1").click(function(){
+        $(".hideit1").hide();
+    });
+    $("#show1").click(function(){
+        $(".hideit1").show();
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    $(".hideit2").hide();
+    $("#hide2").click(function(){
+        $(".hideit2").hide();
+    });
+    $("#show2").click(function(){
+        $(".hideit2").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit3").hide();
+
+    $("#hide3").click(function(){
+         $(".hideit3").hide();
+    });
+    $("#show3").click(function(){
+        $(".hideit3").show();
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    $(".hideit4").hide();
+
+    $("#hide4").click(function(){
+         $(".hideit4").hide();
+    });
+    $("#show4").click(function(){
+        $(".hideit4").show();
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    $(".hideit5").hide();
+
+    $("#hide5").click(function(){
+         $(".hideit5").hide();
+    });
+    $("#show5").click(function(){
+        $(".hideit5").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit6").hide();
+
+    $("#hide6").click(function(){
+         $(".hideit6").hide();
+    });
+    $("#show6").click(function(){
+        $(".hideit6").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit7").hide();
+
+    $("#hide7").click(function(){
+         $(".hideit7").hide();
+    });
+    $("#show7").click(function(){
+        $(".hideit7").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit8").hide();
+
+    $("#hide8").click(function(){
+         $(".hideit8").hide();
+    });
+    $("#show8").click(function(){
+        $(".hideit8").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit9").hide();
+
+    $("#hide9").click(function(){
+         $(".hideit9").hide();
+    });
+    $("#show9").click(function(){
+        $(".hideit9").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit10").hide();
+
+    $("#hide10").click(function(){
+         $(".hideit10").hide();
+    });
+    $("#show10").click(function(){
+        $(".hideit10").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit11").hide();
+
+    $("#hide11").click(function(){
+         $(".hideit11").hide();
+    });
+    $("#show11").click(function(){
+        $(".hideit11").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit12").hide();
+
+    $("#hide12").click(function(){
+         $(".hideit12").hide();
+    });
+    $("#show12").click(function(){
+        $(".hideit12").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit13").hide();
+
+    $("#hide13").click(function(){
+         $(".hideit13").hide();
+    });
+    $("#show13").click(function(){
+        $(".hideit13").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit14").hide();
+
+    $("#hide14").click(function(){
+         $(".hideit14").hide();
+    });
+    $("#show14").click(function(){
+        $(".hideit14").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit15").hide();
+
+    $("#hide15").click(function(){
+         $(".hideit15").hide();
+    });
+    $("#show15").click(function(){
+        $(".hideit15").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit16").hide();
+
+    $("#hide16").click(function(){
+         $(".hideit16").hide();
+    });
+    $("#show16").click(function(){
+        $(".hideit16").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit17").hide();
+
+    $("#hide17").click(function(){
+         $(".hideit17").hide();
+    });
+    $("#show17").click(function(){
+        $(".hideit17").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit18").hide();
+
+    $("#hide18").click(function(){
+         $(".hideit18").hide();
+    });
+    $("#show18").click(function(){
+        $(".hideit18").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit19").hide();
+
+    $("#hide19").click(function(){
+         $(".hideit19").hide();
+    });
+    $("#show19").click(function(){
+        $(".hideit19").show();
+    });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    $(".hideit20").hide();
+
+    $("#hide20").click(function(){
+         $(".hideit20").hide();
+    });
+    $("#show20").click(function(){
+        $(".hideit20").show();
+    });
+});
+</script>
+
+
+
+<script type="text/javascript">
+$('.clockpicker').clockpicker();
+</script>
+<script type="text/javascript">
+      $(".sunday").hide();
+
+     $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).attr("value")=="sun"){
+                $(".sunday").toggle(500);
+            }
+        });
+    });
+
+
+</script>
+<script type="text/javascript">
+      $(".monday").hide();
+
+     $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).attr("value")=="mon"){
+                $(".monday").toggle(500);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+      $(".tuesday").hide();
+
+     $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).attr("value")=="tue"){
+                $(".tuesday").toggle(500);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+      $(".wednesday").hide();
+
+     $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).attr("value")=="wed"){
+                $(".wednesday").toggle(500);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+      $(".thursday").hide();
+
+     $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).attr("value")=="thu"){
+                $(".thursday").toggle(500);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+      $(".friday").hide();
+
+     $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).attr("value")=="fri"){
+                $(".friday").toggle(500);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+      $(".saturday").hide();
+
+     $(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).attr("value")=="sat"){
+                $(".saturday").toggle(500);
+            }
+        });
+    });
+</script>
+
+
+
+@stop
+
+

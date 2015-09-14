@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp codebase="http://localhost/teams/fingerverify" href="jnlpcomponent1.jnlp" spec="1.0+">
+    <information>
+        <title>jnlpcomponent1</title>
+        <vendor>FIGROLEB</vendor>
+    </information>
+    <security>
+        <all-permissions/>
+    </security>
+    <resources>
+        <jar href="lib/dpfpenrollment.jar" download="eager"/>
+        <jar href="lib/dpfpverification.jar" download="eager"/>
+        <jar href="lib/dpotapi.jar" download="eager"/>
+        <jar href="lib/dpotjni.jar" download="eager"/>
+        <jar href="lib/mysql-connector-java-5.1.36-bin.jar" download="eager"/>
+    </resources>
+    <component-desc/>
+</jnlp>

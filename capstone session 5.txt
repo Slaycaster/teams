@@ -1,0 +1,41 @@
+-assign hierarchy(kahit layout lang, working na sana if possible) /
+-assign overtime(plano, recall meeting with sir A) 
+-manually adjust DTR(wtf!)
+-remove and add schedule(branch)
+-credit policies
+-Navbar Employee account
+-Employee Account Accumulated Hours to Accumulated Worked Hours
+-Emp account Exceptions to Notifications
+-Accrual Balance to Leave Credits
+-include on employee show - level
+
+
+-policies
+
+
+MiMSJhNy
+emp-00003
+
+INSERT INTO `exception_policies` (`id`, `is_active`, `code`, `exception_name`, `created_at`, `updated_at`) VALUES
+(1, '1', 'M2', 'Missing Out Punch', '2015-02-27 04:38:10', '2015-03-02 10:25:28'),  grace watchwindow
+(2, '1', 'S1', 'Unscheduled Absence', '2015-02-27 04:38:43', '2015-02-27 04:38:43'), grace watchwindow
+(3, '1', 'D1', 'No Branch or Department', '2015-02-27 04:40:24', '2015-02-27 04:40:24'),
+(4, '1', 'B5', 'No Break', '2015-02-27 04:40:58', '2015-02-27 04:40:58'), grace watchwindow
+(5, '1', 'B4', 'Too Few Breaks', '2015-02-27 04:41:45', '2015-02-27 04:41:45'),  grace  watchwindow
+(6, '1', 'B3', 'Too Many Breaks', '2015-02-27 04:42:39', '2015-02-27 04:42:39'),  grace watchwindow
+(7, '1', 'B2', 'Short Break', '2015-02-27 04:43:18', '2015-02-27 04:44:46'),  grace  watchwindow
+(8, '1', 'B1', 'Long Break', '2015-02-27 04:44:20', '2015-02-27 04:44:20'),   grace watchwindow
+(13, '1', 'M1', 'Missing In Punch', '2015-02-27 04:49:25', '2015-02-27 04:49:25'),  grace watchwindow
+(16, '1', 'M4', 'Missing Break In/Out Punch', '2015-02-27 04:53:29', '2015-02-27 04:53:29'),  grace watch window
+(17, '1', 'S2', 'Not Scheduled', '2015-02-27 04:53:53', '2015-02-27 04:53:53'),   
+(18, '1', 'S3', 'In Early', '2015-02-27 04:56:17', '2015-02-27 04:56:17'),   grace watch window
+(20, '1', 'S4', 'In Late', '2015-02-27 04:58:56', '2015-02-27 04:58:56'),    grace watch window
+(21, '1', 'S5', 'Out Early', '2015-02-27 05:10:22', '2015-02-27 05:10:22'),   grace watchwindow
+(22, '1', 'S6', 'Out Late', '2015-02-27 05:12:09', '2015-02-27 05:12:09'),   grace watchwindow
+(27, '1', 'V1', 'TimeSheet Not Verified', '2015-02-27 05:19:32', '2015-02-27 05:19:32');
+
+
+
+
+
+
