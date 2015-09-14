@@ -2,13 +2,12 @@
 @section("content")
 
 <head>
-    <title>Edit Employee | Time and Electronic Attendance Monitoring System</title>
+    <title>Edit an Employee | Time and Electronic Attendance Monitoring System</title>
 </head>
 
 
 <div class="col-md-12" style="margin-bottom:15px">
     <h1 style = "margin-top:-2px;">Edit Employee</h1>
-        
   </div>
 {{ Form::model($employee, array('method' => 'PATCH', 'route' => array('employs.update', $employee->id), 'files' => true)) }}
     <ul>
