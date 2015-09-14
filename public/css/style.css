@@ -23,7 +23,10 @@ body
   font-family: Segoe UI, sans-serif;
   margin-bottom: 80px;
   background-image: url(../img/mainemendoza.png);
-  background-positioni: center center; background-repeat: no-repeat; background-attachment: fixed; background-size:cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size:cover;
 }
 
 .custab{
