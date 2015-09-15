@@ -47,6 +47,7 @@ class SchedulesController extends BaseController {
 			$id = DB::table('schedules')->max('id');
 			$id = $id + 1;
 
+
 			//MONDAY BREAK
 			if( (!(Input::get('break_insMon1')=='')) && (!(Input::get('break_outsMon1')=='')))
 			{
@@ -186,6 +187,8 @@ class SchedulesController extends BaseController {
 				$breakout = Input::get('break_outsSun3');
 				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Sunday'));
 			}
+
+			
 			$schedule = new Schedule;
 			$schedule->schedule_name = Input::get('schedule_name');
 			$schedule->description = Input::get('description');
@@ -203,7 +206,10 @@ class SchedulesController extends BaseController {
 			$schedule->sat_timeout = Input::get('sat_timeout');
 			$schedule->sun_timein = Input::get('sun_timein');
 			$schedule->sun_timeout = Input::get('sun_timeout');
-
+			if (Input::has('break_punches'))
+			{
+				$schedule->require_break_punches = Input::get('break_punches');
+			}
 			$schedule->save();
 			return Redirect::route('schedules.index');
 		
@@ -284,24 +290,25 @@ class SchedulesController extends BaseController {
 
 		if ($validation->passes())
 		{
+			DB::statement("DELETE FROM breaks WHERE schedule_id=:sid", array('sid'=>$id));
 			//MONDAY BREAK
 			if( (!(Input::get('break_insMon1')=='')) && (!(Input::get('break_outsMon1')=='')))
 			{
 				$breakin = Input::get('break_insMon1');
 				$breakout = Input::get('break_outsMon1');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Monday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Monday'));
 			}
 			if( (!(Input::get('break_insMon2')=='')) && (!(Input::get('break_outsMon2')=='')))
 			{
 				$breakin = Input::get('break_insMon2');
 				$breakout = Input::get('break_outsMon2');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Monday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Monday'));
 			}
 			if( (!(Input::get('break_insMon3')=='')) && (!(Input::get('break_outsMon3')=='')))
 			{
 				$breakin = Input::get('break_insMon3');
 				$breakout = Input::get('break_outsMon3');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Monday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Monday'));
 			}
 
 			//TUESDAY BREAK
@@ -309,19 +316,19 @@ class SchedulesController extends BaseController {
 			{
 				$breakin = Input::get('break_insTue1');
 				$breakout = Input::get('break_outsTue1');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Tuesday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Tuesday'));
 			}
 			if( (!(Input::get('break_insTue2')=='')) && (!(Input::get('break_outsTue2')=='')))
 			{
 				$breakin = Input::get('break_insTue2');
 				$breakout = Input::get('break_outsTue2');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Tuesday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Tuesday'));
 			}
 			if( (!(Input::get('break_insTue3')=='')) && (!(Input::get('break_outsTue3')=='')))
 			{
 				$breakin = Input::get('break_insTue3');
 				$breakout = Input::get('break_outsTue3');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Tuesday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Tuesday'));
 			}
 			
 			//WEDNESDAY BREAK
@@ -329,19 +336,19 @@ class SchedulesController extends BaseController {
 			{
 				$breakin = Input::get('break_insWed1');
 				$breakout = Input::get('break_outsWed1');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Wednesday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Wednesday'));
 			}
 			if( (!(Input::get('break_insWed2')=='')) && (!(Input::get('break_outsWed2')=='')))
 			{
 				$breakin = Input::get('break_insWed2');
 				$breakout = Input::get('break_outsWed2');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Wednesday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Wednesday'));
 			}
 			if( (!(Input::get('break_insWed3')=='')) && (!(Input::get('break_outsWed3')=='')))
 			{
 				$breakin = Input::get('break_insWed3');
 				$breakout = Input::get('break_outsWed3');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Wednesday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Wednesday'));
 			}
 
 			//THURSDAY BREAK
@@ -349,19 +356,19 @@ class SchedulesController extends BaseController {
 			{
 				$breakin = Input::get('break_insThu1');
 				$breakout = Input::get('break_outsThu1');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Thursday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Thursday'));
 			}
 			if( (!(Input::get('break_insThu2')=='')) && (!(Input::get('break_outsThu2')=='')))
 			{
 				$breakin = Input::get('break_insThu2');
 				$breakout = Input::get('break_outsThu2');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Thursday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Thursday'));
 			}
 			if( (!(Input::get('break_insThu3')=='')) && (!(Input::get('break_outsThu3')=='')))
 			{
 				$breakin = Input::get('break_insThu3');
 				$breakout = Input::get('break_outsThu3');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Thursday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Thursday'));
 			}
 
 			//FRIDAY BREAK
@@ -369,19 +376,19 @@ class SchedulesController extends BaseController {
 			{
 				$breakin = Input::get('break_insFri1');
 				$breakout = Input::get('break_outsFri1');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Friday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Friday'));
 			}
 			if( (!(Input::get('break_insFri2')=='')) && (!(Input::get('break_outsFri2')=='')))
 			{
 				$breakin = Input::get('break_insFri2');
 				$breakout = Input::get('break_outsFri2');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Friday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Friday'));
 			}
 			if( (!(Input::get('break_insFri3')=='')) && (!(Input::get('break_outsFri3')=='')))
 			{
 				$breakin = Input::get('break_insFri3');
 				$breakout = Input::get('break_outsFri3');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Friday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Friday'));
 			}
 
 			//SATURDAY BREAK
@@ -389,19 +396,19 @@ class SchedulesController extends BaseController {
 			{
 				$breakin = Input::get('break_insSat1');
 				$breakout = Input::get('break_outsSat1');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Saturday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Saturday'));
 			}
 			if( (!(Input::get('break_insSat2')=='')) && (!(Input::get('break_outsSat2')=='')))
 			{
 				$breakin = Input::get('break_insSat2');
 				$breakout = Input::get('break_outsSat2');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Saturday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Saturday'));
 			}
 			if( (!(Input::get('break_insSat3')=='')) && (!(Input::get('break_outsSat3')=='')))
 			{
 				$breakin = Input::get('break_insSat3');
 				$breakout = Input::get('break_outsSat3');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Saturday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Saturday'));
 			}
 
 			//SUNDAY BREAK
@@ -409,23 +416,43 @@ class SchedulesController extends BaseController {
 			{
 				$breakin = Input::get('break_insSun1');
 				$breakout = Input::get('break_outsSun1');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Sunday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Sunday'));
 			}
 			if( (!(Input::get('break_insSun2')=='')) && (!(Input::get('break_outsSun2')=='')))
 			{
 				$breakin = Input::get('break_insSun2');
 				$breakout = Input::get('break_outsSun2');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Sunday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Sunday'));
 			}
 			if( (!(Input::get('break_insSun3')=='')) && (!(Input::get('break_outsSun3')=='')))
 			{
 				$breakin = Input::get('break_insSun3');
 				$breakout = Input::get('break_outsSun3');
-				DB::statement("UPDATE breaks SET schedule_id=:sid, break_in=:bin, break_out=:bout, day=:day", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Sunday'));
+				DB::statement("INSERT INTO breaks (schedule_id, break_in, break_out, day) VALUES (:sid, :bin, :bout, :day)", array('sid' => $id, 'bin' => $breakin, 'bout' => $breakout, 'day' => 'Sunday'));
 			}
 
 			$schedule = $this->schedule->find($id);
-			$schedule->update($input);
+			$schedule->schedule_name = Input::get('schedule_name');
+			$schedule->description = Input::get('description');
+			$schedule->m_timein = Input::get('m_timein');
+			$schedule->m_timeout = Input::get('m_timeout');
+			$schedule->t_timein = Input::get('t_timein');
+			$schedule->t_timeout = Input::get('t_timeout');
+			$schedule->w_timein = Input::get('w_timein');
+			$schedule->w_timeout = Input::get('w_timeout');
+			$schedule->th_timein = Input::get('th_timein');
+			$schedule->th_timeout = Input::get('th_timeout');
+			$schedule->f_timein = Input::get('f_timein');
+			$schedule->f_timeout = Input::get('f_timeout');
+			$schedule->sat_timein = Input::get('sat_timein');
+			$schedule->sat_timeout = Input::get('sat_timeout');
+			$schedule->sun_timein = Input::get('sun_timein');
+			$schedule->sun_timeout = Input::get('sun_timeout');
+			if (Input::has('break_punches'))
+			{
+				$schedule->require_break_punches = Input::get('break_punches');
+			}
+			$schedule->save();
 
 			return Redirect::route('schedules.show', $id);
 		}

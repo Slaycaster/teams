@@ -30,12 +30,14 @@ class Create_requestsController extends BaseController {
 			$level = Session::get('emplevel', 'default');
 			$create_requests = create_request::where('employee_id', '=', $id)->get();
 			$request_types = DB::table('request_types')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('create_requests.index', compact('create_requests'))
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
 				->with('create_requests', $create_requests)
+				->with('supervisor', $supervisor)
 				->with('request_types', $request_types);
 		}
 		else
@@ -59,6 +61,7 @@ class Create_requestsController extends BaseController {
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
 			$create_requests = create_request::where('employee_id', '=', $id)->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$request_types = DB::table('request_types')
 			->lists('request_type', 'request_type');
 			return View::make('create_requests.create')
@@ -66,6 +69,7 @@ class Create_requestsController extends BaseController {
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
+				->with('supervisor', $supervisor)
 				->with('create_requests', $create_requests)
 				->with('request_types', $request_types);
 		}
@@ -114,6 +118,7 @@ class Create_requestsController extends BaseController {
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
 			$create_request = $this->create_request->findOrFail($id);
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$request_type = DB::table('request_types')
 			->lists('request_type', 'request_type');
 			return View::make('create_requests.show', compact('create_request'))
@@ -121,6 +126,7 @@ class Create_requestsController extends BaseController {
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
+				->with('supervisor', $supervisor)
 				->with('create_request', $create_request)
 				->with('request_type', $request_type);
 		}
@@ -146,6 +152,7 @@ class Create_requestsController extends BaseController {
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
 			$create_request = create_request::find($id);
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$request_type = DB::table('request_types')
 			->lists('request_type', 'request_type');
 			return View::make('create_requests.edit', compact('create_request'))
@@ -153,6 +160,7 @@ class Create_requestsController extends BaseController {
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
+				->with('supervisor', $supervisor)
 				->with('create_request', $create_request)
 				->with('request_type', $request_type);
 		}
