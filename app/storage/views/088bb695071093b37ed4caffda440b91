@@ -1,50 +1,26 @@
 <?php $__env->startSection("content"); ?>
 
 <head>
-    <title>Schedules | Time and Electronic Attendance Monitoring System</title>
+    <title>Edit Schedule | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-
-
-<div class="col-md-12" style="margin-bottom:20px">
-  <h1>Schedule Maintenance</h1>
-    <div class="col-md-2">
+<div class="col-md-12" style="margin-bottom:15px; margin-left:20px">
+    <h1>Edit Schedule</h1>
+       
   </div>
 
-  <div class ="col-md-4">
-    <?php echo $schedules->links(); ?>
+    <div class="row">
+        <div class="col-md-5">
+<?php echo Form::model($schedule, array('method' => 'PATCH', 'route' => array('schedules.update', $schedule->id))); ?>
 
-  </div>
-
-</div>
-
-<div class="container">
-  <div class = "row">
-    <div class = "col-md-7">
-        <h3>Add a Schedule</h3>
-        <?php if($errors->any()): ?>
-        <ul>
-            <?php echo implode('', $errors->all('<li class="error">:message')); ?>
-
-        </ul>
-        <?php endif; ?>
-        <?php echo Form::open(array('route' => 'schedules.store')); ?>
-
+	<ul>
+        <div class="label_white"><?php echo Form::label('schedule_name', 'Schedule name:'); ?></div>
+            <?php echo Form::text('schedule_name', Input::get('schedule_name'), array('placeholder' => 'Schedule name','autocomplete' => 'off', 'size' => '40')); ?><br>
         
-            <div class = "row">
-              <div class = "col-md-6">
-                <div class="label_white"><?php echo Form::label('schedule_name', 'Schedule name:'); ?></div>
-                <?php echo Form::text('schedule_name', Input::get('schedule_name'), array('placeholder' => 'Schedule name','autocomplete' => 'off', 'size' => '40')); ?>
-
-              </div>
-              <div class = "col-md-6">
-                <div class="label_white"><?php echo Form::label('description', 'Description: (optional)'); ?></div>
-                <?php echo Form::text('description', null, array('size' => '40')); ?><br>
-              </div>
-            </div>
-            <br>
-        
-            <fieldset class="field">
+            <div class="label_white"><?php echo Form::label('description', 'Description:'); ?></div>
+            <?php echo Form::textarea('description'); ?><br>
+        </div>
+         <fieldset class="field">
                 <legend>Schedules</legend>
              <div class="panel with-nav-tabs panel-primary">   
             <div class="panel-heading">
@@ -58,8 +34,7 @@
                             <li><a href="#tab7primary" data-toggle="tab" style="background-color:red;">Sunday</a></li>
                         </ul>
                 </div>
-            
-                <div class="panel-body">
+               <div class="panel-body">
                     <div class="tab-content">
                         
                         <div class="tab-pane fade in active" id="tab1primary" >
@@ -70,9 +45,6 @@
                             <div><?php echo Form::label('m_timeout', 'Monday time-out:'); ?></div>
                             <div class="input-group clockpicker" style = "background-color:white;">
                             <?php echo Form::text('m_timeout', Input::get('m_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')); ?></div><br>
-
-                            <input type="checkbox" name="copytoallm" onclick="CopyThisM(this.form)">
-                                <em>Check this box if you want to apply to all days.</em>
                             
                                      <div><?php echo Form::label('Break:'); ?>  <button type="button" id="show3">+
                                     </button>
@@ -125,6 +97,11 @@
                                     </button>          
                                     </fieldset> 
                             
+                            
+
+                                                        
+                                                   
+
                                                     
                         </div>
                         <div class="tab-pane fade" id="tab2primary"> 
@@ -137,9 +114,6 @@
                             <div><?php echo Form::label('t_timeout', 'Tuesday time-out:'); ?></div>
                             <div class="input-group clockpicker" style = "background-color:white;">
                             <?php echo Form::text('t_timeout', Input::get('t_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')); ?></div><br>
-
-                            <input type="checkbox" name="copytoallt" onclick="CopyThisT(this.form)">
-                                <em>Check this box if you want to apply to all days.</em>
                                 
 
                                     <div><?php echo Form::label('Break:'); ?>  <button type="button" id="show6">+
@@ -204,9 +178,6 @@
                             <div><?php echo Form::label('w_timeout', 'Wednesday time-out:'); ?></div>
                             <div class="input-group clockpicker" style = "background-color:white;">
                             <?php echo Form::text('w_timeout', Input::get('w_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')); ?></div><br>
-
-                            <input type="checkbox" name="copytoallw" onclick="CopyThisW(this.form)">
-                                <em>Check this box if you want to apply to all days.</em>
                         
 
                                     <div><?php echo Form::label('Break:'); ?>  <button type="button" id="show9">+
@@ -269,9 +240,6 @@
                             <div><?php echo Form::label('th_timeout', 'Thursday time-out:'); ?></div>
                             <div class="input-group clockpicker" style = "background-color:white;">
                             <?php echo Form::text('th_timeout', Input::get('th_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')); ?></div><br>
-
-                                <input type="checkbox" name="copytoallth" onclick="CopyThisTh(this.form)">
-                                <em>Check this box if you want to apply to all days.</em>
                         
                                     <div><?php echo Form::label('Break:'); ?>  <button type="button" id="show12">+
                                     </button>
@@ -336,9 +304,6 @@
                             <div class="input-group clockpicker" style = "background-color:white;">
                             <?php echo Form::text('f_timeout', Input::get('f_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')); ?></div><br>
                         
-                                    <input type="checkbox" name="copytoallf" onclick="CopyThisF(this.form)">
-                                <em>Check this box if you want to apply to all days.</em>
-
                                     <div><?php echo Form::label('Break:'); ?>  <button type="button" id="show15">+
                                     </button>
                                     </div>
@@ -400,9 +365,6 @@
                             <div><?php echo Form::label('sat_timeout', 'Saturday time-out:'); ?></div>
                             <div class="input-group clockpicker" style = "background-color:white;">
                             <?php echo Form::text('sat_timeout', Input::get('sat_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')); ?></div><br>
-
-                                <input type="checkbox" name="copytoallsat" onclick="CopyThisSat(this.form)">
-                                <em>Check this box if you want to apply to all days.</em>
                         
                                                 <div><?php echo Form::label('Break:'); ?>  <button type="button" id="show18">+
                                     </button>
@@ -466,9 +428,6 @@
                             <div class="input-group clockpicker" style = "background-color:white;">
                             <?php echo Form::text('sun_timeout', Input::get('sun_timeout'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')); ?></div><br>
 
-                                <input type="checkbox" name="copytoallsun" onclick="CopyThisSun(this.form)">
-                                <em>Check this box if you want to apply to all days.</em>
-
                                     <div><?php echo Form::label('Break:'); ?>  <button type="button" id="show">+
                                     </button>
                                     </div>
@@ -525,7 +484,6 @@
                     <?php echo Form::label('lbl_break_punches', 'Include break punches?'); ?>
 
                     </div>
-
             </fieldset>
             <br><br>
             <?php echo Form::submit('Submit', array('class' => 'btn btn-info')); ?>
@@ -534,29 +492,14 @@
         <?php echo Form::close(); ?>
 
     </div>
-    <div class = "col-md-4">
-      <h3>All Schedules</h3>
-      <?php foreach($schedules as $schedule): ?>
-      
-        <div class="col-md-12 greytile" style="padding:5px">
-          <div class="col-md-2" >
-              <br>  <img style = "height:32px; width:32px;" src="<?php echo URL::asset('img/Calendar.png'); ?>">
-          </div>
-          <div class="col-md-10" style="margin-left:0px">
 
-               <p style="color:white; font-size:16px"> <?php echo $schedule->schedule_name; ?></p>
-                <p style="color:white; font-size:12px">
-                    <a href="<?php echo URL::to('schedules/' . $schedule->id); ?>" onclick="window.open('<?php echo URL::to('schedules/' . $schedule->id); ?>', 'newwindow', 'width=450, height=500'); return false;">View</a>
-                    |
-                    <a href="<?php echo URL::to('schedules/' . $schedule->id . '/edit'); ?>" onclick="window.open('<?php echo URL::to('schedules/' . $schedule->id . '/edit'); ?>', 'newwindow', 'width=450, height=450'); return false;">Edit</a>
-                  </p>
-           </div>
-         </div>
-      
-      <?php endforeach; ?> 
-    </div>
-  </div>  
-</div>
+<?php if($errors->any()): ?>
+	<ul>
+		<?php echo implode('', $errors->all('<li class="error">:message</li>')); ?>
+
+	</ul>
+<?php endif; ?>
+
 <script>
 $(document).ready(function(){
     $(".hideit").hide();
@@ -909,139 +852,6 @@ $('.clockpicker').clockpicker();
     });
 </script>
 
-<script type="text/javascript">
-  function CopyThisM(f) {
-  if(f.copytoallm.checked == true) {
-    f.t_timein.value = f.m_timein.value;
-    f.t_timeout.value = f.m_timeout.value;
-    f.w_timein.value = f.m_timein.value;
-    f.w_timeout.value = f.m_timeout.value;
-    f.th_timein.value = f.m_timein.value;
-    f.th_timeout.value = f.m_timeout.value;
-    f.f_timein.value = f.m_timein.value;
-    f.f_timeout.value = f.m_timeout.value;
-    f.sat_timein.value = f.m_timein.value;
-    f.sat_timeout.value = f.m_timeout.value;
-    f.sun_timein.value = f.m_timein.value;
-    f.sun_timeout.value = f.m_timeout.value;
-
-  }
-}
-</script>
-<script type="text/javascript">
-  function CopyThisT(f) {
-  if(f.copytoallt.checked == true) {
-    f.m_timein.value = f.t_timein.value;
-    f.m_timeout.value = f.t_timeout.value;
-    f.w_timein.value = f.t_timein.value;
-    f.w_timeout.value = f.t_timeout.value;
-    f.th_timein.value = f.t_timein.value;
-    f.th_timeout.value = f.t_timeout.value;
-    f.f_timein.value = f.t_timein.value;
-    f.f_timeout.value = f.t_timeout.value;
-    f.sat_timein.value = f.t_timein.value;
-    f.sat_timeout.value = f.t_timeout.value;
-    f.sun_timein.value = f.t_timein.value;
-    f.sun_timeout.value = f.t_timeout.value;
-
-  }
-}
-</script>
-<script type="text/javascript">
-  function CopyThisW(f) {
-  if(f.copytoallw.checked == true) {
-    f.t_timein.value = f.w_timein.value;
-    f.t_timeout.value = f.w_timeout.value;
-    f.m_timein.value = f.w_timein.value;
-    f.m_timeout.value = f.w_timeout.value;
-    f.th_timein.value = f.w_timein.value;
-    f.th_timeout.value = f.w_timeout.value;
-    f.f_timein.value = f.w_timein.value;
-    f.f_timeout.value = f.w_timeout.value;
-    f.sat_timein.value = f.w_timein.value;
-    f.sat_timeout.value = f.w_timeout.value;
-    f.sun_timein.value = f.w_timein.value;
-    f.sun_timeout.value = f.w_timeout.value;
-
-  }
-}
-</script>
-<script type="text/javascript">
-  function CopyThisTh(f) {
-  if(f.copytoallth.checked == true) {
-    f.t_timein.value = f.th_timein.value;
-    f.t_timeout.value = f.th_timeout.value;
-    f.w_timein.value = f.th_timein.value;
-    f.w_timeout.value = f.th_timeout.value;
-    f.m_timein.value = f.th_timein.value;
-    f.m_timeout.value = f.th_timeout.value;
-    f.f_timein.value = f.th_timein.value;
-    f.f_timeout.value = f.th_timeout.value;
-    f.sat_timein.value = f.th_timein.value;
-    f.sat_timeout.value = f.th_timeout.value;
-    f.sun_timein.value = f.th_timein.value;
-    f.sun_timeout.value = f.th_timeout.value;
-
-  }
-}
-</script>
-<script type="text/javascript">
-  function CopyThisF(f) {
-  if(f.copytoallf.checked == true) {
-    f.t_timein.value = f.f_timein.value;
-    f.t_timeout.value = f.f_timeout.value;
-    f.w_timein.value = f.f_timein.value;
-    f.w_timeout.value = f.f_timeout.value;
-    f.th_timein.value = f.f_timein.value;
-    f.th_timeout.value = f.f_timeout.value;
-    f.m_timein.value = f.f_timein.value;
-    f.m_timeout.value = f.f_timeout.value;
-    f.sat_timein.value = f.f_timein.value;
-    f.sat_timeout.value = f.f_timeout.value;
-    f.sun_timein.value = f.f_timein.value;
-    f.sun_timeout.value = f.f_timeout.value;
-
-  }
-}
-</script>
-<script type="text/javascript">
-  function CopyThisSat(f) {
-  if(f.copytoallsat.checked == true) {
-    f.t_timein.value = f.sat_timein.value;
-    f.t_timeout.value = f.sat_timeout.value;
-    f.w_timein.value = f.sat_timein.value;
-    f.w_timeout.value = f.sat_timeout.value;
-    f.th_timein.value = f.sat_timein.value;
-    f.th_timeout.value = f.sat_timeout.value;
-    f.f_timein.value = f.sat_timein.value;
-    f.f_timeout.value = f.sat_timeout.value;
-    f.m_timein.value = f.sat_timein.value;
-    f.m_timeout.value = f.sat_timeout.value;
-    f.sun_timein.value = f.sat_timein.value;
-    f.sun_timeout.value = f.sat_timeout.value;
-
-  }
-}
-</script>
-<script type="text/javascript">
-  function CopyThisSun(f) {
-  if(f.copytoallsun.checked == true) {
-    f.t_timein.value = f.sun_timein.value;
-    f.t_timeout.value = f.sun_timeout.value;
-    f.w_timein.value = f.sun_timein.value;
-    f.w_timeout.value = f.sun_timeout.value;
-    f.th_timein.value = f.sun_timein.value;
-    f.th_timeout.value = f.sun_timeout.value;
-    f.f_timein.value = f.sun_timein.value;
-    f.f_timeout.value = f.sun_timeout.value;
-    f.sat_timein.value = f.sun_timein.value;
-    f.sat_timeout.value = f.sun_timeout.value;
-    f.m_timein.value = f.sun_timein.value;
-    f.m_timeout.value = f.sun_timeout.value;
-
-  }
-}
-</script>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make("layout", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make("layout-noheader", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

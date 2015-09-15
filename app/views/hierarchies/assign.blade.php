@@ -119,14 +119,11 @@
         {{ Form::close() }}
     </div>
 
-</div>
-    
-    <br>
-            
-    
-    
-
 @endif
+</div>
+    <br>       
+    
+    
 
 
 <script type="text/javascript">
