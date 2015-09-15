@@ -15,7 +15,7 @@ class EmployeeLoginController extends BaseController
 
 			);
 
-
+ 
 		$validator = Validator::make(Input::all(), $rules);
 
 		if($validator -> fails()){
@@ -301,8 +301,10 @@ public function showDownload()
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
 
 			$downloads = DB::table('downloads')->get();
+			$name = Session::get('empname', 'default');
 			return View::make('downloads')
-				->with('downloads', $downloads);
+				->with('downloads', $downloads)
+				->with('name', $name);
 				
 		}
 		else

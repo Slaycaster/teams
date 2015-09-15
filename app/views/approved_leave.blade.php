@@ -25,24 +25,23 @@
  <?php $a=0; ?>
 	<tbody>
 		<tr style="color:white">
-@foreach ($create_requests as $create_request)
-                    <td>{{{ $create_request->employee_number }}}</td>
-                    <td>{{{ $create_request->fname}}}</td>
-                    <td>{{{ $create_request->lname }}}</td>
-					<td>{{{ $create_request->request_date }}}</td>
-					<td>{{{ $create_request->request_type }}}</td>
-					<td>{{{ $create_request->start_date }}}</td>
-				
-					<td>{{{ $create_request->end_date }}}</td>
-				    <td>{{{ $diff[$a]}}}</td>
-					<td>{{{ $create_request->message }}}</td>
-     <?php $a++; ?> 
-                    <td><a href="leavecredits" class = "btn btn-info">Execute Leave</a></td>
-@endforeach
+            @foreach ($create_requests as $create_request)
+                                <td>{{{ $create_request->employee_number }}}</td>
+                                <td>{{{ $create_request->fname}}}</td>
+                                <td>{{{ $create_request->lname }}}</td>
+            					<td>{{{ $create_request->request_date }}}</td>
+            					<td>{{{ $create_request->request_type }}}</td>
+            					<td>{{{ $create_request->start_date }}}</td>
+            				
+            					<td>{{{ $create_request->end_date }}}</td>
+            				    <td>{{{ $diff[$a]}}}</td>
+            					<td>{{{ $create_request->message }}}</td>
+                 <?php $a++; ?> 
+                                <td><a href="leavecredits" class = "btn btn-info">Execute Leave</a></td>
+            @endforeach
 		</tr>
 	</tbody>
 </table></div>
-
             </div>
 
 
