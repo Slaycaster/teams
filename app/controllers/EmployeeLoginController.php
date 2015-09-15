@@ -149,10 +149,12 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('exceptions')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
+				->with('supervisor', $supervisor)
 				->with('level', $level);
 		}
 		else
@@ -168,11 +170,14 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('accruals')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
+				->with('supervisor', $supervisor)
 				->with('level', $level);
+
 		}
 		else
 		{
@@ -189,6 +194,7 @@ class EmployeeLoginController extends BaseController
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
 			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$requests = DB::table('create_requests')->get();
 		return View::make('dailytimerecord')
 				->with('id', $id)
@@ -196,6 +202,7 @@ class EmployeeLoginController extends BaseController
 				->with('email', $email)
 				->with('level', $level)
 				->with('employees', $employees)
+				->with('supervisor', $supervisor)
 				->with('requests', $requests);
 		}
 		else
@@ -218,12 +225,14 @@ class EmployeeLoginController extends BaseController
 			->where('supervisor_id', '=', $id)
 			->get();
 			$requests = DB::table('create_requests')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('request_authorization')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
 				->with('employees', $employees)
+				->with('supervisor', $supervisor)
 				->with('requests', $requests);
 		}
 		else
@@ -247,6 +256,7 @@ public function postRequestsAuthorization()
 			->where('supervisor_id', '=', $id)
 			->get();
 			$requests = DB::table('create_requests')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$status = Input::get('status');
 			$emp_id = Input::get('emp_id');
 
@@ -261,6 +271,7 @@ public function postRequestsAuthorization()
 				->with('email', $email)
 				->with('level', $level)
 				->with('employees', $employees)
+				->with('supervisor', $supervisor)
 				->with('requests', $requests);
 		}
 		else
@@ -277,6 +288,7 @@ public function postRequestsAuthorization()
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
 			$requests = DB::table('create_requests')->get();
 			return View::make('change_password')
@@ -284,6 +296,7 @@ public function postRequestsAuthorization()
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
+				->with('supervisor', $supervisor)
 				->with('employees', $employees)
 				->with('requests', $requests);
 				
@@ -323,6 +336,7 @@ public function showDownload()
 		$branches=DB::table('branches')->get();
 		$jobtitles=DB::table('jobtitles')->get();
 		$contracts=DB::table('contracts')->get();
+		$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 		$currentid = Session::get('empid');
 		$hierarchies = DB::table('hierarchies')
 		->select('id')
@@ -347,6 +361,7 @@ public function showDownload()
 		->with('jobtitles',$jobtitles)
 		->with('level', $level)
 		->with('name', $name)
+		->with('supervisor', $supervisor)
 		->with('contracts',$contracts);
 				
 		}
