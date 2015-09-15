@@ -520,8 +520,12 @@
                                     </fieldset>  
                         </div>
                     </div>
+                    <?php echo Form::checkbox('break_punches', 'Yes'); ?>
+
+                    <?php echo Form::label('lbl_break_punches', 'Include break punches?'); ?>
+
                     </div>
-                
+
             </fieldset>
             <br><br>
             <?php echo Form::submit('Submit', array('class' => 'btn btn-info')); ?>
