@@ -1,14 +1,13 @@
 @extends("layout")
 @section("content")
-
 <head>
     <title>Downloadable Forms | Time and Electronic Attendance Monitoring System</title>
 </head>
         <div class="container">
         <h3 styles="margin-left:100px">All Forms</h3><br>
-        @foreach ($downloads as $download)
 
-      <div class="col-md-5" style="margin-bottom:5px">
+        @foreach ($downloads as $download)
+            <div class="col-md-5" style="margin-bottom:5px">
         <div class="col-md-12 greytile" style="padding:5px">
           <div class="col-md-5" >
                <img style = "height:80px; width:80px;" src="{{ URL::asset('img/Request.png') }}">
@@ -23,6 +22,6 @@
          </div>
       </div>
       @endforeach
-      </div>
+      </div>	
 </div>
 @stop
