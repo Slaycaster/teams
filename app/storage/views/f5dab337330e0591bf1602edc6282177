@@ -5,30 +5,37 @@
 </head>
 			<h1 style = "color:white;">Leave Credits</h1>
 
-			<div class = "col-md-12"></div>
-			<div class = "col-md-12"></div>
-			<div class = "col-md-12"></div>
-			<div class = "col-md-12"></div>
-			 <table  class = "table table-bordered" style = "color:black; ">
-                <thead style="background-color:white;">
-                    <tr>
+			 <div class="container">
+    
+    <hr>
+    <div class="row">
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading">
+                <h3 class="panel-title">Employees</h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="filters">
                     
-                        <th style="text-align:center">Employee ID</th>
-                        <th style="text-align:center">Employee Name</th>
-                        <th style="text-align:center" colspan="4">Accumulated Leave</th>
-                        
+                        <th><input type="text" class="form-control" placeholder="employee_number"></th>
+                        <th><input type="text" class="form-control" placeholder="lname"></th>
+                        <th><input type="text" class="form-control" placeholder="accumulated leave"></th>
+                  
                     </tr>
                     <tr>
-                    	<th></th>
-                    	<th></th>
-                    	<th style="text-align:center">Sick Leave</th>
+                        <th></th>
+                        <th></th>
+                        <th style="text-align:center">Sick Leave</th>
                         <th style="text-align:center">Vacation Leave</th>
                         <th style="text-align:center">Force Leave</th>
                         <th style="text-align:center">Adjust Leave</th>
                     </tr>
                 </thead>
-                <tbody style = "color:white;">
-             	 <?php $a=0; ?>
+                <tbody>
+                  <?php $a=0; ?>
                 <?php foreach($employs as $employee): ?>
                 <tr>
                     <td>
@@ -39,7 +46,7 @@
                         <?php echo $employee->lname; ?>, <?php echo $employee->fname; ?>
 
                     </td>
-           			<td>
+                <td>
                         <?php echo $sick_leave[$a]; ?>
 
                     </td>
@@ -51,23 +58,31 @@
                         <?php echo $force_leave[$a]; ?>
 
                     </td>
-                      <td>
+                    <td>
                       <?php echo Form::open(array('url' => 'leavededuct', 'method' => 'post', 'autocomplete' => 'off')); ?>    
-                      	   <?php echo Form::hidden('emp_id', $employee->id); ?>
+                           <?php echo Form::hidden('emp_id', $employee->id); ?>
 
-                      		
-                      	   <p style="color:black"><?php echo Form::number('deduction', "0"); ?></p>
-                      		<p style="color:black"> <?php echo Form::select('type', array('sick_leave' => 'sick leave', 'vacation_leave' => 'vacation leave')); ?></p>
+                          
+                           <p style="color:black"><?php echo Form::number('deduction', "0"); ?></p>
+                          <p style="color:black"> <?php echo Form::select('type', array('sick_leave' => 'sick leave', 'vacation_leave' => 'vacation leave')); ?></p>
                        
                          <?php echo Form::submit('Leave Deduction', array('class' => 'btn btn-info')); ?>          
-     			   <?php echo Form::close(); ?>
+             <?php echo Form::close(); ?>
 
                     </td>
-         		 <?php $a++; ?> 
+             <?php $a++; ?> 
+
+                    
+                </tr>
+
                  <?php endforeach; ?>
        
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+			 
 
 		</div>
 <?php $__env->stopSection(); ?>
