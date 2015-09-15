@@ -24,24 +24,23 @@
  <?php $a=0; ?>
 	<tbody>
 		<tr style="color:white">
-<?php foreach($create_requests as $create_request): ?>
-                    <td><?php echo e($create_request->employee_number); ?></td>
-                    <td><?php echo e($create_request->fname); ?></td>
-                    <td><?php echo e($create_request->lname); ?></td>
-					<td><?php echo e($create_request->request_date); ?></td>
-					<td><?php echo e($create_request->request_type); ?></td>
-					<td><?php echo e($create_request->start_date); ?></td>
-				
-					<td><?php echo e($create_request->end_date); ?></td>
-				    <td><?php echo e($diff[$a]); ?></td>
-					<td><?php echo e($create_request->message); ?></td>
-     <?php $a++; ?> 
-                    <td><a href="leavecredits" class = "btn btn-info">Execute Leave</a></td>
-<?php endforeach; ?>
+            <?php foreach($create_requests as $create_request): ?>
+                                <td><?php echo e($create_request->employee_number); ?></td>
+                                <td><?php echo e($create_request->fname); ?></td>
+                                <td><?php echo e($create_request->lname); ?></td>
+            					<td><?php echo e($create_request->request_date); ?></td>
+            					<td><?php echo e($create_request->request_type); ?></td>
+            					<td><?php echo e($create_request->start_date); ?></td>
+            				
+            					<td><?php echo e($create_request->end_date); ?></td>
+            				    <td><?php echo e($diff[$a]); ?></td>
+            					<td><?php echo e($create_request->message); ?></td>
+                 <?php $a++; ?> 
+                                <td><a href="leavecredits" class = "btn btn-info">Execute Leave</a></td>
+            <?php endforeach; ?>
 		</tr>
 	</tbody>
 </table></div>
-
             </div>
 
 

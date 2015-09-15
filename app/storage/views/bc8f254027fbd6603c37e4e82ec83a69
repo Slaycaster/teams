@@ -4,16 +4,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/bootstrap.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css') }}">
-    <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
-    <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('css/bootstrap.min.css'); ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL::asset('css/style.css'); ?>">
+    <script src="<?php echo URL::asset('js/jquery.min.js'); ?>"></script>
+    <script src="<?php echo URL::asset('js/bootstrap.min.js'); ?>"></script>
 	<title>Employee Summary Query | Time and Electronic Attendance Monitoring System</title>
 	
 		<div class = "navbar navbar-default navbar-fixed-top">
             <div class = "container">
                                
-                <a href="{{ URL::to('employee/dashboard') }}" class = "navbar-brand"><img style ="height:30px; margin-top:-4px;"src="{{ URL::asset('img/teams_pahalang.png') }}"/></a>
+                <a href="<?php echo URL::to('employee/dashboard'); ?>" class = "navbar-brand"><img style ="height:30px; margin-top:-4px;"src="<?php echo URL::asset('img/teams_pahalang.png'); ?>"/></a>
                                
                 <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
                         <span class = "icon-bar"></span>
@@ -29,33 +29,33 @@
                               <ul class="dropdown-menu">
                             </li>       
                            
-                            @if($level == '0')
-                            @else
-                                <li><a href = "{{ URL::to('employee/requests_authorization') }}">Requests Authorization</a></li>
-                            @endif
-                            <li><a href = "{{ URL::to('employee/request') }}">Request a Leave</a></li>
+                            <?php if($level == '0'): ?>
+                            <?php else: ?>
+                                <li><a href = "<?php echo URL::to('employee/requests_authorization'); ?>">Requests Authorization</a></li>
+                            <?php endif; ?>
+                            <li><a href = "<?php echo URL::to('employee/request'); ?>">Request a Leave</a></li>
                               </ul>
                             </li>
                             <li class="dropdown"><a href = "#">Queries<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                             </li>
-                                <li><a href="{{ URL::to('employee/accruals') }}">Accruals</a></li>
-                                <li><a href="{{ URL::to('employee/exceptions') }}">Exceptions</a></li>
-                                <li><a href="{{ URL::to('employee/dailytimerecord') }}">Daily Time Record</a></li>
-                                <li><a href="{{ URL::to('employee/employeesummary') }}">Employee Summary</a></li>
+                                <li><a href="<?php echo URL::to('employee/accruals'); ?>">Accruals</a></li>
+                                <li><a href="<?php echo URL::to('employee/exceptions'); ?>">Exceptions</a></li>
+                                <li><a href="<?php echo URL::to('employee/dailytimerecord'); ?>">Daily Time Record</a></li>
+                                <li><a href="<?php echo URL::to('employee/employeesummary'); ?>">Employee Summary</a></li>
                                 </ul>
 
                             <li class="dropdown"><a href = "#">Reports<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                             </li>
-                                <li><a href="{{ URL::to('employee/dailytimerecord') }}">Daily Time Record</a></li>
+                                <li><a href="<?php echo URL::to('employee/dailytimerecord'); ?>">Daily Time Record</a></li>
                                 </ul>
                         </ul>
                                
                         <ul class="nav navbar-nav navbar-right">
-                          <li><a href="#">Hi, {{ $name }}</a></li>
+                          <li><a href="#">Hi, <?php echo $name; ?></a></li>
                           
-                          <li><a href="{{ URL::to('employee/logout') }}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+                          <li><a href="<?php echo URL::to('employee/logout'); ?>"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
                           
      					</ul>
                 </div>                               
@@ -97,51 +97,56 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($user as $users)
+                <?php foreach($user as $users): ?>
                 <tr>
 
                     <td>
-                        {{$users->fname}}
-                    </td>
-                    <td>
-                        {{$users->lname}}
-                    </td>
+                        <?php echo $users->fname; ?>
 
+                    </td>
                     <td>
-                        {{$users->phone}}
+                        <?php echo $users->lname; ?>
+
                     </td>
 
                     <td>
-                        {{$users->email}}
+                        <?php echo $users->phone; ?>
+
                     </td>
 
                     <td>
-                        {{$users->hire_date}}
+                        <?php echo $users->email; ?>
+
                     </td>
-                    @foreach($jobtitles as $jobtitle)
-                    		@if($jobtitle->id == $users->jobtitle_id)
-                    		<td>{{$jobtitle->jobtitle_name}}</td>
-                    		@endif
-                    @endforeach
 
-                    @foreach($contracts as $contract)
-                    		@if($contract->id == $users->contract_id)
-                    		<td>{{$contract->contract_name}}</td>
-                    		@endif
-                    @endforeach
+                    <td>
+                        <?php echo $users->hire_date; ?>
 
-                    @foreach ($departments as $department)
-                         @if ($department->id == $users->department_id)
-                        <td>{{  $department->name }}</td>
-                        @foreach($branches as $branch)
-                                    @if ($branch->id == $department->branch_id)
-                                        <td>{{  $branch->branch_name }}</td>
-                                    @endif
-                                @endforeach
-                        @endif
-                    @endforeach
+                    </td>
+                    <?php foreach($jobtitles as $jobtitle): ?>
+                    		<?php if($jobtitle->id == $users->jobtitle_id): ?>
+                    		<td><?php echo $jobtitle->jobtitle_name; ?></td>
+                    		<?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <?php foreach($contracts as $contract): ?>
+                    		<?php if($contract->id == $users->contract_id): ?>
+                    		<td><?php echo $contract->contract_name; ?></td>
+                    		<?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <?php foreach($departments as $department): ?>
+                         <?php if($department->id == $users->department_id): ?>
+                        <td><?php echo $department->name; ?></td>
+                        <?php foreach($branches as $branch): ?>
+                                    <?php if($branch->id == $department->branch_id): ?>
+                                        <td><?php echo $branch->branch_name; ?></td>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
              
-                @endforeach
+                <?php endforeach; ?>
                 </tbody>
             </table>
         </div>

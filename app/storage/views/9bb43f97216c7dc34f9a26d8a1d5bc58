@@ -9,7 +9,7 @@
     <script src="<?php echo URL::asset('js/jquery.min.js'); ?>"></script>
     <script src="<?php echo URL::asset('js/bootstrap.min.js'); ?>"></script>
 	<title>Requests Authorization | Time and Electronic Attendance Monitoring System</title>
-	
+</head>
 		<div class = "navbar navbar-default navbar-fixed-top">
             <div class = "container">
                                
@@ -64,21 +64,16 @@
             </div>
          </div>
 
- <?php foreach($downloads as $download): ?>
-
-			<div class = "col-md-4">
-			<iframe src="../<?= $download->path ?>" title="your_title" align="top" height="450" width="100%" frameborder="0" scrolling="auto" target="Message">
-	<!-- Alternate content for non supporting browsers -->
-	<p align="center">Please click <a href="window.location.href='your_script.php'">here </a> to continue.</p>
-	</iframe>
+        <?php foreach($downloads as $download): ?>
+            <div class = "col-md-4">
+                <iframe src="../<?= $download->path ?>" title="your_title" align="top" height="450" width="100%" frameborder="0" scrolling="auto" target="Message">
+                    <!-- Alternate content for non supporting browsers -->
+                    <p align="center">Please click <a href="window.location.href='your_script.php'">here </a> to continue.</p>
+                </iframe>
 
 				<img src="<?php echo URL::asset('img/Request.png'); ?>">
-				<a href= "../<?= $download->path ?>" download><?= $download->file_name?></a>
+				    <a href= "../<?= $download->path ?>" download><?= $download->file_name?></a>
 				<hr>
 			</div>
-
-<?php endforeach; ?>	
-
-
-		</div>
-<?php $__env->stopSection(); ?>
+        <?php endforeach; ?>	
+</div>
