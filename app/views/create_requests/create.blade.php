@@ -37,7 +37,7 @@
        
             <div class="label_white">{{ Form::label('end_date', 'End_Date:') }}</div>
             {{ Form::text('end_date', Input::get('end_date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendarb','placeholder' => 'yyyy-mm-dd')) }}<br>
-          </div>
+           </div>
             
          <div class = "col-md-3">
             <br><br>
