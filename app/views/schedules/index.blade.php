@@ -495,8 +495,10 @@
                                     </fieldset>  
                         </div>
                     </div>
+                    {{ Form::checkbox('break_punches', 'Yes') }}
+                    {{ Form::label('lbl_break_punches', 'Include break punches?') }}
                     </div>
-                
+
             </fieldset>
             <br><br>
             {{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
