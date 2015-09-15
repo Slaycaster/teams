@@ -10,7 +10,7 @@
 
 </div>
 
-<div class="col-md-6">
+<div class="col-md-6">  
 
   	<div class="col-md-12" style="padding:5px">
     	<div class="col-md-4" >
