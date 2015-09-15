@@ -15,7 +15,7 @@ class EmployeeLoginController extends BaseController
 
 			);
 
-
+ 
 		$validator = Validator::make(Input::all(), $rules);
 
 		if($validator -> fails()){
@@ -211,7 +211,12 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')->where('create_requests.status', '!=', 'deleted')->where('hierarchy_id', '=', $id)->get();
+			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')
+			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
+			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
+			->where('create_requests.status', '!=', 'deleted')
+			->where('supervisor_id', '=', $id)
+			->get();
 			$requests = DB::table('create_requests')->get();
 			return View::make('request_authorization')
 				->with('id', $id)
@@ -235,7 +240,12 @@ public function postRequestsAuthorization()
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')->where('hierarchy_id', '=', $id)->where('create_requests.status', '!=', 'deleted')->get();
+			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')
+			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
+			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
+			->where('create_requests.status', '!=', 'deleted')
+			->where('supervisor_id', '=', $id)
+			->get();
 			$requests = DB::table('create_requests')->get();
 			$status = Input::get('status');
 			$emp_id = Input::get('emp_id');
@@ -291,8 +301,10 @@ public function showDownload()
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
 
 			$downloads = DB::table('downloads')->get();
+			$name = Session::get('empname', 'default');
 			return View::make('downloads')
-				->with('downloads', $downloads);
+				->with('downloads', $downloads)
+				->with('name', $name);
 				
 		}
 		else

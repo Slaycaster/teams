@@ -42,6 +42,11 @@
                                 <li><a href="<?php echo URL::to('employee/accruals'); ?>">Accruals</a></li>
                                 <li><a href="<?php echo URL::to('employee/exceptions'); ?>">Exceptions</a></li>
                                 <li><a href="<?php echo URL::to('employee/dailytimerecord'); ?>">Daily Time Record</a></li>
+                                <?php foreach($supervisor as $supervisors): ?>
+                                <?php if( $supervisors->supervisor_id == $id): ?>
+                                <li><a href="<?php echo URL::to('employee/employeesummary'); ?>">Employee Summary</a></li>
+                                <?php endif; ?>
+                                <?php endforeach; ?>
                                 </ul>
                             <li class="dropdown"><a href = "#">Reports<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
