@@ -16,7 +16,7 @@ class HierarchiesController extends BaseController {
 
 	/**
 	 * Display a listing of the resource.
-	 *
+	 * oh yeah
 	 * @return Response
 	 */
 
@@ -32,7 +32,14 @@ class HierarchiesController extends BaseController {
 		$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
 			->lists('full_name', 'id');
 		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )->where('level_id', '>', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
-		$subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))->where('level_id', '=', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
+		$subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, employs.id'))
+		 ->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
+		->where('level_id', '=', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
 		return View::make('hierarchies.index', compact('hierarchies'))
 		->with('hierarchy',$hierarchy)
 		->with('hierarchies',$hierarchies)
@@ -57,7 +64,14 @@ class HierarchiesController extends BaseController {
 		$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
 			->lists('full_name', 'id');
 		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )->where('level_id', '=', $id_dropdown)->orderBy('lname', 'asc')->lists('full_name', 'id');
-		$subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))->where('level_id', '>', $id_dropdown)->orWhere('level_id', '=', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
+		$subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, employs.id'))
+		 ->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
+		 ->where('level_id', '>', $id_dropdown)->orWhere('level_id', '=', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
 		return View::make('hierarchies.index', compact('hierarchies'))
 		->with('hierarchy',$hierarchy)
 		->with('id_dropdown', $id_dropdown)
@@ -149,6 +163,12 @@ class HierarchiesController extends BaseController {
 		->where('level_id', '>', '0')->where('employs.id', '=', $hierarchy->supervisor_id)
 		->orderBy('lname', 'asc')->lists('full_name', 'id');
 		$new_subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			 ->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
 			->where('level_id', '=', '0')
 			->orderBy('lname', 'asc')
 			->lists('full_name', 'id');

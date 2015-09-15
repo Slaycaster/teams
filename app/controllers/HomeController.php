@@ -488,6 +488,9 @@ class HomeController extends BaseController {
 
 			
 		
+		
+			
+		Session::flash('message10', 'Leave successfully executed, leave credits deducted from the employee');
 		return View::make('leavecredits')
 		->with('employs',$employs)
 		->with('sick_leave',$sick_leaves)
