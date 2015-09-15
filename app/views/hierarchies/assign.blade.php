@@ -118,15 +118,13 @@
         {{ Form::submit('Remove', array('class' => 'btn btn-danger')) }}
         {{ Form::close() }}
     </div>
+@endif
 
 </div>
     
-    <br>
-            
-    
+    <br>    
     
 
-@endif
 
 
 <script type="text/javascript">
