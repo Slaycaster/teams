@@ -24,17 +24,14 @@
                     
                         <th><input type="text" class="form-control" placeholder="fname"></th>
                         <th><input type="text" class="form-control" placeholder="lname"></th>
-                    	<th><input type="text" class="form-control" placeholder="phone number"></th>
-                    	<th><input type="text" class="form-control" placeholder="email"></th>
-                    	<th><input type="text" class="form-control" placeholder="hire date"></th>
-                    	<th><input type="text" class="form-control" placeholder="job title"></th>
-                    	<th><input type="text" class="form-control" placeholder="employee type"></th>
+                        <th><input type="text" class="form-control" placeholder="phone number"></th>
+                        <th><input type="text" class="form-control" placeholder="email"></th>
+                        <th><input type="text" class="form-control" placeholder="hire date"></th>
+                        <th><input type="text" class="form-control" placeholder="job title"></th>
+                        <th><input type="text" class="form-control" placeholder="contract name"></th>
                         <th><input type="text" class="form-control" placeholder="department"></th>
-                        <th><input type="text" class="form-control" placeholder="department"></th>
-                        
-                    
-   
-                   
+                        <th><input type="text" class="form-control" placeholder="branch"></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -65,33 +62,31 @@
 
                     </td>
                     <?php foreach($jobtitles as $jobtitle): ?>
-                    		<?php if($jobtitle->id == $emp->jobtitle_id): ?>
-                    		<td><?php echo $jobtitle->jobtitle_name; ?></td>
-                    		<?php endif; ?>
+                            <?php if($jobtitle->id == $emp->jobtitle_id): ?>
+                            <td><?php echo $jobtitle->jobtitle_name; ?></td>
+                            <?php endif; ?>
                     <?php endforeach; ?>
 
                     <?php foreach($contracts as $contract): ?>
-                    		<?php if($contract->id == $emp->contract_id): ?>
-                    		<td><?php echo $contract->contract_name; ?></td>
-                    		<?php endif; ?>
+                            <?php if($contract->id == $emp->contract_id): ?>
+                            <td><?php echo $contract->contract_name; ?></td>
+                            <?php endif; ?>
                     <?php endforeach; ?>
-
-
+                 
                     <?php foreach($departments as $department): ?>
                          <?php if($department->id == $emp->department_id): ?>
                         <td><?php echo $department->name; ?></td>
+                        <?php foreach($branches as $branch): ?>
+                                    <?php if($branch->id == $department->branch_id): ?>
+                                        <td><?php echo $branch->branch_name; ?></td>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
 
-                    <?php foreach($hierarchies as $hierarchy): ?>
-                        <td><?php echo $hierarchy->hierarchy_name; ?></td>
-                        <?php endforeach; ?>
-                    
 
-                    
+                    <?php endforeach; ?>
 
-                 <?php endforeach; ?>
-       
                 </tbody>
             </table>
         </div>
