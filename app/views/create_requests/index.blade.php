@@ -3,7 +3,10 @@
       <br><br><br>
       <div class = "container">
             <div class = "row">
-                  
+                     @if (Session::has('message'))
+    <div class="alert alert-info">{{ Session::get('message') }}</div>
+  @endif
+  <br>
                   <div class = "col-md-9" >
                         <h1 style = "color:white;">Your Requests</h1>
                   </div>
@@ -24,9 +27,9 @@
 				<th>Status</th>
 				<th>Request date</th>
 				<th>Start date</th>
-				<th>Start time</th>
+			
 				<th>End date</th>
-				<th>End time</th>
+				
 				<th>Message</th>
 				<th>Request type</th>
 				<th colspan=2>Actions</th>
@@ -39,9 +42,9 @@
 					<td>{{{ $create_request->status }}}</td>
 					<td>{{{ $create_request->request_date }}}</td>
 					<td>{{{ $create_request->start_date }}}</td>
-					<td>{{{ $create_request->start_time }}}</td>
+
 					<td>{{{ $create_request->end_date }}}</td>
-					<td>{{{ $create_request->end_time }}}</td>
+			
 					<td>{{{ $create_request->message }}}</td>
 					<td>{{{ $create_request->request_type }}}</td>
                     

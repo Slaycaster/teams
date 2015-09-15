@@ -4,6 +4,9 @@
 <head>
 	<title>Leave Credits | Time and Attendance Monitoring System</title>
 </head>
+ @if (Session::has('message10'))
+         <div class="alert alert-warning">{{ Session::get('message10') }}</div><br>
+      @endif
 			<h1 style = "color:white;">Leave Credits</h1>
 
 			<div class = "col-md-12"></div>

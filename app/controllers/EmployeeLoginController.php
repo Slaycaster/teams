@@ -280,7 +280,6 @@ public function postRequestsAuthorization()
 				return Redirect::to('login/employee');
 		}
 	}
-
 	public function showChangePassword()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
