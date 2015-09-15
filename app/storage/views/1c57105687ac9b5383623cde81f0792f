@@ -1,5 +1,4 @@
-@extends("layout")
-@section("content")
+<?php $__env->startSection("content"); ?>
 
 <head>
     <title>Queries | Time and Electronic Attendance Monitoring System</title>
@@ -7,12 +6,15 @@
 
 <h1>Employee By Branch </h1>
 
-{{ Form::open(array('url' => 'queries/empbybranch', 'method' => 'post')) }}
+<?php echo Form::open(array('url' => 'queries/empbybranch', 'method' => 'post')); ?>
+
     
             <h3>Filter by Branch</h3>
-            {{ Form::select('branches', $branches, Input::old('<br>branches'), array('class' => 'btn btn-default dropdown-toggle target','id' => 'branch', 'tabindex' => '2') ) }}
+            <?php echo Form::select('branches', $branches, Input::old('<br>branches'), array('class' => 'btn btn-default dropdown-toggle target','id' => 'branch', 'tabindex' => '2') ); ?>
+
      
-{{ Form::close() }}
+<?php echo Form::close(); ?>
+
 
 
 <div class="container">
@@ -26,7 +28,8 @@
                     <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
                 </div>
             </div>
-            {{ Form::open(array('url' => 'empbybranch', 'method' => 'post')) }}
+            <?php echo Form::open(array('url' => 'empbybranch', 'method' => 'post')); ?>
+
             <table class="table">
                 <thead>
                     <tr class="filters">
@@ -41,32 +44,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($employs as $emp)
+                <?php foreach($employs as $emp): ?>
                 <tr>
                     <td>
-                        {{$emp->fname}}
+                        <?php echo $emp->fname; ?>
+
                     </td>
                     <td>
-                        {{$emp->lname}}
+                        <?php echo $emp->lname; ?>
+
                     </td>
 
 
                     
-                    @foreach ($departments as $department) 
-                        @foreach($branchess as $branch)
-                        @if ($department->id == $emp->department_id)
+                    <?php foreach($departments as $department): ?> 
+                        <?php foreach($branchess as $branch): ?>
+                        <?php if($department->id == $emp->department_id): ?>
                         	
-                                    @if ($branch->id == $department->branch_id)
-                                        <td>{{$branch->branch_name }}</td>
-                                    @endif
+                                    <?php if($branch->id == $department->branch_id): ?>
+                                        <td><?php echo $branch->branch_name; ?></td>
+                                    <?php endif; ?>
                                 
-                       @endif
-                       @endforeach
-                    @endforeach
+                       <?php endif; ?>
+                       <?php endforeach; ?>
+                    <?php endforeach; ?>
 
                     
 
-                 @endforeach
+                 <?php endforeach; ?>
        
                 </tbody>
             </table>
@@ -74,11 +79,13 @@
     </div>
 </div>
 
-{{ Form::close() }}
+<?php echo Form::close(); ?>
+
 
 <script type="text/javascript">
 $('#branch').on('change', function(e){
     $(this).closest('form').submit();
 });
 </script>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("layout", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

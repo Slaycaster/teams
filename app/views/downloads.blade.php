@@ -1,16 +1,28 @@
 @extends("layout")
 @section("content")
-        @foreach ($downloads as $download)
-            <div class = "col-md-4">
-                <iframe src="../<?= $download->path ?>" title="your_title" align="top" height="450" width="100%" frameborder="0" scrolling="auto" target="Message">
-                    <!-- Alternate content for non supporting browsers -->
-                    <p align="center">Please click <a href="window.location.href='your_script.php'">here </a> to continue.</p>
-                </iframe>
 
-				<img src="{{ URL::asset('img/Request.png') }}">
-				    <a href= "../<?= $download->path ?>" download><?= $download->file_name?></a>
-				<hr>
-			</div>
-        @endforeach	
+<head>
+    <title>Downloadable Forms | Time and Electronic Attendance Monitoring System</title>
+</head>
+        <div class="container">
+        <h3 styles="margin-left:100px">All Forms</h3><br>
+        @foreach ($downloads as $download)
+
+      <div class="col-md-5" style="margin-bottom:5px">
+        <div class="col-md-12 greytile" style="padding:5px">
+          <div class="col-md-5" >
+               <img style = "height:80px; width:80px;" src="{{ URL::asset('img/Request.png') }}">
+          </div>
+          <div class="col-md-7" style="margin-left:-60px">
+
+                <a href= "../<?= $download->path ?>" download><?= $download->file_name?><br> (click here to download)</a><br><br>
+               <a href="{{ URL::to('downloads/' . $download->id) }}" >View Form</a>
+               
+           </div>
+
+         </div>
+      </div>
+      @endforeach
+      </div>
 </div>
 @stop
