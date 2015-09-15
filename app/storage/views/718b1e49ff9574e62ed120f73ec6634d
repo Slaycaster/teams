@@ -1,5 +1,4 @@
-@extends("layout")
-@section("content")
+<?php $__env->startSection("content"); ?>
 
 <head>
     <title>Queries | Time and Electronic Attendance Monitoring System</title>
@@ -36,52 +35,57 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($employs as $emp)
+                <?php foreach($employs as $emp): ?>
                 <tr>
 
                     <td>
-                        {{$emp->fname}}
+                        <?php echo $emp->fname; ?>
+
                     </td>
                     <td>
-                        {{$emp->lname}}
+                        <?php echo $emp->lname; ?>
+
                     </td>
 
                     <td>
-                        {{$emp->phone}}
+                        <?php echo $emp->phone; ?>
+
                     </td>
 
                     <td>
-                        {{$emp->email}}
+                        <?php echo $emp->email; ?>
+
                     </td>
 
                     <td>
-                        {{$emp->hire_date}}
-                    </td>
-                    @foreach($jobtitles as $jobtitle)
-                            @if($jobtitle->id == $emp->jobtitle_id)
-                            <td>{{$jobtitle->jobtitle_name}}</td>
-                            @endif
-                    @endforeach
+                        <?php echo $emp->hire_date; ?>
 
-                    @foreach($contracts as $contract)
-                            @if($contract->id == $emp->contract_id)
-                            <td>{{$contract->contract_name}}</td>
-                            @endif
-                    @endforeach
+                    </td>
+                    <?php foreach($jobtitles as $jobtitle): ?>
+                            <?php if($jobtitle->id == $emp->jobtitle_id): ?>
+                            <td><?php echo $jobtitle->jobtitle_name; ?></td>
+                            <?php endif; ?>
+                    <?php endforeach; ?>
+
+                    <?php foreach($contracts as $contract): ?>
+                            <?php if($contract->id == $emp->contract_id): ?>
+                            <td><?php echo $contract->contract_name; ?></td>
+                            <?php endif; ?>
+                    <?php endforeach; ?>
                  
-                    @foreach ($departments as $department)
-                         @if ($department->id == $emp->department_id)
-                        <td>{{  $department->name }}</td>
-                        @foreach($branches as $branch)
-                                    @if ($branch->id == $department->branch_id)
-                                        <td>{{  $branch->branch_name }}</td>
-                                    @endif
-                                @endforeach
-                        @endif
-                    @endforeach
+                    <?php foreach($departments as $department): ?>
+                         <?php if($department->id == $emp->department_id): ?>
+                        <td><?php echo $department->name; ?></td>
+                        <?php foreach($branches as $branch): ?>
+                                    <?php if($branch->id == $department->branch_id): ?>
+                                        <td><?php echo $branch->branch_name; ?></td>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
 
 
-                    @endforeach
+                    <?php endforeach; ?>
 
                 </tbody>
             </table>
@@ -89,4 +93,5 @@
     </div>
 </div>
 
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("layout", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

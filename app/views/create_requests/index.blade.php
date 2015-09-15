@@ -33,7 +33,7 @@
                             @else
                                 <li><a href = "{{ URL::to('employee/requests_authorization') }}">Requests Authorization</a></li>
                             @endif
-                            <li><a href = "{{ URL::to('employee/request') }}">Request a Leave</a></li>
+                            <li><a href = "{{ URL::to('create_requests') }}">Request a Leave</a></li>
                               </ul>
                             </li>
                             <li class="dropdown"><a href = "#">Queries<b class="caret"></b></a>
@@ -74,25 +74,14 @@
             <br>
                   <div id="raleway" class="row">
 <div class = "row">
-	<div class = "col-md-6">
-		<div class = "col-md-3 greentile">
-				<center><h1 style = "color:white;">0</h1></center>
-				<center><h4 style = "color:white;">Hours</h4></center>
-		</div>
-		<div class = "col-md-9 greytile" >
-			<br>
-			<center><h3 style = "color:white; margin-bottom:12px">Available Leave Credits</h3></center>
-			<br>
-		</div>
-	</div>
-</div><br><br>
+	<br><br>
 
 <p>{{ link_to_route('create_requests.create', 'Make a Request') }}</p>
 
 @if ($create_requests->count())
 	<div class="label_white"><table class="table table-bordered">
 		<thead>
-			<tr>
+			<tr style="color:white">
 				<th>Status</th>
 				<th>Request date</th>
 				<th>Start date</th>
@@ -107,7 +96,7 @@
 
 		<tbody>
 			@foreach ($create_requests as $create_request)
-				<tr>
+				<tr style="color:white">
 					<td>{{{ $create_request->status }}}</td>
 					<td>{{{ $create_request->request_date }}}</td>
 					<td>{{{ $create_request->start_date }}}</td>
@@ -116,7 +105,7 @@
 					<td>{{{ $create_request->end_time }}}</td>
 					<td>{{{ $create_request->message }}}</td>
 					<td>{{{ $create_request->request_type }}}</td>
-                    <td>{{ link_to_route('create_requests.edit', 'Edit', array($create_request->id), array('class' => 'btn btn-info')) }}</td>
+                    
                     <td>
                         {{ Form::open(array('method' => 'DELETE', 'route' => array('create_requests.destroy', $create_request->id))) }}
                             {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}

@@ -38,7 +38,7 @@
 <div class="container" style = "margin-left: -4%">
     <div class="row">
       <div class="col-md-7">
-         <h3 style = "margin-left: 8%">Add Employee </h3>
+         <h3 style = "margin-left: 9%">Add Employee </h3>
          @if ($errors->any())
                     <ul>
                         {{ implode('', $errors->all('<li class="error">:message</li>')) }}

@@ -14,6 +14,7 @@
                 <div class = "collapse navbar-collapse navHeaderCollapse">
                                
                         <ul class = "nav navbar-nav">
+                            <li><a href = "{{ URL::to('dashboard') }}">Dashboard</a></li>
                             <li><a href = "{{ URL::to('maintenance') }}">Maintenance</a></li>
                             <li><a href ="{{ URL::to('transaction') }}">Transaction</a></li>
                             <li><a href ="{{URL::to('query')}}">Queries</a></li>

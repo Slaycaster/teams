@@ -33,7 +33,7 @@
                             @else
                                 <li><a href = "{{ URL::to('employee/requests_authorization') }}">Requests Authorization</a></li>
                             @endif
-                            <li><a href = "{{ URL::to('employee/request') }}">Request a Leave</a></li>
+                            <li><a href = "{{ URL::to('create_requests') }}">Request a Leave</a></li>
                               </ul>
                             </li>
                             <li class="dropdown"><a href = "#">Queries<b class="caret"></b></a>
@@ -77,28 +77,53 @@
 		<table class = "table table-bordered">
 
 				<thead>
+          <td style="color:white">Employee Number</td>
 					<td style="color:white">First Name</td>
 					<td style="color:white">Last Name</td>
+          <td style="color:white">Request Type</td>
+          <td style="color:white">Status</td>
+          <td style="color:white">Start Date</td>
+          <td style="color:white">End Date</td>
 
 					<td style="color:white">Actions</td>
 				</thead>
 				@foreach($employees as $employee)
 					<tr>
+          <td style="color:white"> {{ $employee->employee_number }}</td>
 						<td style="color:white"> {{ $employee->fname }}</td>
 						<td style="color:white"> {{ $employee->lname }}</td>
+            <td style="color:white"> {{ $employee->request_type }}</td>
+            <td style="color:white"> {{ $employee->status }}</td>
+            <td style="color:white"> {{ $employee->start_date }}</td>
+            <td style="color:white"> {{ $employee->end_date }}</td>
 						
-							@foreach($requests as $request)
-								@if($request->employee_id == $employee->id)
-									<td style="color:white">{{ $request->request_type }}</td>
-									<td style="color:white">{{ $request->request_date }}</td>
-								@endif
-							@endforeach
+							
 						
-						<td> <a href="#" class = "btn btn-primary">Show Message</a>
-						<a href="#" class = "btn btn-success">Approve</a>
-						<a href="#" class = "btn btn-warning">Pass</a> 
-						<a href="#" class = "btn btn-danger">Decline</a></td>
-
+						<td> 
+                       <div class='col-md-4'>
+                        {{ Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')) }}  
+                         {{ Form::hidden('emp_id', $employee->id) }}
+                         {{ Form::hidden('status', 'approved') }}
+						
+                          {{ Form::submit('Approve', array('class' => 'btn btn-success')) }}          
+                         {{ Form::close() }}
+                         </div>
+                          <div class='col-md-4'>
+						 {{ Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')) }}  
+                         {{ Form::hidden('emp_id', $employee->id) }}
+                         {{ Form::hidden('status', 'declined') }}
+                        
+                          {{ Form::submit('Decline', array('class' => 'btn btn-warning')) }}          
+                         {{ Form::close() }}
+                         </div>
+                          <div class='col-md-4'>
+                         {{ Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')) }}  
+                         {{ Form::hidden('emp_id', $employee->id) }}
+                         {{ Form::hidden('status', 'deleted') }}
+                        
+                          {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}          
+                         {{ Form::close() }}</td>
+                        </div>
 					</tr>
 				@endforeach
 			</table>

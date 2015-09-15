@@ -14,7 +14,7 @@
 <div class="col-md-12" style="margin-top:10px">
 <div class="col-md-6">
   	<div class="col-md-12" style="padding:5px">
-    	<div class="col-md-6">
+    	<div class="col-md-4" >
             <img style = "height:150px; width:150px;" src="{{URL::asset('employees').'/'.$employee->id.''.$employee->lname.''.$emp_fname.'.jpg'}}">
 
     	</div>

@@ -46,14 +46,18 @@
 
 <div class = "row" style = "margin-top:20px;">
 	<div class = "col-md-6">
+	<a href="approved_leave">
 		<div class = "col-md-3 greentile">
-			<center><h1 style = "color:white;">0</h1></center>
+	
+			<center><h1 style = "color:white;">{{$request}}</h1></center>
+
 			<center><h4 style = "color:white;">Requests</h4></center>
 		</div>
 	<div class = "col-md-9 greytile">
 		<center><h3 style = "color:white; margin-bottom:6px">Approved requests pending for execution</h3></center>
 		<br>
 	</div>
+	</a>
 </div>
 
 </div>

@@ -33,7 +33,7 @@
                             @else
                                 <li><a href = "{{ URL::to('employee/requests_authorization') }}">Requests Authorization</a></li>
                             @endif
-                            <li><a href = "{{ URL::to('employee/request') }}">Request a Leave</a></li>
+                            <li><a href = "{{ URL::to('create_requests') }}">Request a Leave</a></li>
                               </ul>
                             </li>
                             <li class="dropdown"><a href = "#">Queries<b class="caret"></b></a>

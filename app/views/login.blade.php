@@ -16,9 +16,9 @@
 						</video>    
 						</div>
 					-->
-						<!--<img src="{{ URL::asset('img/teams_logo.png') }}" class="img-responsive" alt="INSERT PICTURE HERE" width="350" height="200">-->
+						<img src="{{ URL::asset('img/teams_logo.png') }}" class="img-responsive" alt="INSERT PICTURE HERE" width="350" height="200">
 
-						<img src="{{ URL::asset('employees/10RamosShairaMay.jpg') }}" class="img-responsive" alt="INSERT PICTURE HERE" width="350" height="200">
+						
 					
 						
     				</div>
