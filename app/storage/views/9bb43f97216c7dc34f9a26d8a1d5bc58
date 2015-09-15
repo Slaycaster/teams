@@ -1,13 +1,12 @@
 <?php $__env->startSection("content"); ?>
-
 <head>
     <title>Downloadable Forms | Time and Electronic Attendance Monitoring System</title>
 </head>
         <div class="container">
         <h3 styles="margin-left:100px">All Forms</h3><br>
-        <?php foreach($downloads as $download): ?>
 
-      <div class="col-md-5" style="margin-bottom:5px">
+        <?php foreach($downloads as $download): ?>
+            <div class="col-md-5" style="margin-bottom:5px">
         <div class="col-md-12 greytile" style="padding:5px">
           <div class="col-md-5" >
                <img style = "height:80px; width:80px;" src="<?php echo URL::asset('img/Request.png'); ?>">
@@ -22,7 +21,7 @@
          </div>
       </div>
       <?php endforeach; ?>
-      </div>
+      </div>	
 </div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make("layout", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
