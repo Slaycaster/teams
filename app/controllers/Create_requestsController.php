@@ -28,7 +28,6 @@ class Create_requestsController extends BaseController {
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$create_requests = create_request::where('employee_id', '=', $id)->get();
 			$request_types = DB::table('request_types')->get();
 			return View::make('create_requests.index', compact('create_requests'))
@@ -36,7 +35,6 @@ class Create_requestsController extends BaseController {
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
-				->with('supervisor', $supervisor)
 				->with('create_requests', $create_requests)
 				->with('request_types', $request_types);
 		}

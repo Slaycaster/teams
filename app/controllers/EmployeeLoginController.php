@@ -149,12 +149,10 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('exceptions')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
-				->with('supervisor', $supervisor)
 				->with('level', $level);
 		}
 		else
@@ -170,12 +168,10 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('accruals')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
-				->with('supervisor', $supervisor)
 				->with('level', $level);
 		}
 		else
@@ -192,7 +188,6 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
 			$requests = DB::table('create_requests')->get();
 		return View::make('dailytimerecord')
@@ -201,7 +196,6 @@ class EmployeeLoginController extends BaseController
 				->with('email', $email)
 				->with('level', $level)
 				->with('employees', $employees)
-				->with('supervisor', $supervisor)
 				->with('requests', $requests);
 		}
 		else
@@ -212,14 +206,11 @@ class EmployeeLoginController extends BaseController
 	}	
 	public function showRequestsAuthorization()
 	{
-		
-
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
 			$id = Session::get('empid', 'default');
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')
 			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
 			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
@@ -232,7 +223,6 @@ class EmployeeLoginController extends BaseController
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
-				->with('supervisor',$supervisor)
 				->with('employees', $employees)
 				->with('requests', $requests);
 		}
@@ -250,7 +240,6 @@ public function postRequestsAuthorization()
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')
 			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
 			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
@@ -272,7 +261,6 @@ public function postRequestsAuthorization()
 				->with('email', $email)
 				->with('level', $level)
 				->with('employees', $employees)
-				->with('supervisor', $supervisor)
 				->with('requests', $requests);
 		}
 		else
@@ -289,7 +277,6 @@ public function postRequestsAuthorization()
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
 			$requests = DB::table('create_requests')->get();
 			return View::make('change_password')
@@ -298,7 +285,6 @@ public function postRequestsAuthorization()
 				->with('email', $email)
 				->with('level', $level)
 				->with('employees', $employees)
-				->with('supervisor', $supervisor)
 				->with('requests', $requests);
 				
 		}
