@@ -33,7 +33,7 @@
                             <?php else: ?>
                                 <li><a href = "<?php echo URL::to('employee/requests_authorization'); ?>">Requests Authorization</a></li>
                             <?php endif; ?>
-                            <li><a href = "<?php echo URL::to('employee/request'); ?>">Request a Leave</a></li>
+                            <li><a href = "<?php echo URL::to('create_requests'); ?>">Request a Leave</a></li>
                               </ul>
                             </li>
                             <li class="dropdown"><a href = "#">Queries<b class="caret"></b></a>

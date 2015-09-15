@@ -22,6 +22,7 @@
 	Route::get('employee/exceptions', array('uses' => 'EmployeeLoginController@showExceptions'));
 	Route::get('employee/accruals', array('uses' => 'EmployeeLoginController@showAccruals'));
 	Route::get('employee/requests_authorization', array('uses' => 'EmployeeLoginController@showRequestsAuthorization'));
+	Route::post('employee/requests_authorized', array('uses' => 'EmployeeLoginController@postRequestsAuthorization'));
 	Route::get('employee/attendance', array('uses' => 'AttendanceLoginController@showLogin'));
 	Route::post('employee/attendance', array('uses' => 'AttendanceLoginController@doLogin'));
 	Route::resource('create_requests', 'Create_requestsController');
@@ -32,6 +33,7 @@
 	Route::get('employee/dailytimerecord','EmployeeLoginController@showDTR');
 	Route::get('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
 	Route::get('employee/leave_credits', array('uses' => 'EmployeeLoginController@showLeaveCredit'));
+	Route::get('employee/employeesummary', array('uses' => 'EmployeeLoginController@showEmployeeSummary'));
 
 	//Route::any('dashboard', array('uses' => 'HomeController@showDashboard'));
 
@@ -100,6 +102,8 @@
 		Route::resource('downloads', 'DownloadsController');
 		Route::resource('leavecredits', 'HomeController@showLeaveCredit');
 		Route::resource('empsummary', 'HomeController@showEmpSummary');
+		Route::post('leavededuct', array('uses' => 'HomeController@LeaveDeduct'));
+		Route::resource('approved_leave', 'HomeController@showApproved');
 	});
 
 ?>

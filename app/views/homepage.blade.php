@@ -45,7 +45,7 @@
 		<center><h1>TimE and Attendance Monitoring<br><h4>because we know that time is gold, we'll make the best out of it just for you.</h4></h1></center>
 		<center><img style = "max-width:100% !important;
     height:auto;
-    display:block;" src="{{ URL::asset('img/cover2.png') }}"></center>
+    display:block;" src="{{ URL::asset('img/cover.png') }}"></center>
 		
 		<div style = "display: block; margin-left: 400px; margin-right: auto;" class = "row">
 			

@@ -22,11 +22,10 @@ body
 {
   font-family: Segoe UI, sans-serif;
   margin-bottom: 80px;
-  background-image: url(../img/mainemendoza.png);
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed; 
-  background-size:cover;
+  background-image: url(../img/bg.png); 
+  /*background-image: url(../employees/11ReidJames.jpg);*/
+  /*background-image: url(../img/rileyreid.jpg);*/
+  background-positioni: center center; background-repeat: no-repeat; background-attachment: fixed; background-size:cover;
 }
 
 .custab{

@@ -65,11 +65,13 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('employs.dashboard')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
-				->with('level', $level);
+				->with('level', $level)
+				->with('supervisor',$supervisor);
 		}
 		else
 		{
@@ -209,8 +211,40 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
+			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')->where('create_requests.status', '!=', 'deleted')->where('hierarchy_id', '=', $id)->get();
 			$requests = DB::table('create_requests')->get();
+			return View::make('request_authorization')
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('level', $level)
+				->with('employees', $employees)
+				->with('requests', $requests);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}
+
+public function postRequestsAuthorization()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')->where('hierarchy_id', '=', $id)->where('create_requests.status', '!=', 'deleted')->get();
+			$requests = DB::table('create_requests')->get();
+			$status = Input::get('status');
+			$emp_id = Input::get('emp_id');
+
+			DB::statement('UPDATE create_requests SET status=:sur WHERE id=:res2',
+				 array('sur' => $status, 'res2' => $emp_id) );
+
+
+
 			return View::make('request_authorization')
 				->with('id', $id)
 				->with('name', $name)
@@ -268,11 +302,55 @@ public function showDownload()
 		}
 	}
 
+	public function showEmployeeSummary()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+
+		$employs = DB::table('employs')->get();
+		$departments = DB::table('departments')->get();
+		$branches=DB::table('branches')->get();
+		$jobtitles=DB::table('jobtitles')->get();
+		$contracts=DB::table('contracts')->get();
+		$currentid = Session::get('empid');
+		$hierarchies = DB::table('hierarchies')
+		->select('id')
+		->where('supervisor_id','=',$currentid)
+		->lists('id');
+		$subordinates = DB::table('hierarchy_subordinates')
+		->select('employee_id')
+		->whereIn('hierarchy_id',$hierarchies)
+		->lists('employee_id');
+		$user = DB::table('employs')
+		->whereIn('id',$subordinates)
+		->get();
+		$level = Session::get('emplevel', 'default');
+		$name = Session::get('empname', 'default');
+		return View::make('employeesummary')
+			->with('branches',$branches)
+		->with('hierarchies',$hierarchies)
+		->with('subordinates',$subordinates)
+		->with('departments',$departments)
+		->with('employs',$employs)
+		->with('user',$user)
+		->with('jobtitles',$jobtitles)
+		->with('level', $level)
+		->with('name', $name)
+		->with('contracts',$contracts);
+				
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}
+
 	public function showLeaveCredit()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
 			$id = Session::get('empid', 'default');
 			$employees = DB::table('employs')->get();
+			$credits = DB::table('leavecredits')->get();
 			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
 			$now = $date->format('Y-m-d');
 			
@@ -307,34 +385,80 @@ public function showDownload()
 		
 				if($diff >= 12)
 					{
-						if ($diff > 11){
+						$diff = $diff - 12;
+						if ($diff >= 12){
 							$totyear= round($totyear = ($diff / 12), 0);
 							$totmonth = round(($diff % 12), 0);
-
-							$sick_leave = (($totyear *15) + $totmonth * 1.25);
-
-							$vacation_leave = (($totyear *15) + $totmonth * 1.25);
-						
-							if($vacation_leave > 9)
+						foreach ($credits as $credit)
 							{
+								if($employee->id == $credit->employee_id){
+
+									$sick_leave = (($totyear *15) + $totmonth * 1.25) - $credit->sick_leave;
+
+									$vacation_leave = (($totyear *15) + $totmonth * 1.25) - $credit->vacation_leave;
 								
+
+								}
+							}
+								$cred = DB::table('leavecredits')->where('employee_id', '=', $employee->id)->get();
+								if ($cred == null)
+								{
+								$sick_leave = (($totyear *15) + $totmonth * 1.25);
+
+								$vacation_leave = (($totyear *15) + $totmonth * 1.25) ;
+								}
+						
+							if($vacation_leave >= 10)
+							{
+								foreach ($credits as $credit)
+							{
+								if($employee->id == $credit->employee_id){
+
 								$force_counter = 5 * $totyear;
 								$force_leave = 5;
-								$vacation_leave = (($totyear *15) + $totmonth * 1.25) - $force_counter;
+								$vacation_leave = (($totyear *15) + $totmonth * 1.25) - $force_counter - $credit->vacation_leave;
+
+								}
+							}
+								$cred = DB::table('leavecredits')->where('employee_id', '=', $employee->id)->get();
+								if ($cred == null)
+								{
+									$force_counter = 5 * $totyear;
+									$force_leave = 5;
+									$vacation_leave = (($totyear *15) + $totmonth * 1.25) - $force_counter;
+								}
+
 							}
 							else {
 								$force_leave = 0;
 							}
 						}
-						if($diff < 11)
+						if($diff < 12)
 						{
-							$sick_leave = $diff * 1.25;
-							$vacation_leave = $diff * 1.25; 
-								if($vacation_leave > 9)
+							foreach ($credits as $credit)
 							{
-								
+								if($employee->id == $credit->employee_id){
+								$sick_leave = ($diff * 1.25) - $credit->sick_leave;
+								$vacation_leave = ($diff * 1.25) - $credit->vacation_leave; }}
+								$cred = DB::table('leavecredits')->where('employee_id', '=', $employee->id)->get();
+								if ($cred == null)
+								{
+									$sick_leave = $diff * 1.25;
+									$vacation_leave = $diff * 1.25;
+								}
+								if($vacation_leave >= 10)
+							{
+								foreach ($credits as $credit)
+							{
+								if($employee->id == $credit->employee_id){
 								$force_leave = 5;
-								$vacation_leave = ($diff * 1.25) - $force_leave;
+								$vacation_leave = ($diff * 1.25) - $force_leave - $credit->vacation_leave;}}
+								$cred = DB::table('leavecredits')->where('employee_id', '=', $employee->id)->get();
+								if ($cred == null)
+								{
+									$force_leave = 5;
+									$vacation_leave = ($diff * 1.25) - $force_leave[$i];
+								}
 							}
 							else {
 								$force_leave = 0;
@@ -350,8 +474,8 @@ public function showDownload()
 						$force_leave = 0;
 						}
 					}
-
-			}
+			
+		}
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
