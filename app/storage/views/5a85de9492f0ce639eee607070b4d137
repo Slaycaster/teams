@@ -127,15 +127,13 @@
         <?php echo Form::close(); ?>
 
     </div>
+<?php endif; ?>
 
 </div>
     
-    <br>
-            
-    
+    <br>    
     
 
-<?php endif; ?>
 
 
 <script type="text/javascript">
