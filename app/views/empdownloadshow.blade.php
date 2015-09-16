@@ -18,7 +18,7 @@
      <br>
       <div class="col-md-8" style="margin-left:0px">
        <p style="color:white; font-size:20px"> <strong>{{$empdownload->file_name}}</strong></p><br>
-       <a href="employee/empdownloads" class="btn btn-warning">Go Back</a>
+       <a href="empdownloads" class="btn btn-warning">Go Back</a>
        </div>
      </div>
       </div>
