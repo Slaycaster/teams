@@ -84,6 +84,7 @@ class DownloadsController extends BaseController {
 		return View::make('downloads.show', compact('download'));
 	}
 
+
 	/**
 	 * Show the form for editing the specified resource.
 	 *

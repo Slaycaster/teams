@@ -1,4 +1,4 @@
-@extends("layout")
+@extends("layout_employee")
 @section("content")
 <br><br><br>
 <div class="container">

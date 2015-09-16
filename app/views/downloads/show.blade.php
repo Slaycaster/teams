@@ -2,26 +2,26 @@
 @section("content")
 
 <head>
-    <title>Forms| Time and Electronic Attendance Monitoring System</title>
+    <title><?= $download->file_name?>| Time and Electronic Attendance Monitoring System</title>
 </head>
 
 <div class="col-md-12" style="margin-bottom:30px">
     <h1>View Form</h1>
 
 </div>
-<div class="col-md-6">
 
-    <div class="col-md-12" style="padding:5px">
-      <div class="col-md-4" >
+<div class="col-md-6">  
+
+  	<div class="col-md-12" style="padding:5px">
+    	<div class="col-md-4" >
           <img style = "height:100px; width:100px;" src="{{ URL::asset('img/Department.png') }}">
-
-      </div>
+</div>
       <div class="col-md-8" style="margin-left:0px">
        <p style="color:white; font-size:30px"> <strong>{{$download->file_name}}</strong></p>
         <a href="{{ URL::to('employee/downloads/') }}" onclick="" class="btn btn-warning">Return to Downable Forms</a>
        </div>
      </div>
-      </div>
+     </div>
       <div class="col-md-6"></div>
 
 <br><br>
@@ -34,9 +34,14 @@
     border-style: inset;
     border-width: 1px;">
    
-       <iframe src="../<?= $download->path ?>" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
+     <iframe src="../<?= $download->path ?>" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
      </div>
     
+   
+  	 </div>
+
+  	 </div>
+  	</div>
 
 @stop
 
