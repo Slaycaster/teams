@@ -18,7 +18,7 @@
      <br>
       <div class="col-md-8" style="margin-left:0px">
        <p style="color:white; font-size:20px"> <strong>{{$empdownload->file_name}}</strong></p><br>
-       <a href="#" onclick="window.opener.location.reload(true); window.close();" class="btn btn-warning">Close</a>
+       <a href="employee/empdownloads" class="btn btn-warning">Go Back</a>
        </div>
      </div>
       </div>
@@ -34,10 +34,27 @@
     border-style: inset;
     border-width: 1px;">
    
-       <iframe src="../<?= $empdownload->path ?>" title="downloads"  height= "400" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
+    <center>   <iframe src="../<?= $empdownload->path ?>" title="downloads"  height= "800" width="600"  frameborder="0" margin-left= "100px" target="Message"></iframe><center>
      </div>
     
 @endforeach
 </div>
+
+<script type="text/javascript">
+    $(function(){
+    $(".dropdown").hover(            
+            function() {
+                $('.dropdown-menu', this).stop( true, true ).fadeIn("fast");
+                $(this).toggleClass('open');
+                $('b', this).toggleClass("caret caret-up");                
+            },
+            function() {
+                $('.dropdown-menu', this).stop( true, true ).fadeOut("fast");
+                $(this).toggleClass('open');
+                $('b', this).toggleClass("caret caret-up");                
+            });
+    });
+    
+</script>
 @stop
 
