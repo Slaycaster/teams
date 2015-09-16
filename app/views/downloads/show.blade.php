@@ -1,4 +1,4 @@
-@extends("layout")
+@extends("layout-noheader")
 @section("content")
 
 <head>
