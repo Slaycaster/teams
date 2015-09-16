@@ -316,16 +316,62 @@ public function showDownload()
 
 			$downloads = DB::table('downloads')->get();
 			$name = Session::get('empname', 'default');
-			$id = Session::get('empid', 'default');
-			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('downloads')
 				->with('downloads', $downloads)
-				->with('level', $level)
-				->with('id', $id)
-				->with('supervisor', $supervisor)
 				->with('name', $name);
 				
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}
+
+	public function showEmpdownload()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$empdownloads = DB::table('empdownloads')->where('empdownloads.employee_id', '=', $id)->get();
+			return View::make('empdownloads')
+				->with('empdownloads', $empdownloads)
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('supervisor', $supervisor)
+				->with('level', $level);
+			 
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}
+
+	public function postEmpdownload()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$emp_id = Input::get('emp_id');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$empdownloads = DB::table('empdownloads')->where('empdownloads.id', '=', $emp_id)->get();
+
+			return View::make('empdownloadshow')
+				->with('empdownloads', $empdownloads)
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('level', $level)
+				->with('supervisor', $supervisor);
+					
 		}
 		else
 		{
@@ -337,6 +383,7 @@ public function showDownload()
 	public function showEmployeeSummary()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+
 		$id = Session::get('empid', 'default');
 		$employs = DB::table('employs')->get();
 		$departments = DB::table('departments')->get();
@@ -367,8 +414,8 @@ public function showDownload()
 		->with('user',$user)
 		->with('jobtitles',$jobtitles)
 		->with('level', $level)
-		->with('name', $name)
 		->with('id', $id)
+		->with('name', $name)
 		->with('supervisor', $supervisor)
 		->with('contracts',$contracts);
 				
