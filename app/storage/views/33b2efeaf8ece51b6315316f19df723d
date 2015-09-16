@@ -1,23 +1,23 @@
 <?php $__env->startSection("content"); ?>
 
 <head>
-    <title><?= $download->file_name?>| Time and Electronic Attendance Monitoring System</title>
+    <title>Form | Time and Electronic Attendance Monitoring System</title>
 </head>
 
 <div class="col-md-12" style="margin-bottom:30px">
-    <h1>View Form</h1>
+   <br><br><br> <h1>View Form</h1>
 
 </div>
 
+  <?php foreach($downloads as $download): ?>
 <div class="col-md-6">  
-
     <div class="col-md-12" style="padding:5px">
       <div class="col-md-4" >
           <img style = "height:100px; width:100px;" src="<?php echo URL::asset('img/Department.png'); ?>">
-</div>
+      </div>
       <div class="col-md-8" style="margin-left:0px">
        <p style="color:white; font-size:30px"> <strong><?php echo $download->file_name; ?></strong></p>
-        <a href="<?php echo URL::to('employee/downloads/'); ?>" onclick="" class="btn btn-warning">Return to Downable Forms</a>
+        <a href="<?php echo URL::to('employee/downloads/'); ?>" onclick="" class="btn btn-warning">Return to Downloadable Forms</a>
        </div>
      </div>
      </div>
@@ -38,9 +38,11 @@
     
    
      </div>
+    <?php endforeach; ?>
 
      </div>
     </div>
+
 
 <?php $__env->stopSection(); ?>
 

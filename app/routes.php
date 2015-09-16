@@ -32,11 +32,13 @@
 	Route::get('employee/change_password', array('uses' => 'EmployeeLoginController@showChangePassword'));
 	Route::get('employee/dailytimerecord','EmployeeLoginController@showDTR');
 	Route::get('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
+	
 	Route::get('employee/empdownloads', array('uses' => 'EmployeeLoginController@showEmpdownload'));
 	Route::post('employee/empdownloadshow', array('uses' => 'EmployeeLoginController@postEmpdownload'));
 	Route::get('employee/leave_credits', array('uses' => 'EmployeeLoginController@showLeaveCredit'));
 	Route::get('employee/employeesummary', array('uses' => 'EmployeeLoginController@showEmployeeSummary'));
-
+	Route::post('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
+   Route::post('employee/pdfviewer', array('uses' => 'EmployeeLoginController@postPdf'));
 	//Route::any('dashboard', array('uses' => 'HomeController@showDashboard'));
 
 	//Route::get('maintenance', array('uses' => 'HomeController@showMaintenance'));
