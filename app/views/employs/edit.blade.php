@@ -35,7 +35,7 @@
         
             <div class="label_white">{{ Form::label('picture_path', 'Picture path:') }}</div>
             {{ Form::file('picture_path') }}<br>
-        
+             {{ Form::hidden('picture_path', $employee->picture_path) }}
 
         
             <div class="label_white">{{ Form::label('address', 'Address:') }}</div>

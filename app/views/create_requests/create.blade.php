@@ -30,24 +30,13 @@
             {{ Form::select('request_type', $request_types, Input::old('request_type'), array('class' => 'btn btn-default dropdown-toggle')) }}<br><br>
 
        
-            <div class="label_white">{{ Form::label('start_date', 'Start Date:') }}</div>
-            {{ Form::text('start_date', Input::get('start_date'), array('placeholder' => 'yyyy-mm-dd','autocomplete' => 'off', 'size' => '40')) }}<br>
-        
-
-       
-            <div class="label_white">{{ Form::label('start_time', 'Start_Time:') }}</div>
-            {{ Form::text('start_time', Input::get('start_time'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}<br>
+                <div class="label_white">{{ Form::label('start_date', 'Start Date:') }}</div>
+            {{ Form::text('start_date', Input::get('start_date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendara','placeholder' => 'yyyy-mm-dd')) }}<br>
         
 
        
             <div class="label_white">{{ Form::label('end_date', 'End_Date:') }}</div>
-            {{ Form::text('end_date', Input::get('end_date'), array('placeholder' => 'yyyy-mm-dd','autocomplete' => 'off', 'size' => '40')) }}<br>
-        
-
-       
-            <div class="label_white">{{ Form::label('end_time', 'End_Time:') }}</div>
-            {{ Form::text('end_time', Input::get('end_time'), array('placeholder' => '00:00:00','autocomplete' => 'off', 'size' => '40')) }}<br>
-         </div>
+            {{ Form::text('end_date', Input::get('end_date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendarb','placeholder' => 'yyyy-mm-dd')) }}<br>
          <div class = "col-md-3">
             <br><br>
             <div class="label_white">{{ Form::label('message', 'Message:') }}</div>
@@ -85,4 +74,17 @@
     
 </script>
 
+<script type="text/javascript">
+    $('#calendara').datepicker({
+        format: "yyyy-mm-dd"
+    });
+</script>
+<script type="text/javascript">
+    $('#calendarb').datepicker({
+        format: "yyyy-mm-dd"
+    });
+</script>
+
+=======
+@stop
 @stop

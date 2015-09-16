@@ -94,7 +94,8 @@ class Create_requestsController extends BaseController {
 		{
 			$this->create_request->create($input);
 
-			return Redirect::route('create_requests.index');
+			return Redirect::route('create_requests.index')
+				->with('message', 'Leave successfully filed, now pending approval from your supervisor');;
 		}
 
 		return Redirect::route('create_requests.create')

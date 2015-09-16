@@ -7,9 +7,9 @@ class Create_request extends Eloquent {
 		'status' => 'required',
 		'request_date' => 'required',
 		'start_date' => 'required',
-		'start_time' => 'required',
+		
 		'end_date' => 'required',
-		'end_time' => 'required',
+		
 		'request_type' => 'required',
 		
 	);
