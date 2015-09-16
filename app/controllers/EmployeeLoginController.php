@@ -375,6 +375,67 @@ public function showDownload()
 		}
 	}
 
+	public function showDtrSubordinates()
+	{
+		$id = Session::get('empid', 'default');
+		$employs = DB::table('employs')->get();
+		$departments = DB::table('departments')->get();
+		$branches=DB::table('branches')->get();
+		$jobtitles=DB::table('jobtitles')->get();
+		$contracts=DB::table('contracts')->get();
+		$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+		$currentid = Session::get('empid');
+		$hierarchies = DB::table('hierarchies')
+		->select('id')
+		->where('supervisor_id','=',$currentid)
+		->lists('id');
+		$subordinates = DB::table('hierarchy_subordinates')
+		->select('employee_id')
+		->whereIn('hierarchy_id',$hierarchies)
+		->lists('employee_id');
+		$user = DB::table('employs')
+		->whereIn('id',$subordinates)
+		->get();
+		$level = Session::get('emplevel', 'default');
+		$name = Session::get('empname', 'default');
+		return View::make('dtrsubordinates')
+			->with('branches',$branches)
+		->with('hierarchies',$hierarchies)
+		->with('subordinates',$subordinates)
+		->with('departments',$departments)
+		->with('employs',$employs)
+		->with('user',$user)
+		->with('jobtitles',$jobtitles)
+		->with('level', $level)
+		->with('id', $id)
+		->with('name', $name)
+		->with('supervisor', $supervisor)
+		->with('contracts',$contracts);
+	}
+
+	public function showScheduleQuery()
+	{
+		$id = Session::get('empid', 'default');
+		$schedule_id = DB::table('empschedules')
+		->select('schedule_id')
+		->where('employee_id','=',$id)
+		->lists('schedule_id');
+		$schedule = DB::table('schedules')
+		->whereIn('id',$schedule_id)
+		->get();
+		$currentid = Session::get('empid');
+		$level = Session::get('emplevel', 'default');
+		$name = Session::get('empname', 'default');
+		$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+		return View::make('schedulequery')
+		->with('level', $level)
+		->with('id', $id)
+		->with('name', $name)
+		->with('supervisor', $supervisor)
+		->with('schedule',$schedule)
+		->with('schedule_id',$schedule_id);
+		
+	}
 	public function showLeaveCredit()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {

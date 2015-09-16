@@ -1,6 +1,9 @@
 @extends("layout_employee")
 @section("content")
 <br><br><br>
+<head>
+    <title>Employee Summary | Time and Electronic Attendance Monitoring System</title>
+</head>
 <div class="container">
     <h3>Your Subordinates</h3>
     <hr>
