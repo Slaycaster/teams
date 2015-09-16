@@ -316,8 +316,14 @@ public function showDownload()
 
 			$downloads = DB::table('downloads')->get();
 			$name = Session::get('empname', 'default');
+			$id = Session::get('empid', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('downloads')
 				->with('downloads', $downloads)
+				->with('level', $level)
+				->with('id', $id)
+				->with('supervisor', $supervisor)
 				->with('name', $name);
 				
 		}
@@ -331,7 +337,7 @@ public function showDownload()
 	public function showEmployeeSummary()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
-
+		$id = Session::get('empid', 'default');
 		$employs = DB::table('employs')->get();
 		$departments = DB::table('departments')->get();
 		$branches=DB::table('branches')->get();
@@ -362,6 +368,7 @@ public function showDownload()
 		->with('jobtitles',$jobtitles)
 		->with('level', $level)
 		->with('name', $name)
+		->with('id', $id)
 		->with('supervisor', $supervisor)
 		->with('contracts',$contracts);
 				

@@ -1,4 +1,4 @@
-@extends("layout")
+@extends("layout_employee")
 @section("content")
 <head>
     <title>Downloadable Forms | Time and Electronic Attendance Monitoring System</title>
