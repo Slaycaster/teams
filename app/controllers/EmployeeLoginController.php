@@ -332,6 +332,7 @@ public function showDownload()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
 
+		$id = Session::get('empid', 'default');
 		$employs = DB::table('employs')->get();
 		$departments = DB::table('departments')->get();
 		$branches=DB::table('branches')->get();
@@ -361,6 +362,7 @@ public function showDownload()
 		->with('user',$user)
 		->with('jobtitles',$jobtitles)
 		->with('level', $level)
+		->with('id', $id)
 		->with('name', $name)
 		->with('supervisor', $supervisor)
 		->with('contracts',$contracts);
