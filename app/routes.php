@@ -36,6 +36,8 @@
 	Route::post('employee/empdownloadshow', array('uses' => 'EmployeeLoginController@postEmpdownload'));
 	Route::get('employee/leave_credits', array('uses' => 'EmployeeLoginController@showLeaveCredit'));
 	Route::get('employee/employeesummary', array('uses' => 'EmployeeLoginController@showEmployeeSummary'));
+	Route::get('employee/dtrsubordinates', array('uses' => 'EmployeeLoginController@showDtrSubordinates'));
+	Route::get('employee/schedulequery', array('uses' => 'EmployeeLoginController@showScheduleQuery'));
 
 	//Route::any('dashboard', array('uses' => 'HomeController@showDashboard'));
 

@@ -30,8 +30,10 @@
                                  @foreach($supervisor as $supervisors)
                                 @if( $supervisors->supervisor_id == $id)
                                 <li><a href="{{ URL::to('employee/employeesummary') }}">Employee Summary</a></li>
+                                <li><a href="{{ URL::to('employee/dtrsubordinates') }}">DTR Subordinates</a></li>
                                 @endif
                                 @endforeach
+                                <li><a href="{{ URL::to('employee/schedulequery') }}">Schedule</a></li>
                                 </ul>
                             <li class="dropdown"><a href = "#">Reports<b class="caret"></b></a>
                                 <ul class="dropdown-menu">

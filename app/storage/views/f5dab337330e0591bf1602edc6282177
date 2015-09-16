@@ -3,6 +3,9 @@
 <head>
 	<title>Leave Credits | Time and Attendance Monitoring System</title>
 </head>
+ <?php if(Session::has('message10')): ?>
+         <div class="alert alert-warning"><?php echo Session::get('message10'); ?></div><br>
+      <?php endif; ?>
 			<h1 style = "color:white;">Leave Credits</h1>
 
 			 <div class="container">
