@@ -53,6 +53,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('Leave_creditsTableSeeder');
 		$this->call('LeavecreditsTableSeeder');
 		$this->call('EmployeefilesTableSeeder');
+		$this->call('EmpdownloadsTableSeeder');
 	}
 
 }

@@ -42,6 +42,7 @@
                                 <ul class="dropdown-menu">
                             </li>
                                 <li><a href="<?php echo URL::to('employee/downloads'); ?>">Downloadable Forms</a></li>
+                                <li><a href="<?php echo URL::to('employee/empdownloads'); ?>">Employee Files</a></li>
                                 <li><a href="<?php echo URL::to('employee/change_password'); ?>">Change Password</a></li>
                                 </ul>
 
