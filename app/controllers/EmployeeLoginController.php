@@ -66,12 +66,14 @@ class EmployeeLoginController extends BaseController
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
 			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$count = DB::table('create_requests')->where('status','=','pending')->count();
 			return View::make('employs.dashboard')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
 				->with('level', $level)
-				->with('supervisor',$supervisor);
+				->with('supervisor',$supervisor)
+				->with('count',$count);
 		}
 		else
 		{
@@ -280,7 +282,6 @@ public function postRequestsAuthorization()
 				return Redirect::to('login/employee');
 		}
 	}
-
 	public function showChangePassword()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {

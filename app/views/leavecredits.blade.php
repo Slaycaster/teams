@@ -4,32 +4,42 @@
 <head>
 	<title>Leave Credits | Time and Attendance Monitoring System</title>
 </head>
+ @if (Session::has('message10'))
+         <div class="alert alert-warning">{{ Session::get('message10') }}</div><br>
+      @endif
 			<h1 style = "color:white;">Leave Credits</h1>
 
-			<div class = "col-md-12"></div>
-			<div class = "col-md-12"></div>
-			<div class = "col-md-12"></div>
-			<div class = "col-md-12"></div>
-			 <table  class = "table table-bordered" style = "color:black; ">
-                <thead style="background-color:white;">
-                    <tr>
+			 <div class="container">
+    
+    <hr>
+    <div class="row">
+        <div class="panel panel-primary filterable">
+            <div class="panel-heading">
+                <h3 class="panel-title">Employees</h3>
+                <div class="pull-right">
+                    <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+                </div>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr class="filters">
                     
-                        <th style="text-align:center">Employee ID</th>
-                        <th style="text-align:center">Employee Name</th>
-                        <th style="text-align:center" colspan="4">Accumulated Leave</th>
-                        
+                        <th><input type="text" class="form-control" placeholder="employee_number"></th>
+                        <th><input type="text" class="form-control" placeholder="lname"></th>
+                        <th><input type="text" class="form-control" placeholder="accumulated leave"></th>
+                  
                     </tr>
                     <tr>
-                    	<th></th>
-                    	<th></th>
-                    	<th style="text-align:center">Sick Leave</th>
+                        <th></th>
+                        <th></th>
+                        <th style="text-align:center">Sick Leave</th>
                         <th style="text-align:center">Vacation Leave</th>
                         <th style="text-align:center">Force Leave</th>
                         <th style="text-align:center">Adjust Leave</th>
                     </tr>
                 </thead>
-                <tbody style = "color:white;">
-             	 <?php $a=0; ?>
+                <tbody>
+                  <?php $a=0; ?>
                 @foreach ($employs as $employee)
                 <tr>
                     <td>
@@ -38,7 +48,7 @@
                     <td>
                         {{$employee->lname}}, {{$employee->fname}}
                     </td>
-           			<td>
+                <td>
                         {{$sick_leave[$a] }}
                     </td>
                     <td>
@@ -47,21 +57,29 @@
                     <td>
                         {{$force_leave[$a] }}
                     </td>
-                      <td>
+                    <td>
                       {{ Form::open(array('url' => 'leavededuct', 'method' => 'post', 'autocomplete' => 'off')) }}    
-                      	   {{ Form::hidden('emp_id', $employee->id) }}
-                      		
-                      	   <p style="color:black">{{ Form::number('deduction', "0")}}</p>
-                      		<p style="color:black"> {{ Form::select('type', array('sick_leave' => 'sick leave', 'vacation_leave' => 'vacation leave')) }}</p>
+                           {{ Form::hidden('emp_id', $employee->id) }}
+                          
+                           <p style="color:black">{{ Form::number('deduction', "0")}}</p>
+                          <p style="color:black"> {{ Form::select('type', array('sick_leave' => 'sick leave', 'vacation_leave' => 'vacation leave')) }}</p>
                        
                          {{ Form::submit('Leave Deduction', array('class' => 'btn btn-info')) }}          
-     			   {{ Form::close() }}
+             {{ Form::close() }}
                     </td>
-         		 <?php $a++; ?> 
+             <?php $a++; ?> 
+
+                    
+                </tr>
+
                  @endforeach
        
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+			 
 
 		</div>
 @stop

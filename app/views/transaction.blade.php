@@ -40,6 +40,13 @@
 				<a style="color:white;" href="{{ URL::to('queries/dtr') }}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Manual Adjust DTR</a>
 				<hr>
 			</div>
+
+			  <div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
+				 <a style="color:white;" href="{{ URL::to('leavecredits') }}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Deduct Leave Credits</a>
+				<hr>
+			</div>
+
 			
 
 

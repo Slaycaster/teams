@@ -30,6 +30,24 @@
 		
 			</a>
 			</div>
+			@foreach($supervisor as $supervisors)
+                                @if( $supervisors->supervisor_id == $id)
+            <div class = "col-md-6">
+			<a href="requests_authorization">
+				<div class = "col-md-3 greentile" style="height:97px">
+						<center><span class ="glyphicon glyphicon-home" style="font-size:50px; margin-top:20px"></span></span></center>
+						
+				</div>
+				<div class = "col-md-9 greytile" >
+					<br>
+					<center><h3 style = "color:white; margin-bottom:12px">{{$count}} Pending Leave Requests</h3></center>
+					<br>
+				</div>
+		
+			</a>
+			</div>
+			@endif
+			@endforeach
 	</div>
      </div>
 		
