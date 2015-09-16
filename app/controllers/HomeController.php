@@ -520,6 +520,8 @@ class HomeController extends BaseController {
 
 	}
 
+	
+
 	public function showReport()
 	{
 		return View::make('report');
