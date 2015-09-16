@@ -7,6 +7,9 @@
 
 
 <div class="col-md-12" style="margin-bottom:15px; margin-top:10px; margin-left:-10px">
+   @if (Session::has('message2'))
+    <div class="alert alert-info">{{ Session::get('message2') }}</div>
+  @endif
     <h1>Assign Employee Schedule</h1>
   </div>
 

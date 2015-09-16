@@ -71,7 +71,13 @@ class EmpschedulesController extends BaseController {
 	{
 		$empschedules = $this->empschedule->all();
 		$schedule = Schedule::paginate(9);
-		$employs=DB::table('employs')->get();
+		$employs=DB::table('employs')
+		->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('empschedules')
+                      ->whereRaw('empschedules.employee_id = employs.id');
+            })->get();
 		$schedules = DB::table('schedules')->get();
 		return View::make('empschedules.index', compact('empschedules'))
 		->with('schedule',$schedule)
@@ -93,7 +99,13 @@ class EmpschedulesController extends BaseController {
 		->get();
 		$schedule = DB::table('schedules')
 		->lists('schedule_name', 'id');
-		$employs = DB::table('employs')->get();
+		$employs = DB::table('employs')
+		->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('empschedules')
+                      ->whereRaw('empschedules.employee_id = employs.id');
+            })->get();
 		$branches = DB::table('branches')->get();
 		//$employs = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))->orderBy('lname', 'asc')->get();
 		return View::make('empschedules.create')
@@ -142,6 +154,7 @@ class EmpschedulesController extends BaseController {
 			}
 				
 			*/
+			Session::flash('message2', 'Successfully added to schedule');
 			return Redirect::route('empschedules.create');
 		}
 

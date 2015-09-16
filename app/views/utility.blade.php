@@ -18,6 +18,13 @@
 				<hr>
 			</div>
 
+
+			<div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
+				<a style="color:white;" href="{{ URL::to('empdownloads') }}"class="btn btn-link btn-lg">Employee Files</a>
+				<hr>
+			</div>
+
 			
 
 
