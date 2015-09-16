@@ -32,6 +32,8 @@
 	Route::get('employee/change_password', array('uses' => 'EmployeeLoginController@showChangePassword'));
 	Route::get('employee/dailytimerecord','EmployeeLoginController@showDTR');
 	Route::get('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
+	Route::get('employee/empdownloads', array('uses' => 'EmployeeLoginController@showEmpdownload'));
+	Route::post('employee/empdownloadshow', array('uses' => 'EmployeeLoginController@postEmpdownload'));
 	Route::get('employee/leave_credits', array('uses' => 'EmployeeLoginController@showLeaveCredit'));
 	Route::get('employee/employeesummary', array('uses' => 'EmployeeLoginController@showEmployeeSummary'));
 	Route::get('employee/dtrsubordinates', array('uses' => 'EmployeeLoginController@showDtrSubordinates'));
@@ -106,9 +108,11 @@
 		Route::resource('empsummary', 'HomeController@showEmpSummary');
 		Route::post('leavededuct', array('uses' => 'HomeController@LeaveDeduct'));
 		Route::resource('approved_leave', 'HomeController@showApproved');
+		Route::resource('empdownloads', 'EmpdownloadsController');
 	});
 
 ?>
+
 
 
 
