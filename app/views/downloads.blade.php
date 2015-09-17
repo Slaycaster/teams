@@ -12,15 +12,17 @@
           <div class="col-md-5" >
                <img style = "height:80px; width:80px;" src="{{ URL::asset('img/Request.png') }}">
           </div>
+          {{ Form::open(array('url' => 'employee/pdfviewer', 'method' => 'post', 'autocomplete' => 'off')) }}
           <div class="col-md-7" style="margin-left:-60px">
-
+                {{ Form::hidden('download', $download->id) }}
                 <a href= "../<?= $download->path ?>" download><?= $download->file_name?><br> (click here to download)</a><br><br>
-               <a href="{{ URL::to('downloads/' . $download->id) }}" >View Form</a>
+                {{ Form::submit('View', array('class' => 'btn btn-info')) }} 
                
            </div>
 
          </div>
       </div>
+        {{ Form::close() }}
       @endforeach
       </div>	
 </div>
