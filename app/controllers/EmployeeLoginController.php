@@ -313,13 +313,17 @@ public function postRequestsAuthorization()
 public function showDownload()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
-
+			$id = Session::get('empid', 'default');
 			$downloads = DB::table('downloads')->get();
 			$name = Session::get('empname', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('downloads')
 				->with('downloads', $downloads)
+				->with('id', $id)
+				->with('level', $level)
+				->with('supervisor', $supervisor)
 				->with('name', $name);
-				
 		}
 		else
 		{
@@ -327,6 +331,27 @@ public function showDownload()
 				return Redirect::to('login/employee');
 		}
 	}
+
+	public function postPdf()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			
+			$id = Session::get('empid', 'default');
+			$d_id = Input::get('download');
+			$name = Session::get('empname', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$downloads = DB::table('downloads')->where('downloads.id', '=', $d_id)->get();
+			return View::make('pdfviewer')
+				->with('downloads', $downloads)
+				->with('id', $id)
+				->with('d_id', $d_id)
+				->with('level', $level)
+				->with('supervisor', $supervisor)
+ 				->with('name', $name);
+ 				
+ 		}
+ 	}
 
 	public function showEmpdownload()
 	{
