@@ -30,8 +30,10 @@
                                  <?php foreach($supervisor as $supervisors): ?>
                                 <?php if( $supervisors->supervisor_id == $id): ?>
                                 <li><a href="<?php echo URL::to('employee/employeesummary'); ?>">Employee Summary</a></li>
+                                <li><a href="<?php echo URL::to('employee/dtrsubordinates'); ?>">DTR Subordinates</a></li>
                                 <?php endif; ?>
                                 <?php endforeach; ?>
+                                <li><a href="<?php echo URL::to('employee/schedulequery'); ?>">Schedule</a></li>
                                 </ul>
                             <li class="dropdown"><a href = "#">Reports<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -49,7 +51,7 @@
                         </ul>
                                
                         <ul class="nav navbar-nav navbar-right">
-                          <li><a href="dashboard">Hi, <?php echo $name; ?></a></li>
+                          <li><a href="<?php echo URL::to('employee/dashboard'); ?>">Hi, <?php echo $name; ?></a></li>
                           
                           <li><a href="<?php echo URL::to('employee/logout'); ?>"><span class="glyphi con glyphicon-log-out"></span> Log Out</a></li>
                           
