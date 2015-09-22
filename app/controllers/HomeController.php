@@ -154,6 +154,44 @@ class HomeController extends BaseController {
 
 	}
 
+	public function showLeaveCases()
+	{
+		//$employee_num = DB::table('create_requests')
+		//->select('employee_id')
+		//->lists('employee_id');
+		//$employee = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )
+		//->whereIn('id',$employee_num)
+		//->lists('full_name', 'id');
+		$status = '';
+		$leaves = DB::table('create_requests')->get();
+		$employs = DB::table('employs')->get();
+		return View::make('leavecases')
+		->with('leaves',$leaves)
+		//->with('employee',$employee)
+		->with('employs',$employs)
+		->with('status',$status);
+		//->with('employee_num',$employee_num);
+	}
+
+	public function postshowLeaveCases()
+	{
+		$status = Input::get('status');
+		$date = Input::get('date');
+		//$leavesdate = DB::table('create_requests')
+		//->where('request_date','=',$date)
+		//->get();
+		$leaves = DB::table('create_requests')
+		->where('status','=',$status)
+		->orWhere('request_date','=',$date)
+		->get();
+		$employs = DB::table('employs')->get();
+		return View::make('leavecases')
+		->with('leaves',$leaves)
+		//->with('leavesdate',$leavesdate)
+		->with('status',$status)
+		->with('employs',$employs);
+	}
+
 	public function showLeaveCredit()
 	{
 

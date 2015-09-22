@@ -35,6 +35,11 @@
 				<hr>
 			</div>
 			
+			<div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
+				<a style="color:white;" href="{{URL::to('leavecases')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">All Leave Cases</a>
+				<hr>
+			</div>
 
 
 		</div>

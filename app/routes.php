@@ -101,6 +101,7 @@
 		Route::post('hierarchies/index', array('uses' => 'HierarchiesController@postindex'));
 		Route::post('queries/empbydept', array('uses' => 'HomeController@postshowQueryEmpbydept'));
 		Route::post('queries/empbybranch', array('uses' => 'HomeController@postshowQueryEmpbybranch'));
+		Route::post('queries/leavecases', array('uses' => 'HomeController@postshowLeaveCases'));
 		Route::resource('assign_overtimes', 'Assign_overtimesController');
 		Route::resource('overtime_subordinates', 'Overtime_subordinatesController');
 		Route::resource('empbydept', 'HomeController@showQueryEmpbydept');
@@ -112,6 +113,7 @@
 		Route::post('deduct', array('uses' => 'HomeController@Deduct'));
 		Route::resource('approved_leave', 'HomeController@showApproved');
 		Route::resource('empdownloads', 'EmpdownloadsController');
+		Route::resource('leavecases', 'HomeController@showLeaveCases');
 	});
 
 ?>
