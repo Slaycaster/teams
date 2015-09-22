@@ -6,6 +6,9 @@
 
 
 <div class="col-md-12" style="margin-bottom:15px; margin-top:10px; margin-left:-10px">
+   <?php if(Session::has('message2')): ?>
+    <div class="alert alert-info"><?php echo Session::get('message2'); ?></div>
+  <?php endif; ?>
     <h1>Assign Employee Schedule</h1>
   </div>
 
