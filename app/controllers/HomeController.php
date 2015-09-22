@@ -176,12 +176,18 @@ class HomeController extends BaseController {
 	public function postshowLeaveCases()
 	{
 		$status = Input::get('status');
+		$date = Input::get('date');
+		//$leavesdate = DB::table('create_requests')
+		//->where('request_date','=',$date)
+		//->get();
 		$leaves = DB::table('create_requests')
 		->where('status','=',$status)
+		->orWhere('request_date','=',$date)
 		->get();
 		$employs = DB::table('employs')->get();
 		return View::make('leavecases')
 		->with('leaves',$leaves)
+		//->with('leavesdate',$leavesdate)
 		->with('status',$status)
 		->with('employs',$employs);
 	}
