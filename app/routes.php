@@ -105,6 +105,7 @@
 		Route::resource('leavecredits', 'HomeController@showLeaveCredit');
 		Route::resource('empsummary', 'HomeController@showEmpSummary');
 		Route::post('leavededuct', array('uses' => 'HomeController@LeaveDeduct'));
+		Route::post('deduct', array('uses' => 'HomeController@Deduct'));
 		Route::resource('approved_leave', 'HomeController@showApproved');
 		Route::resource('empdownloads', 'EmpdownloadsController');
 	});

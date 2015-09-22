@@ -224,6 +224,7 @@ class EmployeeLoginController extends BaseController
 			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
 			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
 			->where('create_requests.status', '!=', 'deleted')
+			->where('create_requests.status', '!=', 'changed')
 			->where('supervisor_id', '=', $id)
 			->get();
 			$requests = DB::table('create_requests')->get();
@@ -255,6 +256,7 @@ public function postRequestsAuthorization()
 			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
 			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
 			->where('create_requests.status', '!=', 'deleted')
+			->where('create_requests.status', '!=', 'changed')
 			->where('supervisor_id', '=', $id)
 			->get();
 			$requests = DB::table('create_requests')->get();

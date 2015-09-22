@@ -6,6 +6,9 @@
       <br><br><br>
   
 <div class="container"> 
+@if (Session::has('message11'))
+         <div class="alert alert-warning">{{ Session::get('message11') }}</div><br>
+@endif
 <h2>Approved Leaves for Excecution</h2>
 <br>
 <div class="label_white"><table class="table table-bordered">
@@ -37,8 +40,12 @@
             					<td>{{{ $create_request->end_date }}}</td>
             				    <td>{{{ $diff[$a]}}}</td>
             					<td>{{{ $create_request->message }}}</td>
-                 <?php $a++; ?> 
-                                <td><a href="leavecredits" class = "btn btn-info">Execute Leave</a></td>
+                                 {{ Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')) }}    
+                                  {{ Form::hidden('emp_id', $create_request->id) }}
+                                   {{ Form::hidden('days', $diff[$a]) }}
+                                {{ Form::hidden('type', $create_request->request_type) }}
+                                <td>  {{ Form::submit('Execute Leave', array('class' => 'btn btn-info')) }}</td>
+                                  <?php $a++; ?> 
             @endforeach
 		</tr>
 	</tbody>
