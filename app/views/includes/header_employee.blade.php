@@ -51,7 +51,7 @@
                         </ul>
                                
                         <ul class="nav navbar-nav navbar-right">
-                          <li><a href="dashboard">Hi, {{ $name }}</a></li>
+                          <li><a href="{{ URL::to('employee/dashboard') }}">Hi, {{ $name }}</a></li>
                           
                           <li><a href="{{ URL::to('employee/logout') }}"><span class="glyphi con glyphicon-log-out"></span> Log Out</a></li>
                           

@@ -17,7 +17,7 @@
 </div>
       <div class="col-md-8" style="margin-left:0px">
        <p style="color:white; font-size:30px"> <strong><?php echo $download->file_name; ?></strong></p>
-        <a href="<?php echo URL::to('employee/downloads/'); ?>" onclick="" class="btn btn-warning">Return to Downable Forms</a>
+        <a href="<?php echo URL::to('employee/downloads/'); ?>" onclick="" class="btn btn-warning">Return to Downloadable Forms</a>
        </div>
      </div>
      </div>
