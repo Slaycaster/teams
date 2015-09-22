@@ -62,9 +62,7 @@
 
         
         
-                <div class="label_white">{{ Form::label('leave_name', 'Leave grants:') }}</div>
-
-                {{ Form::select('leavegrant_id', $leave_grants_id, Input::old('accrual_id'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi6', 'multiple'=>'multiple', 'name' => 'leavegrant_id[]')) }}<br>
+              
     
                 <div class="label_white">{{ Form::label('credit_name', 'Credit name:') }}</div>
 

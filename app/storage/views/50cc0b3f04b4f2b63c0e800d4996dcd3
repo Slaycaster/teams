@@ -1,7 +1,7 @@
 <div class = "navbar navbar-default navbar-fixed-top">
             <div class = "container">
                                
-                <a href="<?php echo URL::to('employee/dashboard'); ?>" class = "navbar-brand"><img style ="height:30px; margin-top:-4px;"src="<?php echo URL::asset('img/teams_pahalang.png'); ?>"/></a>
+                <a href="<?php echo URL::to('/'); ?>" class = "navbar-brand"><img style ="height:30px; margin-top:-4px;"src="<?php echo URL::asset('img/teams_pahalang.png'); ?>"/></a>
                                
                 <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
                         <span class = "icon-bar"></span>
@@ -44,13 +44,14 @@
                                 <ul class="dropdown-menu">
                             </li>
                                 <li><a href="<?php echo URL::to('employee/downloads'); ?>">Downloadable Forms</a></li>
+                                <li><a href="<?php echo URL::to('employee/empdownloads'); ?>">Employee Files</a></li>
                                 <li><a href="<?php echo URL::to('employee/change_password'); ?>">Change Password</a></li>
                                 </ul>
 
                         </ul>
                                
                         <ul class="nav navbar-nav navbar-right">
-                          <li><a href="#">Hi, <?php echo $name; ?></a></li>
+                          <li><a href="dashboard">Hi, <?php echo $name; ?></a></li>
                           
                           <li><a href="<?php echo URL::to('employee/logout'); ?>"><span class="glyphi con glyphicon-log-out"></span> Log Out</a></li>
                           
