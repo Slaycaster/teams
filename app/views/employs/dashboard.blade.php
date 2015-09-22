@@ -40,7 +40,7 @@
 				</div>
 				<div class = "col-md-9 greytile" >
 					<br>
-					<center><h3 style = "color:white; margin-bottom:12px">{{$count}} Pending Leave Requests</h3></center>
+					<center><h3 style = "color:white; margin-bottom:12px">{{$count}}  Pending Leave  Requests</h3></center>
 					<br>
 				</div>
 		
