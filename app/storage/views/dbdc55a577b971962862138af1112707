@@ -11,8 +11,14 @@
  	<h3>Filter by Type</h3>
 	<?php echo Form::select('status',array('Select a status','Pending' => 'Pending', 'Approved' => 'Approved','Declined' => 'Declined','Changed'=>'Changed'),null,array('class' => 'btn btn-default dropdown-toggle target','id' => 'stats','tabindex' => '2')); ?><br>  
 
-	<h3>All <?php echo $status; ?> </h3>
+
+
+<?php echo Form::open(array('url' => 'queries/leavecases', 'method' => 'post')); ?>
+
+	<h3>Filter by Date</h3>
+	 <?php echo Form::text('date',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')); ?><br>
 <?php echo Form::close(); ?>
+
 
 
 
@@ -81,6 +87,16 @@
 
 <script type="text/javascript">
 $('#stats').on('change', function(e){
+    $(this).closest('form').submit();
+});
+</script>
+<script type="text/javascript">
+    $('#calendar').datepicker({
+        format: "yyyy-mm-dd"
+    });
+</script>
+<script type="text/javascript">
+$('#calendar').on('change', function(e){
     $(this).closest('form').submit();
 });
 </script>

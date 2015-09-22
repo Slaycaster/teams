@@ -5,6 +5,9 @@
       <br><br><br>
   
 <div class="container"> 
+<?php if(Session::has('message11')): ?>
+         <div class="alert alert-warning"><?php echo Session::get('message11'); ?></div><br>
+<?php endif; ?>
 <h2>Approved Leaves for Excecution</h2>
 <br>
 <div class="label_white"><table class="table table-bordered">
@@ -36,8 +39,15 @@
             					<td><?php echo e($create_request->end_date); ?></td>
             				    <td><?php echo e($diff[$a]); ?></td>
             					<td><?php echo e($create_request->message); ?></td>
-                 <?php $a++; ?> 
-                                <td><a href="leavecredits" class = "btn btn-info">Execute Leave</a></td>
+                                 <?php echo Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')); ?>    
+                                  <?php echo Form::hidden('emp_id', $create_request->id); ?>
+
+                                   <?php echo Form::hidden('days', $diff[$a]); ?>
+
+                                <?php echo Form::hidden('type', $create_request->request_type); ?>
+
+                                <td>  <?php echo Form::submit('Execute Leave', array('class' => 'btn btn-info')); ?></td>
+                                  <?php $a++; ?> 
             <?php endforeach; ?>
 		</tr>
 	</tbody>
