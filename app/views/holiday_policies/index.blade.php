@@ -42,7 +42,7 @@
         
                             <div class = "col-md-3">
                               <div class="label_white">{{ Form::label('default_schedule_status', 'Default Schedule Status:') }}</div>
-                              {{ Form::select('default_schedule_status', array('Working' => 'Working', 'Non-working' => 'Non-working')) }}<br>      
+                              {{ Form::select('default_schedule_status', array('Working' => 'Working', 'Non-working' => 'Non-working','Special Holiday' => 'Special Holiday','Working Special Holiday' => 'Working Special Holiday','Non-working Holiday' => 'Non-working Holiday')) }}<br>      
                                
                               <div class="label_white">{{Form::label('recurring_holiday','Recurring:')}}
                               {{Form::checkbox('recurring', 'true', false)}}<br></div>
