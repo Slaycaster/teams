@@ -19,6 +19,12 @@
 
 			<div class = "col-md-4">
 				<img src="{{ URL::asset('img/Request.png') }}">
+				<a style="color:white;" href="{{URL::to('empbyhierarchy')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee by hierarchy</a>
+				<hr>
+			</div>
+
+			<div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
 				<a style="color:white;" href="{{URL::to('empbybranch')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee by Branch</a>
 				<hr>
 			</div>

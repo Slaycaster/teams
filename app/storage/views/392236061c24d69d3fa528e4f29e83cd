@@ -1,0 +1,74 @@
+<?php $__env->startSection('content'); ?>
+
+
+
+<head>
+    <title>Hierarchy | Time and Electronic Attendance Monitoring System</title>
+</head>
+
+
+<div class="col-md-12" style="margin-bottom:20px">
+    <h1>Show Hierarchy</h1>
+</div>
+
+<?php foreach($supervisors as $supervisor): ?>
+<div class="label_white"><table class="table  table-bordered ">
+    <thead>
+        <tr>
+            
+            <th>Hierarchy name</th>
+                <th>Description</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <?php foreach($hierarchy as $hierarchies): ?>
+            <td><?php echo e($hierarchies->hierarchy_name); ?></td>
+            <td><?php echo e($hierarchies->description); ?></td>
+            <?php endforeach; ?>  
+        </tr>
+    </tbody>
+</table></div>
+
+
+    <div class="label_white"><?php echo Form::label('supervisor', 'Supervisor:'); ?></div>
+    <div class="label_white" style="font-size:20px"><?php echo Form::label('supervisor', $supervisor); ?></div>
+
+
+
+<div class="label_white"><table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Subordinates</th>
+            <th>Name</th>
+            
+        </tr>
+    </thead>
+
+    <tbody>
+    <?php for($i=0; $i < count($employee_lists); $i++): ?>
+        <?php foreach($employee_lists[$i] as $employee_list): ?> 
+         <?php foreach($hierarchy as $hierarchies): ?>
+            <?php $emp_fname = preg_replace('/\s+/', '', $employee_list->fname);?>
+            <td><img style = "height:100px; width:100px;" src="<?php echo URL::asset('employees').'/'.$employee_list->id.''.$employee_list->lname.''.$emp_fname.'.jpg'; ?>"></td>
+            <td><?php echo e($employee_list->lname); ?>, <?php echo e($emp_fname); ?></td>
+        
+                 <?php echo Form::hidden('hierarchy_id', $hierarchies->id); ?>
+
+                 <?php echo Form::hidden('employee_id', $employee_list->id); ?>
+
+        
+                <?php echo Form::close(); ?></td>        
+                    <?php endforeach; ?>             
+        </tr>
+         <?php endforeach; ?>
+    <?php endfor; ?>
+    </tbody>
+</table></div>
+  
+ <?php endforeach; ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

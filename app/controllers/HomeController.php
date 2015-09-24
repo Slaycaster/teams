@@ -98,18 +98,63 @@ class HomeController extends BaseController {
 	{
 		return View::make('transaction');
 	}
+	
 	public function showPdfreports()
 	{
 	
 		return View::make('sampol');
 		
 	}
+	public function showPdfreportsbranch()
+	{
+	
+		return View::make('reportsbybranch');
+		
+	}
+	
+	public function showPdfreportsdepartment()
+	{
+	
+		return View::make('reportsbydepartment');
+		
+	}	
+	
+	public function showPdfreportshierarchy()
+	{
+	
+		return View::make('reportsbyhierarchy');
+		
+	}
 
-	
-	
 	public function showQuery()
 	{
 		return View::make('query');
+	}
+
+	public function showDTR()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$requests = DB::table('create_requests')->get();
+		return View::make('dailytimerecord')
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('level', $level)
+				->with('employees', $employees)
+				->with('supervisor', $supervisor)
+				->with('requests', $requests);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/emploee');
+		}
 	}
 
 	public function showQueryEmpbydept()
@@ -138,6 +183,55 @@ class HomeController extends BaseController {
 		->with('departments',$departments)
 		->with('departmentss',$departmentss);
 	}
+
+	public function showQueryEmpbyhierarchy()
+	{
+
+		$hierarchy = DB::table('hierarchies')->get();
+		foreach ($hierarchy as $hierarchies) {
+			$employees = DB::table('hierarchy_subordinates')
+			->where('hierarchy_id', '=', $hierarchies->id)
+			->get();
+			$employee_lists = array();
+		}
+		
+		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname, "- ", name) as full_name'), 'employs.id' )
+		->join('levels', 'level_id', '=', 'levels.id')
+		->where('level_id', '>', '0')
+		->orderBy('lname', 'asc')->lists('full_name', 'id');
+		$new_subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			 ->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
+			->where('level_id', '=', '0')
+			->orderBy('lname', 'asc')
+			->lists('full_name', 'id');
+		
+		foreach ($employees as $employee) {
+			$subordinates = DB::table('employs')->where('employs.id', '=', $employee->employee_id)->get();	
+			array_push($employee_lists, $subordinates);
+		}
+			
+		sort($employee_lists);
+		return View::make('empbyhierarchy')
+		->with('employees',$employees)
+		->with('hierarchy',$hierarchy)
+		->with('employee_lists', $employee_lists)
+		->with('supervisors', $supervisors)
+		->with('subordinates',$subordinates)
+		->with('new_subordinates', $new_subordinates);	
+	}
+		
+
+
+	public function postshowQueryEmpbyhierarchy()
+	{
+		return View::make('empbyhierarchy');
+	}
+
 
 	public function showQueryEmpbybranch()
 	{

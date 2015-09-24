@@ -1,7 +1,7 @@
 @extends("layout_employee")
 @section("content")
 <head>
-    <title>Downloadable Forms | Time and Electronic Attendance Monitoring System</title>
+    <title>Daily Time Record | Time and Electronic Attendance Monitoring System</title>
 </head>
         <div class="container">
         <h3 styles="margin-left:100px">All Forms</h3><br>
@@ -16,7 +16,7 @@
           <div class="col-md-7" style="margin-left:-60px">
                 {{ Form::hidden('download', $download->id) }}
 
-                <a href= "../<?= $download->path ?>" download><?= $download->file_name?><br> (click here to download)</a><br><br>
+                <a href= "../<?= $download->path ?> " download><?= $download->file_name?><br> (click here to download)</a><br><br>
                {{ Form::submit('View', array('class' => 'btn btn-info')) }} 
                
            </div>

@@ -6,6 +6,17 @@ require('fpdf.php');
 
 class PDF extends FPDF
 {
+
+// Load data
+function LoadData($file)
+{
+    // Read file lines
+    $lines = file($file);
+    $data = array();
+    foreach($lines as $line)
+        $data[] = explode(';',trim($line));
+    return $data;
+}
 // Page header
 function Header()
 {
@@ -70,371 +81,31 @@ function Header()
     // Title
     $this->Cell(20,10,'Official Hours of arrival and departure','C');
 
-    $this->Cell(20,10,'<td >Day</td>
-                        <td  colspan=7><b>A.M.</b></td>
-                        <td  colspan=7><b>P.M.</b></td>
-                        <td  colspan=7><b>Undertime</b></td>
-                    
-                        <td></td>
-                        <td  colspan=3>Arrival</td>
-                        <td   colspan=4>Departure</td>
-                        
-                        <td  colspan=3>Arrival</td>
-                        <td  colspan=4>Departure</td>
-                        
-                        <td  colspan=3>Hours</td>
-                        <td  colspan=4>Minutes</td>
-                      
-                    <tr>
-                        <td >1</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
+    $this->Ln(8);
 
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
+    $this->SetFont('Arial','',15);
+    // Move to the right
+    $this->Cell(9);
 
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >2</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >3</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >4</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >5</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >6</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >7</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >8</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >9</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >10</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >11</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >12</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >13</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >14</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-                    </tr>
-                    <tr>
-                        <td >15</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >16</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >17</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >18</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >19</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >20</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >21</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >22</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >23</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >24</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >25</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >26</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >27</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >28</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >29</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >30</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td >31</td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>
-
-                        <td  colspan=3></td>
-                        <td  colspan=4></td>    
-                    </tr>
-                    <tr>
-                        <td  colspan=15><b>TOTAL</b></td>
-                        <td  colspan=3></td>
-                        <td  colspan=4></td> 
-                    </tr>')
+ 
                 
 
-
-
+}
+function BasicTable($header, $data)
+{
+    // Header
+    foreach($header as $col)
+        $this->Cell(43.8,7,$col,1);
+    $this->Ln();
+    // Data
+    foreach($data as $row)
+    {
+        $this->Cell(9);
+        foreach($row as $col)
+            $this->Cell(25,6,$col,1);
+        $this->Ln();
+    }
+}
 
 // Page footer
 function Footer()
@@ -446,16 +117,19 @@ function Footer()
     // Page number
     $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
 }
-
+}
 // Instanciation of inherited class
 $pdf = new PDF();
+$header = array('Day', 'A.M.', 'P.M.', 'Undertime');
 $pdf->AliasNbPages();
-$pdf->AddPage();
-$pdf->SetFont('Times','',12);
 
+$data = $pdf->LoadData('number.txt');
+$pdf->SetFont('Arial','',14);
+$pdf->AddPage();
+$pdf->BasicTable($header,$data);
 $pdf->Output('akwe.pdf');
 ?>
-
+<iframe src="akwe.pdf" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
 <div>
 
 </div>

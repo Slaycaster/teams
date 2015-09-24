@@ -11,7 +11,11 @@
 			<div class = "col-md-12"></div>
 			
 
-
+			<div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
+				<a style="color:white;" href="{{ URL::to('report/dailytimerecord') }}"class="btn btn-link btn-lg">Daily Time Record</a>
+				<hr>
+			</div>
 			
 			
 
