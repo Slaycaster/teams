@@ -99,7 +99,7 @@ $pdf->AliasNbPages( );
 $pdf->SetFont('Arial','',12);
 $pdf->AddPage();
 $pdf->BasicTable($header, $employs, $branchess, $branches, $departments);
-$pdf->Output('hierarchy.pdf');
+$pdf->Output('hierarchy.pdf'); 
 
 ?>
 <iframe src="hierarchy.pdf" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
