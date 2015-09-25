@@ -65,9 +65,7 @@
 
         
         
-                <div class="label_white"><?php echo Form::label('leave_name', 'Leave grants:'); ?></div>
-
-                <?php echo Form::select('leavegrant_id', $leave_grants_id, Input::old('accrual_id'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi6', 'multiple'=>'multiple', 'name' => 'leavegrant_id[]')); ?><br>
+              
     
                 <div class="label_white"><?php echo Form::label('credit_name', 'Credit name:'); ?></div>
 

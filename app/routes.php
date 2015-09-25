@@ -11,14 +11,18 @@
 	Route::get('itechs/index', array('uses' => 'InfotechLoginController@showIndex'));
 	Route::get('infotechs/logout', array('uses' => 'InfotechLoginController@doLogout'));
 	Route::post('login', array('uses' => 'HomeController@doLogin'));
-	Route::get('sampol', array('uses' => 'HomeController@showPdfreports'));
+	Route::get('reportsdaily', array('uses' => 'HomeController@showPdfreports'));
+	Route::get('report/branch', array('uses' => 'HomeController@showPdfreportsbranch'));
+	Route::get('report/department', array('uses' => 'HomeController@showPdfreportsdepartment'));
+	Route::get('report/hierarchy', array('uses' => 'HomeController@showPdfreportshierarchy'));
+	Route::get('report/leavecases', array('uses' => 'HomeController@showPdfreportsleave'));
+	Route::post('report/leavecases', array('uses' => 'HomeController@postPdfreportsleave'));
 	Route::get('logout', array('uses' => 'HomeController@doLogout'));
 	Route::post('logout', array('uses' => 'HomeController@doLogout'));
 	Route::get('employee/timesheet', array('uses' => 'EmployeeLoginController@showTimeSheet'));
 	Route::get('employee/timesheet/table', array('uses' => 'EmployeeLoginController@showTimeSheetTable'));
 	Route::get('employee/timesheet/graph', array('uses' => 'EmployeeLoginController@showTimeSheetGraph'));
 	Route::get('employee/timesheet/dtr', array('uses' => 'EmployeeLoginController@showTimeSheetDtr'));
-	Route::get('employee/accumulated_hours', array('uses' => 'EmployeeLoginController@showAccumulatedHours'));
 	Route::get('employee/exceptions', array('uses' => 'EmployeeLoginController@showExceptions'));
 	Route::get('employee/accruals', array('uses' => 'EmployeeLoginController@showAccruals'));
 	Route::get('employee/requests_authorization', array('uses' => 'EmployeeLoginController@showRequestsAuthorization'));
@@ -28,6 +32,7 @@
 	Route::resource('create_requests', 'Create_requestsController');
 	Route::resource('itechs', 'ItechsController');
 	Route::resource('levels', 'LevelsController');
+	Route::resource('employee/accumulated_hours','EmployeeLoginController@showAccumulatedHours');
 	Route::post('change_password', array('uses' => 'EmployeeLoginController@changePassword'));
 	Route::get('employee/change_password', array('uses' => 'EmployeeLoginController@showChangePassword'));
 	Route::get('employee/dailytimerecord','EmployeeLoginController@showDTR');
@@ -36,10 +41,14 @@
 	Route::post('employee/empdownloadshow', array('uses' => 'EmployeeLoginController@postEmpdownload'));
 	Route::post('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
 	Route::post('employee/pdfviewer', array('uses' => 'EmployeeLoginController@postPdf'));
+	Route::post('employee/accmldthrs', array('uses' => 'EmployeeLoginController@postshowAccumulatedHours'));
 	Route::get('employee/leave_credits', array('uses' => 'EmployeeLoginController@showLeaveCredit'));
 	Route::get('employee/employeesummary', array('uses' => 'EmployeeLoginController@showEmployeeSummary'));
 	Route::get('employee/dtrsubordinates', array('uses' => 'EmployeeLoginController@showDtrSubordinates'));
 	Route::get('employee/schedulequery', array('uses' => 'EmployeeLoginController@showScheduleQuery'));
+	Route::get('employee/leavehistory', array('uses' => 'EmployeeLoginController@showLeaveHistory'));
+	Route::get('employee/requesthistory', array('uses' => 'EmployeeLoginController@showRequestHistory'));
+
 
 	//Route::any('dashboard', array('uses' => 'HomeController@showDashboard'));
 
@@ -114,11 +123,10 @@
 		Route::resource('approved_leave', 'HomeController@showApproved');
 		Route::resource('empdownloads', 'EmpdownloadsController');
 		Route::resource('leavecases', 'HomeController@showLeaveCases');
+		Route::post('leavesummary', array('uses' => 'HomeController@postLeaveSummary'));
 	});
 
 ?>
-
-
 
 
 

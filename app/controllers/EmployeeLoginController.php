@@ -125,18 +125,24 @@ class EmployeeLoginController extends BaseController
 		}
 	}
 
-	public function showAccumulatedHours()
+	public function showLeaveHistory()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
 			$id = Session::get('empid', 'default');
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			return View::make('accumulated_hours')
+			$create_requests = DB::table('create_requests')->where('employee_id', '=', $id)->get();
+			$request_types = DB::table('request_types')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			return View::make('leavehistory')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
-				->with('level', $level);
+				->with('level', $level)
+				->with('create_requests', $create_requests)
+				->with('supervisor', $supervisor)
+				->with('request_types', $request_types);
 		}
 		else
 		{
@@ -144,6 +150,155 @@ class EmployeeLoginController extends BaseController
 				return Redirect::to('login/employee');
 		}
 	}
+
+	public function showAccumulatedHours()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$acchrs = 0;
+			$total = 0;
+			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$punchin = DB::table('punchstatus')
+			->select('time_in_punch_id')
+			->where('employee_id','=',$id)
+			->where('date','=',$datenow)
+			->lists('time_in_punch_id');
+			$punchout =DB::table('punchstatus')
+			->select('time_out_punch_id')
+			->where('employee_id','=',$id)
+			->where('date','=',$datenow)
+			->lists('time_out_punch_id');
+						
+			if($punchin != null && $punchout != null)
+			{
+				$timein = DB::table('punches')
+				->where('id','=',$punchin)
+				->get();
+
+				$timeout = DB::table('punches')
+				->where('id','=',$punchout)
+				->get();
+
+				foreach($timein as $time_in)
+				{
+					foreach($timeout as $time_out)
+					{
+						$acchrs = $time_out->time - $time_in->time;
+						if($acchrs < 0 )
+						{
+							$acchrs = $acchrs + 12;
+							
+						}
+						$total = $total + $acchrs;
+					}
+				}
+			}
+
+			return View::make('accumulated_hours')
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('total',$total)
+				->with('supervisor',$supervisor)
+				->with('punchin',$punchin)
+				->with('punchout',$punchout)
+				->with('acchrs',$acchrs)
+				->with('level', $level);
+			}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}
+
+	public function postshowAccumulatedHours()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$acchrs = 0;
+			$total = 0;
+			
+			
+			$datefrom = Input::get('datefrom');
+			$dateto = Input::get('dateto');
+
+			//$dateto = new Datetime();
+			//$datefrom = new DateTime();
+			//$difference = date_diff($datefrom,$dateto);
+			//$elapsed = $difference->format('%y years %m months %a days %h hours %i minutes %S seconds');
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$punchin = DB::table('punchstatus')
+			->select('time_in_punch_id')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('employee_id','=',$id)
+			//->where('date','=',$datefrom)
+			->lists('time_in_punch_id');
+
+			
+
+			$punchout =DB::table('punchstatus')
+			->select('time_out_punch_id')
+			->whereBetween('punchstatus.date', array($datefrom, $dateto))
+			->where('employee_id','=',$id)
+			->lists('time_out_punch_id');
+			
+
+
+			if($punchin != null && $punchout != null)
+			{
+				$timein = DB::table('punches')
+				->whereIn('id',$punchin)
+				->get();
+				
+				$timeout = DB::table('punches')
+				->whereIn('id',$punchout)
+				->get();
+				
+				foreach($timein as $time_in)
+				{
+					foreach($timeout as $time_out)
+					{
+						$acchrs = $time_out->time - $time_in->time;
+						if($acchrs < 0 )
+						{
+							
+							$acchrs = $acchrs + 12;
+							
+						}
+						
+					}
+					$total = $total + $acchrs;
+				}
+			}
+
+			return View::make('accumulated_hours')
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('total',$total)
+				->with('supervisor',$supervisor)
+				->with('punchin',$punchin)
+				->with('punchout',$punchout)
+				->with('acchrs',$acchrs)
+				->with('level', $level);
+			}	
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+
+	}
+
+
 	public function showExceptions()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
@@ -198,7 +353,7 @@ class EmployeeLoginController extends BaseController
 			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
 			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$requests = DB::table('create_requests')->get();
-		return View::make('dailytimerecord')
+		return View::make('reportsdaily')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
@@ -223,13 +378,41 @@ class EmployeeLoginController extends BaseController
 			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')
 			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
 			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
-			->where('create_requests.status', '!=', 'deleted')
-			->where('create_requests.status', '!=', 'changed')
+			->where('create_requests.status', '=', 'pending')
 			->where('supervisor_id', '=', $id)
 			->get();
 			$requests = DB::table('create_requests')->get();
 			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('request_authorization')
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('level', $level)
+				->with('employees', $employees)
+				->with('supervisor', $supervisor)
+				->with('requests', $requests);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}
+	public function showRequestHistory()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')
+			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
+			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
+			->where('supervisor_id', '=', $id)
+			->get();
+			$requests = DB::table('create_requests')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			return View::make('requesthistory')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
@@ -255,8 +438,7 @@ public function postRequestsAuthorization()
 			$employees = DB::table('employs')->join('hierarchy_subordinates', 'employs.id', '=', 'hierarchy_subordinates.employee_id')
 			->join('hierarchies', 'hierarchies.id', '=', 'hierarchy_subordinates.hierarchy_id' )
 			->join('create_requests', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
-			->where('create_requests.status', '!=', 'deleted')
-			->where('create_requests.status', '!=', 'changed')
+			->where('create_requests.status', '=', 'pending')
 			->where('supervisor_id', '=', $id)
 			->get();
 			$requests = DB::table('create_requests')->get();
@@ -268,7 +450,7 @@ public function postRequestsAuthorization()
 				 array('sur' => $status, 'res2' => $emp_id) );
 
 
-
+			Session::flash('messages', 'Request has been Approved');
 			return View::make('request_authorization')
 				->with('id', $id)
 				->with('name', $name)

@@ -3,6 +3,9 @@
       <div class = "container">
             <div class = "row">
                   <div class = "col-md-9" >
+                  <?php if(Session::has('messageb')): ?>
+         <div class="alert alert-warning"><?php echo Session::get('messageb'); ?></div><br>
+      <?php endif; ?>
                         <h1 style = "color:white;">Create Request</h1>
                   </div>
             </div>

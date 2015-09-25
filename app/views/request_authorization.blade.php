@@ -8,7 +8,9 @@
 				<h1 style = "color:white;">Requests Authorization</h1>
 			</div>
 		</div>
-
+@if (Session::has('messages'))
+         <div class="alert alert-warning">{{ Session::get('messages') }}</div><br>
+@endif
 		<br>
 		<br>
 			<div id="raleway" class="row">
@@ -40,7 +42,7 @@
 							
 						
 						<td> 
-                       <div class='col-md-4'>
+                       <div class='col-md-6'>
                         {{ Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')) }}  
                          {{ Form::hidden('emp_id', $employee->id) }}
                          {{ Form::hidden('status', 'approved') }}
@@ -48,7 +50,7 @@
                           {{ Form::submit('Approve', array('class' => 'btn btn-success')) }}          
                          {{ Form::close() }}
                          </div>
-                          <div class='col-md-4'>
+                          <div class='col-md-6'>
 						 {{ Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')) }}  
                          {{ Form::hidden('emp_id', $employee->id) }}
                          {{ Form::hidden('status', 'declined') }}
@@ -57,12 +59,7 @@
                          {{ Form::close() }}
                          </div>
                           <div class='col-md-4'>
-                         {{ Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')) }}  
-                         {{ Form::hidden('emp_id', $employee->id) }}
-                         {{ Form::hidden('status', 'deleted') }}
-                        
-                          {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}          
-                         {{ Form::close() }}</td>
+                      
                         </div>
 					</tr>
 				@endforeach

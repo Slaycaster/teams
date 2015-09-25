@@ -7,7 +7,10 @@
 <div class="container"> 
 <?php if(Session::has('message11')): ?>
          <div class="alert alert-warning"><?php echo Session::get('message11'); ?></div><br>
-      <?php endif; ?>
+<?php endif; ?>
+ <?php if(Session::has('message10')): ?>
+         <div class="alert alert-warning"><?php echo Session::get('message10'); ?></div><br>
+ <?php endif; ?>
 <h2>Approved Leaves for Excecution</h2>
 <br>
 <div class="label_white"><table class="table table-bordered">
@@ -27,8 +30,9 @@
 	</thead>
  <?php $a=0; ?>
 	<tbody>
+     <?php foreach($create_requests as $create_request): ?>
 		<tr style="color:white">
-            <?php foreach($create_requests as $create_request): ?>
+           
                                 <td><?php echo e($create_request->employee_number); ?></td>
                                 <td><?php echo e($create_request->fname); ?></td>
                                 <td><?php echo e($create_request->lname); ?></td>
@@ -39,17 +43,47 @@
             					<td><?php echo e($create_request->end_date); ?></td>
             				    <td><?php echo e($diff[$a]); ?></td>
             					<td><?php echo e($create_request->message); ?></td>
-                                 <?php echo Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')); ?>    
-                                  <?php echo Form::hidden('emp_id', $create_request->id); ?>
+                                
+                                
+                                <?php if($create_request->request_type == 'Sick Leave' or $create_request->request_type == 'Vacation Leave'): ?>
+                                  <?php echo Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')); ?>  
+                                <?php echo Form::hidden('id', $create_request->id); ?>
 
-                                   <?php echo Form::hidden('days', $diff[$a]); ?>
+                                <?php echo Form::hidden('emp_id', $create_request->employee_id); ?>
+
+                                <?php echo Form::hidden('days', $diff[$a]); ?>
+
+                                 <?php echo Form::hidden('start_date', $create_request->start_date); ?>
+
+                                    <?php echo Form::hidden('end_date', $create_request->end_date); ?>
 
                                 <?php echo Form::hidden('type', $create_request->request_type); ?>
 
                                 <td>  <?php echo Form::submit('Execute Leave', array('class' => 'btn btn-info')); ?></td>
-                                  <?php $a++; ?> 
-            <?php endforeach; ?>
+                                <?php echo Form::close(); ?>
+
+                                <?php endif; ?>
+                                 <?php if($create_request->request_type != 'Sick Leave' and $create_request->request_type != 'Vacation Leave'): ?>
+                                 <?php echo Form::open(array('url' => 'leavesummary', 'method' => 'post', 'autocomplete' => 'off')); ?>
+
+                                 <?php echo Form::hidden('id', $create_request->id); ?> 
+                                    <?php echo Form::hidden('emp_id', $create_request->employee_id); ?>
+
+                                    <?php echo Form::hidden('start_date', $create_request->start_date); ?>
+
+                                    <?php echo Form::hidden('end_date', $create_request->end_date); ?>
+
+                                    <?php echo Form::hidden('type', $create_request->request_type); ?>   
+                                       <td>  <?php echo Form::submit('Execute Leave', array('class' => 'btn btn-danger')); ?></td>
+                                    <?php echo Form::close(); ?>
+
+                                 <?php endif; ?>
+                         
 		</tr>
+      
+                                  <?php $a++; ?> 
+        <?php endforeach; ?>
+
 	</tbody>
 </table></div>
             </div>
@@ -63,6 +97,8 @@
             </div>
 
 <script type="text/javascript">
+
+
     $(function(){
     $(".dropdown").hover(            
             function() {

@@ -7,7 +7,9 @@
 				<h1 style = "color:white;">Requests Authorization</h1>
 			</div>
 		</div>
-
+<?php if(Session::has('messages')): ?>
+         <div class="alert alert-warning"><?php echo Session::get('messages'); ?></div><br>
+<?php endif; ?>
 		<br>
 		<br>
 			<div id="raleway" class="row">
@@ -39,7 +41,7 @@
 							
 						
 						<td> 
-                       <div class='col-md-4'>
+                       <div class='col-md-6'>
                         <?php echo Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')); ?>  
                          <?php echo Form::hidden('emp_id', $employee->id); ?>
 
@@ -50,7 +52,7 @@
                          <?php echo Form::close(); ?>
 
                          </div>
-                          <div class='col-md-4'>
+                          <div class='col-md-6'>
 						 <?php echo Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')); ?>  
                          <?php echo Form::hidden('emp_id', $employee->id); ?>
 
@@ -62,14 +64,7 @@
 
                          </div>
                           <div class='col-md-4'>
-                         <?php echo Form::open(array('url' => 'employee/requests_authorized', 'method' => 'post', 'autocomplete' => 'off')); ?>  
-                         <?php echo Form::hidden('emp_id', $employee->id); ?>
-
-                         <?php echo Form::hidden('status', 'deleted'); ?>
-
-                        
-                          <?php echo Form::submit('Delete', array('class' => 'btn btn-danger')); ?>          
-                         <?php echo Form::close(); ?></td>
+                      
                         </div>
 					</tr>
 				<?php endforeach; ?>

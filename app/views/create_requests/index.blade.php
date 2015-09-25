@@ -20,7 +20,7 @@
 
 <p>{{ link_to_route('create_requests.create', 'Make a Request') }}</p>
 
-@if ($create_requests->count())
+
 	<div class="label_white"><table class="table table-bordered">
 		<thead>
 			<tr style="color:white">
@@ -57,9 +57,7 @@
 			@endforeach
 		</tbody>
 	</table></div>
-@else
-	There are no create requests
-@endif
+
 
 @if ($errors->any())
       <ul>

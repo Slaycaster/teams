@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('LeavecreditsTableSeeder');
 		$this->call('EmployeefilesTableSeeder');
 		$this->call('EmpdownloadsTableSeeder');
+		$this->call('LeavesummariesTableSeeder');
 	}
 
 }

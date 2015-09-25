@@ -31,9 +31,12 @@
                                 <?php if( $supervisors->supervisor_id == $id): ?>
                                 <li><a href="<?php echo URL::to('employee/employeesummary'); ?>">Employee Summary</a></li>
                                 <li><a href="<?php echo URL::to('employee/dtrsubordinates'); ?>">DTR Subordinates</a></li>
+                                <li><a href="<?php echo URL::to('employee/requesthistory'); ?>">Request History</a></li>
                                 <?php endif; ?>
                                 <?php endforeach; ?>
                                 <li><a href="<?php echo URL::to('employee/schedulequery'); ?>">Schedule</a></li>
+                                 <li><a href="<?php echo URL::to('employee/leavehistory'); ?>">Leave History</a></li>
+                                 <li><a href="<?php echo URL::to('employee/accumulated_hours'); ?>">Accumulated Hours</a></li>
                                 </ul>
                             <li class="dropdown"><a href = "#">Reports<b class="caret"></b></a>
                                 <ul class="dropdown-menu">

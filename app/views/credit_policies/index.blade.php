@@ -34,11 +34,11 @@
                                 {{ Form::label('description', 'Description:')}}</div>
                                 {{ Form::text('description', Input::get('description'), array('placeholder' => 'description','autocomplete' => 'off', 'size' => '40')) }}<br>
                             <div class="label_white">
-                                {{ Form::label('leave_type', 'Leave Details:')}}</div>
+                                <p>Leave Details</p></div>
                             <div class="label_white">
-                                 <button class="btn btn-info" onclick="granted(); return false;" name="leave_type" value="0">Granted</button>
-                                  <button class="btn btn-info" onclick="accrued(); return false;" name="leave_type" value="1">Accrued</button>
-                                  <button class="btn btn-info" onclick="special(); return false;" name="leave_type" value="2">Special Case</button>
+                                 <button class="btn btn-info" onclick="granted(); return false;" value="0">Granted</button>
+                                  <button class="btn btn-info" onclick="accrued(); return false;"value="1">Accrued</button>
+                                  <button class="btn btn-info" onclick="special(); return false;"value="2">Special Case</button>
                             </div>
 
                             <fieldset class="field" id="Granted">
@@ -96,9 +96,9 @@
                             
                             
                             <div class="label_white">{{ Form::label('start_value', 'Start value :') }}</div>
-                             {{ Form::number('start_value',Input::get('start_value'), array('placeholder' => '00','autocomplete' => 'off', 'size' => '20','id' => 'Accrued','class' => 'third')) }}<br>
+                             {{ Form::number('start_value',Input::get('start_value'), array('placeholder' => '00','autocomplete' => 'off', 'size' => '20','id' => 'Accrued','class' => 'third','step' => 'any')) }}<br>
                              <div class="label_white">{{ Form::label('rate', 'Rate :') }}</div>
-                             {{ Form::number('rate',Input::get('rate'), array('placeholder' => '00','autocomplete' => 'off', 'size' => '20','id' => 'Accrued','class' => 'third')) }}<br>
+                             {{ Form::number('rate',Input::get('rate'), array('placeholder' => '00','autocomplete' => 'off', 'size' => '20','id' => 'Accrued','class' => 'third','step' => 'any')) }}<br>
                             </fieldset>
                           
                             <div>  

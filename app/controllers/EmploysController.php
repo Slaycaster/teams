@@ -289,49 +289,32 @@ class EmploysController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$then = strtotime(Input::get('date_of_birth'));
-		//The age to be over, over +18
-    	$min = strtotime('+18 years', $then);
-
-    	$curdate = strtotime(Input::get('hire_date'));
-
-    	$mydate = strtotime(date("Y-m-d"));
-    	if((time() < $min) || ($curdate < $mydate))  
-    	{
-    		if((time() < $min))
-    		{
-    			Session::flash('age_valid', 'Employee is under 18.');
-      		 	return Redirect::route('employs.create');	
-    		}
-    		else if(($curdate < $mydate))
-    		{
-    			Session::flash('age_valid', 'Employee must be hired above current date.');
-      		 	return Redirect::route('employs.create');
-    		}
-    		
-    	} 
-    	else
-    	{
+		
 
 		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Employ::$rules);
 		$file = array('image' => Input::file('picture_path'));
 		$emp_fname = preg_replace('/\s+/', '', Input::get('fname'));
 		QrCode::format('png');
-
-		if ($validation->passes())
-		{
+		$picture_path = Input::file('picture_path');
+			if ($picture_path != null)
+			{
 			$destinationPath = 'employees'; //upload path
 			$extension = Input::file('picture_path')->getClientOriginalExtension(); //getting image extension
 			$fileName = $id.''.Input::get('lname').''.$emp_fname.'.'.$extension; //renaming image to -> 1FernandezDenimar.jpg
 			Input::file('picture_path')->move($destinationPath, $fileName);
-
+			}
 			$employee = $this->employee->find($id);
 			$employee->employee_number = Input::get('employee_number');
 			$employee->lname = Input::get('lname');
 			$employee->fname = Input::get('fname');
 			$employee->midinit = Input::get('midinit');
+			if ($picture_path == null)
+			{
 			$employee->picture_path = 'employees/'.$id.''.Input::get('lname').''.$emp_fname.'.jpg';
+			}
+			else {
+			$employee->picture_path = 	Input::get('picture_path');
+			}
 			$employee->date_of_birth = Input::get('date_of_birth');
 			$employee->street = Input::get('street');
 			$employee->barangay = Input::get('barangay');
@@ -366,13 +349,7 @@ class EmploysController extends BaseController {
 			$employee->update();
 
 			return Redirect::route('employs.show', $id);
-		}
-
-		return Redirect::route('employs.edit', $id)
-			->withInput()
-			->withErrors($validation)
-			->with('message', 'There were validation errors.');
-		}
+		
 	}
 
 

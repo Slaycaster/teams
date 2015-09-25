@@ -25,7 +25,7 @@
       <script src="{{ URL::asset('js/jquery-clockpicker.min.js') }}"></script>
       <script src="{{ URL::asset('js/jqueryformultifield.js') }}"></script>
       <script src="{{ URL::asset('js/filtertable.js') }}"></script>
-
+      <title>Employee Portal - Time and Attendance Monitoring System</title>
   </head>
   <body>
 
