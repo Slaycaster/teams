@@ -100,10 +100,29 @@ class Assign_overtimesController extends BaseController {
 	 */
 	public function show($id)
 	{
-		$assign_overtime = $this->assign_overtime->findOrFail($id);
-		$users = DB::table('overtime_subordinates')->count();
-		return View::make('assign_overtimes.show', compact('assign_overtime'))
-		->with('users',$users);
+		public function show($id)
+		{
+			$assign_overtime = $this->assign_overtime->findOrFail($id);
+			$users = DB::table('overtime_subordinates')->count();
+			$employee = DB::table('employs')->get();
+			$assigned = DB::table('overtime_subordinates')
+							->select('employee_id')
+							->where('overtime_id','=',$assign_overtime->id)
+							->lists('employee_id');
+
+			$employee_lists = array();
+			foreach ($employee as $employees) {
+							$employ = DB::table('employs')
+							->whereIn('id',$assigned)
+							->get();
+						
+				array_push($employee_lists, $employ);
+			}
+			sort($employee_lists);
+			return View::make('assign_overtimes.show', compact('assign_overtime'))
+			->with('users',$users)
+			->with('employee_lists', $employee_lists);
+		}
 	}
 
 	/**

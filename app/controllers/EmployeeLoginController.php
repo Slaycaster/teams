@@ -159,23 +159,48 @@ class EmployeeLoginController extends BaseController
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
 			$acchrs = 0;
 			$total = 0;
+			$overtime = 0;
 			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$dateto = "";
+			$now = $datenow->format('Y-m-d');
+			$timenow = $datenow->format('g:i a');
 			$id = Session::get('empid', 'default');
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
+			$ifot = DB::table('overtime_subordinates')
+			->select('overtime_id')
+			->where('employee_id','=',$id)
+			->lists('overtime_id');
+			if($ifot != null)
+			{
+				$allowedothr = DB::table('overtime_policies')
+				->where('id','=',$ifot)
+				->get();
+			}
+			$ifsched = DB::table('empschedules')
+			->select('schedule_id')
+			->where('employee_id','=',$id)
+			->lists('schedule_id');
+			if($ifsched != null)
+			{
+				$schedto = DB::table('schedules')
+				->select('m_timeout')
+				->where('id','=',$ifsched)
+				->get();
+			}
 			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			$punchin = DB::table('punchstatus')
 			->select('time_in_punch_id')
 			->where('employee_id','=',$id)
-			->where('date','=',$datenow)
+			->where('date','=',$now)
 			->lists('time_in_punch_id');
 			$punchout =DB::table('punchstatus')
 			->select('time_out_punch_id')
 			->where('employee_id','=',$id)
-			->where('date','=',$datenow)
+			->where('date','=',$now)
 			->lists('time_out_punch_id');
-						
+
 			if($punchin != null && $punchout != null)
 			{
 				$timein = DB::table('punches')
@@ -190,16 +215,71 @@ class EmployeeLoginController extends BaseController
 				{
 					foreach($timeout as $time_out)
 					{
-						$acchrs = $time_out->time - $time_in->time;
-						if($acchrs < 0 )
+						foreach($schedto as $sched)
 						{
-							$acchrs = $acchrs + 12;
+							if($time_out->time > $sched->m_timeout)
+							{
+							if($ifot != null)
+							{
+								//if(count($allowedothr))
+								
+									foreach($allowedothr as $hr)
+									{
+										foreach($schedto as $schedout)
+										{
+											$span = ($schedout->m_timeout + $hr->Allowed_number_of_hours) + $hr->active_after;
+											if($time_out->time > $span)
+											{
+												$overtime = ($span - $schedout->m_timeout) - $hr->active_after;
+											}
+											else
+											{	
+												$overtime = ($time_out->time - $schedout->m_timeout) - $hr->active_after;
+											}
+											$acchrs = $schedout->m_timeout - $time_in->time;
+											if($acchrs < 0 )
+											{
+												$acchrs = $acchrs + 12;
+											}
+											$total = $total + $acchrs + $overtime;
+										} 
+									}
+									
+								
+								
+							}
+							else
+							{
+								foreach($schedto as $schedout)
+								{
+									$acchrs = $schedout->m_timeout - $time_in->time;
+									if($acchrs < 0 )
+									{
+										$acchrs = $acchrs + 12;
+							
+									}
+									$total = $total + $acchrs + $overtime;
+								}
+
+							}
 							
 						}
-						$total = $total + $acchrs;
+						else
+						{
+							$acchrs = $time_out->time - $time_in->time;
+							if($acchrs < 0 )
+							{
+								$acchrs = $acchrs + 12;
+							
+							}
+							$total = $total + $acchrs + $overtime;
+						}
+					}
+
 					}
 				}
 			}
+			
 
 			return View::make('accumulated_hours')
 				->with('id', $id)
@@ -210,13 +290,174 @@ class EmployeeLoginController extends BaseController
 				->with('punchin',$punchin)
 				->with('punchout',$punchout)
 				->with('acchrs',$acchrs)
-				->with('level', $level);
+				->with('level', $level)
+				->with('now',$now)
+				->with('overtime',$overtime)
+				->with('timenow',$timenow)
+				->with('dateto',$dateto);
 			}
 		else
 		{
 			Session::flash('message', 'Please login first!');
 				return Redirect::to('login/employee');
 		}
+	}
+
+	public function postshowAccumulatedHours()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$acchrs = 0;
+			$total = 0;
+			$overtime = 0;
+			$hrs = 0;
+			$othrs = 0;
+			$datefrom = Input::get('datefrom');
+			$dateto = Input::get('dateto');
+			$now = Input::get('datefrom');
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$ifot = DB::table('overtime_subordinates')
+			->select('overtime_id')
+			->where('employee_id','=',$id)
+			->lists('overtime_id');
+			if($ifot != null)
+			{
+				$allowedothr = DB::table('overtime_policies')
+				->where('id','=',$ifot)
+				->get();
+			}
+			$ifsched = DB::table('empschedules')
+			->select('schedule_id')
+			->where('employee_id','=',$id)
+			->lists('schedule_id');
+			if($ifsched != null)
+			{
+				$schedto = DB::table('schedules')
+				->select('m_timeout')
+				->where('id','=',$ifsched)
+				->get();
+			}
+			$punchin = DB::table('punchstatus')
+			->select('time_in_punch_id')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('employee_id','=',$id)
+			//->where('date','=',$datefrom)
+			->lists('time_in_punch_id');
+			$punchout =DB::table('punchstatus')
+			->select('time_out_punch_id')
+			->whereBetween('punchstatus.date', array($datefrom, $dateto))
+			->where('employee_id','=',$id)
+			->lists('time_out_punch_id');
+			
+			if($punchin != null && $punchout != null)
+			{
+				$timein = DB::table('punches')
+				->whereIn('id',$punchin)
+				->get();
+				
+				$timeout = DB::table('punches')
+				->whereIn('id',$punchout)
+				->get();
+				
+				foreach($timeout as $time_out)
+				{
+					foreach($timein as $time_in)
+					{
+						foreach($schedto as $sched)
+						{
+							if($time_out->time > $sched->m_timeout)
+							{
+							if($ifot != null)
+							{
+								foreach($allowedothr as $hr)
+								{
+									foreach($schedto as $schedout)
+									{
+										$span = ($schedout->m_timeout + $hr->Allowed_number_of_hours) + $hr->active_after;
+										
+										if($time_out->time > $span)
+										{
+											$overtime = ($span - $schedout->m_timeout) - $hr->active_after;
+
+
+										}
+										else
+										{	
+											$overtime = ($time_out->time - $schedout->m_timeout) - $hr->active_after;
+
+										}
+
+										$acchrs = $schedout->m_timeout - $time_in->time;
+										//$acchrs = $time_out->time - $time_in->time;
+										if($acchrs < 0 )
+										{
+											$acchrs = $acchrs + 12;
+										}
+									}
+								}
+							}
+							else
+							{
+								foreach($schedto as $schedout)
+								{
+									$acchrs = $schedout->m_timeout - $time_in->time;
+									if($acchrs < 0 )
+									{
+										$acchrs = $acchrs + 12;
+							
+									}
+								
+								}
+
+							}
+						}
+						else
+						{
+							$acchrs = $time_out->time - $time_in->time;
+
+							if($acchrs < 0 )
+							{
+								$acchrs = $acchrs + 12;	
+							}
+
+
+						}
+					}
+							
+					}
+					$othrs = $othrs + $overtime;
+					$hrs = $hrs + $acchrs;
+					$total = $total + $acchrs + $overtime ;
+
+				}
+				$acchrs = $hrs;
+				$overtime = $othrs;
+				
+			}
+
+			return View::make('accumulated_hours')
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('total',$total)
+				->with('overtime',$overtime)
+				->with('supervisor',$supervisor)
+				->with('punchin',$punchin)
+				->with('punchout',$punchout)
+				->with('now',$now)
+				->with('dateto',$dateto)
+				->with('acchrs',$acchrs)
+				->with('level', $level);
+			}	
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+
 	}
 
 	public function postshowAccumulatedHours()
@@ -708,9 +949,7 @@ public function showDownload()
 			$credits = DB::table('leavecredits')->get();
 			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
 			$now = $date->format('Y-m-d');
-			
-		
-			
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			   // MySQL datetime format
 			
 			foreach ($employees as $employee) {
@@ -838,6 +1077,7 @@ public function showDownload()
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
+				->with('supervisor', $supervisor)
 				->with('level', $level)
 				->with('force_leave', $force_leave)
 				->with('sick_leave', $sick_leave)

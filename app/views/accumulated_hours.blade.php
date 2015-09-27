@@ -9,7 +9,7 @@
 		<div class = "row">
 			
 			<div class = "col-md-9" >
-				<h1 style = "color:white;">Accumulated Hours   </h1>
+				<h1 style = "color:white;">Accumulated Hours | {{$now}} to {{$dateto}}   </h1>
 			</div>
 		</div>
 
@@ -28,7 +28,7 @@
 					</div>
 
 					{{ Form::text('dateto',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar2','placeholder' => 'yyyy-mm-dd')) }}<br>
-					
+					<br>
 				{{ Form::button('Go!', array('class' => 'btn btn-success','id' => 'query')) }}
 				{{ Form::close() }}	
 				<br>
@@ -37,7 +37,7 @@
 
 				
 
-				<br><br>
+				
 				{{ Form::open(array('url' => 'employee/accumulated_hours', 'method' => 'post')) }}
 				<div class = "row">
 			<div class = "col-md-6">
@@ -56,7 +56,7 @@
 
 			<div class = "col-md-6">
 				<div class = "col-md-3 greentile">
-						<center><h1 style = "color:white;">0</h1></center>
+						<center><h1 style = "color:white;">{{$overtime}}</h1></center>
 						<center><h4 style = "color:white;">Hours</h4></center>
 				</div>
 				<div class = "col-md-9 greytile" >
