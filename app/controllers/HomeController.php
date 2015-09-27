@@ -324,8 +324,7 @@ class HomeController extends BaseController {
 
 									$sick_leave[$i] = (($totyear *15) + $totmonth * 1.25) - $credit->sick_leave;
 
-									$vacation_leave[$i] = (($totyear *15) + $totmonth * 1.25) - $credit->vacation_leave;
-								
+									$vacation_leave[$i] = (($totyear *15) + $totmonth * 1.25) - $credit->vacation_leave;						
 
 							}
 						}
@@ -344,7 +343,7 @@ class HomeController extends BaseController {
 								if($employee->id == $credit->employee_id){
 
 								$force_counter = 5 * $totyear;
-								$force_leave[$i] = 5;
+								$force_leave[$i] = 5 - $credit->force_leave;
 								$vacation_leave[$i] = (($totyear *15) + $totmonth * 1.25) - $force_counter - $credit->vacation_leave;
 
 								}
@@ -381,12 +380,12 @@ class HomeController extends BaseController {
 								foreach ($credits as $credit)
 							{
 								if($employee->id == $credit->employee_id){
-								$force_leave[$i] = 5;
+								$force_leave[$i] = 5 - $credit->force_leave;
 								$vacation_leave[$i] = ($diff * 1.25) - $force_leave[$i] - $credit->vacation_leave;}}
 								$cred = DB::table('leavecredits')->where('employee_id', '=', $employee->id)->get();
 								if ($cred == null)
 								{
-									$force_leave[$i] = 5;
+									$force_leave[$i] = 5 - $credit->force_leave;
 									$vacation_leave[$i] = ($diff * 1.25) - $force_leave[$i];
 								}
 							}
@@ -436,12 +435,7 @@ class HomeController extends BaseController {
 	{
 		$leavecredits = DB::table('leavecredits')->get();
 		$emp_id = Input::get('emp_id');
-		$create_requests = DB::table('create_requests')->where('employee_id', '=', $emp_id)->where('status', '=', 'approved')->get();
-		foreach ($create_requests as $create_request) {
-			
-			DB::statement('UPDATE create_requests SET status=:sur WHERE id=:res2',
-				 array('sur' => 'changed', 'res2' => $create_request->id) );
-		}
+	
 		foreach ($leavecredits as $leavecredit)
 		{
 	
@@ -453,14 +447,22 @@ class HomeController extends BaseController {
 				{
 				$sick_leave = Input::get('deduction') + $leavecredit->sick_leave;
 				$vacation_leave = $leavecredit->vacation_leave;
+				$force_leave =  $leavecredit->force_leave;
 				}
 			if ($type == 'vacation_leave') {
 				$sick_leave = $leavecredit->sick_leave;
 				$vacation_leave = Input::get('deduction') + $leavecredit->vacation_leave;
+				$force_leave =  $leavecredit->force_leave;
 				}
 
-				DB::statement('UPDATE leavecredits SET sick_leave=:leave1 , vacation_leave=:leave2   WHERE employee_id=:res2',
-				 array('leave1' => $sick_leave, 'leave2' => $vacation_leave, 'res2' => $emp_id) );			}
+			if ($type == 'force_leave') {
+				$sick_leave = $leavecredit->sick_leave;
+				$vacation_leave = $leavecredit->vacation_leave;
+				$force_leave = Input::get('deduction') + $leavecredit->force_leave;
+				}
+
+				DB::statement('UPDATE leavecredits SET sick_leave=:leave1 , vacation_leave=:leave2 , force_leave=:leave3   WHERE employee_id=:res2',
+				 array('leave1' => $sick_leave, 'leave2' => $vacation_leave, 'leave3' => $force_leave, 'res2' => $emp_id) );			}
 		}
 		$leavecredits = DB::table('leavecredits')->where('employee_id', '=', $emp_id)->get();
 		if ($leavecredits == null)
@@ -473,13 +475,15 @@ class HomeController extends BaseController {
 				{
 				$sick_leave = Input::get('deduction');
 				$vacation_leave = '0';
+				$force_leave = '0';
 				}
 			if ($type == 'vacation_leave') {
 				$sick_leave = '0';
 				$vacation_leave = Input::get('deduction');
+				$force_leave = '0';
 				}
-			DB::statement('INSERT INTO leavecredits (employee_id, sick_leave, vacation_leave) values (?, ?, ?)',
-				 array($emp_id, $sick_leave, $vacation_leave) );
+			DB::statement('INSERT INTO leavecredits (employee_id, sick_leave, vacation_leave, force_leave) values (?, ?, ?, ?)',
+				 array($emp_id, $sick_leave, $vacation_leave, $force_leave) );
 			}
 
 
@@ -547,7 +551,7 @@ class HomeController extends BaseController {
 								if($employee->id == $credit->employee_id){
 
 								$force_counter = 5 * $totyear;
-								$force_leaves[$i] = 5;
+								$force_leaves[$i] = 5 -  $credit->force_leave;
 								$vacation_leaves[$i] = (($totyear *15) + $totmonth * 1.25) - $force_counter - $credit->vacation_leave;
 
 								}
@@ -556,7 +560,7 @@ class HomeController extends BaseController {
 								if ($cred == null)
 								{
 									$force_counter = 5 * $totyear;
-									$force_leaves[$i] = 5;
+									$force_leaves[$i] = 5 -  $credit->force_leave;
 									$vacation_leaves[$i] = (($totyear *15) + $totmonth * 1.25) - $force_counter;
 								}
 
@@ -584,12 +588,12 @@ class HomeController extends BaseController {
 								foreach ($credits as $credit)
 							{
 								if($employee->id == $credit->employee_id){
-								$force_leaves[$i] = 5;
+								$force_leaves[$i] = 5 -  $credit->force_leave;
 								$vacation_leaves[$i] = ($diff * 1.25) - $force_leaves[$i] - $credit->vacation_leave;}}
 								$cred = DB::table('leavecredits')->where('employee_id', '=', $employee->id)->get();
 								if ($cred == null)
 								{
-									$force_leave[$i] = 5;
+									$force_leaves[$i] = 5 -  $credit->force_leave;
 									$vacation_leaves[$i] = ($diff * 1.25) - $force_leave[$i];
 								}
 							}
@@ -653,14 +657,20 @@ class HomeController extends BaseController {
 				{
 				$sick_leave = Input::get('days') + $leavecredit->sick_leave;
 				$vacation_leave = $leavecredit->vacation_leave;
+				$force_leave = $leavecredit->force_leave;
 				}
 			if ($type == 'Vacation Leave') {
 				$sick_leave = $leavecredit->sick_leave;
 				$vacation_leave = Input::get('days') + $leavecredit->vacation_leave;
+				$force_leave = $leavecredit->force_leave;
 				}
-
-				DB::statement('UPDATE leavecredits SET sick_leave=:leave1 , vacation_leave=:leave2   WHERE employee_id=:res2',
-				 array('leave1' => $sick_leave, 'leave2' => $vacation_leave, 'res2' => $emp_id) );			}
+			if ($type == 'Force Leave') {
+				$sick_leave = $leavecredit->sick_leave;
+				$vacation_leave = $leavecredit->vacation_leave;
+				$force_leave = Input::get('days') + $leavecredit->force_leave;
+				}
+				DB::statement('UPDATE leavecredits SET sick_leave=:leave1 , vacation_leave=:leave2 , force_leave=:leave3   WHERE employee_id=:res2',
+				 array('leave1' => $sick_leave, 'leave2' => $vacation_leave, 'leave3' => $force_leave, 'res2' => $emp_id) );			}
 		}
 		$leavecredits = DB::table('leavecredits')->where('employee_id', '=', $emp_id)->get();
 		if ($leavecredits == null)
@@ -673,17 +683,25 @@ class HomeController extends BaseController {
 				{
 				$sick_leave = Input::get('days');
 				$vacation_leave = '0';
+				$force_leave = '0';
 				}
 			if ($type == 'Vacation Leave'){
 				$sick_leave = '0';
 				$vacation_leave = Input::get('days');
+				$force_leave = '0';
 					}
-			if ($type != 'Vacation Leave' && $type != 'Sick Leave'){
+			if ($type == 'Force Leave'){
 				$sick_leave = '0';
 				$vacation_leave = '0';
+				$force_leave = Input::get('days');
 					}
-				DB::statement('INSERT INTO leavecredits (employee_id, sick_leave, vacation_leave) values (?, ?, ?)',
-				 array($emp_id, $sick_leave, $vacation_leave) );
+			if ($type != 'Vacation Leave' && $type != 'Sick Leave' && $type != 'Force Leave'){
+				$sick_leave = '0';
+				$vacation_leave = '0';
+				$force_leave = '0';
+					}
+				DB::statement('INSERT INTO leavecredits (employee_id, sick_leave, vacation_leave , force_leave) values (?, ?, ?, ?)',
+				 array($emp_id, $sick_leave, $vacation_leave , $force_leave) );
 			}
 			
 

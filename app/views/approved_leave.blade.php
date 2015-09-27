@@ -46,7 +46,7 @@
             					<td>{{{ $create_request->message }}}</td>
                                 
                                 
-                                @if ($create_request->request_type == 'Sick Leave' or $create_request->request_type == 'Vacation Leave')
+                                @if ($create_request->request_type == 'Sick Leave' or $create_request->request_type == 'Vacation Leave' or $create_request->request_type == 'Force Leave')
                                   {{ Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')) }}  
                                 {{ Form::hidden('id', $create_request->id) }}
                                 {{ Form::hidden('emp_id', $create_request->employee_id) }}
@@ -57,7 +57,7 @@
                                 <td>  {{ Form::submit('Execute Leave', array('class' => 'btn btn-info')) }}</td>
                                 {{Form::close()}}
                                 @endif
-                                 @if ($create_request->request_type != 'Sick Leave' and $create_request->request_type != 'Vacation Leave')
+                                 @if ($create_request->request_type != 'Sick Leave' and $create_request->request_type != 'Vacation Leave' and $create_request->request_type != 'Force Leave')
                                  {{ Form::open(array('url' => 'leavesummary', 'method' => 'post', 'autocomplete' => 'off')) }}
                                  {{ Form::hidden('id', $create_request->id) }} 
                                     {{ Form::hidden('emp_id', $create_request->employee_id) }}

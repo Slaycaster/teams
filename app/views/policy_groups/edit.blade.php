@@ -21,20 +21,6 @@
             <div class="label_white">{{ Form::label('description', 'Description:') }}</div>
             {{ Form::textarea('description') }}<br>
         
-
-        
-            <div class="label_white">{{ Form::label('exception_name', 'Exception name:') }}</div>
-            {{ Form::select('exceptiongroup_id', $exception_groups, Input::old('exceptiongroup_id'), array('class' => 'btn btn-default dropdown-toggle')) }}<br>
-        </div>
-
-        
-            <div class="label_white">{{ Form::label('overtime_name', 'Overtime name:') }}</div>
-            {{ Form::select('overtime_id', $overtime_policies, Input::old('overtime_id'), array('class' => 'btn btn-default dropdown-toggle')) }}<br>
-    
-
-        
-            <div class="label_white">{{ Form::label('holiday_name', 'Holiday name:') }}</div>
-            {{ Form::select('holiday_id', $holiday_policies, Input::old('holiday_id'), array('class' => 'btn btn-default dropdown-toggle')) }}<br>
         
             <br>
             

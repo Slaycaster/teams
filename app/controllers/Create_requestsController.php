@@ -116,15 +116,23 @@ class Create_requestsController extends BaseController {
 		if ($leavecredit->employee_id == $emp_id)
 			{
 			$employee_id = $emp_id;
-			$type = Input::get('type');
-			if ($type == 'sick_leave')
+			$type = Input::get('request_type');
+			if ($type == 'Sick Leave')
 				{
 				$s_leave = $deduct + $leavecredit->sick_leave;
 				$v_leave = $leavecredit->vacation_leave;
+				$f_leave = $leavecredit->force_leave;
 				}
-			else {
+			if ($type == 'Vacation Leave') {
 				$s_leave = $leavecredit->sick_leave;
 				$v_leave = $deduct + $leavecredit->vacation_leave;
+				$f_leave = $leavecredit->force_leave;
+				}
+
+			if ($type == 'Force Leave') {
+				$s_leave = $leavecredit->sick_leave;
+				$v_leave = $leavecredit->vacation_leave;
+				$f_leave = $deduct + $leavecredit->force_leave;
 				}
 			}
 		} 
@@ -190,7 +198,7 @@ class Create_requestsController extends BaseController {
 								if($employee->id == $credit->employee_id){
 
 								$force_counter = 5 * $totyear;
-								$force_leaves[$i] = 5;
+								$force_leaves[$i] = 5 - $f_leave;
 								$vacation_leaves[$i] = (($totyear *15) + $totmonth * 1.25) - $force_counter - $v_leave;
 
 								}
@@ -227,7 +235,7 @@ class Create_requestsController extends BaseController {
 								foreach ($credits as $credit)
 							{
 								if($employee->id == $credit->employee_id){
-								$force_leaves[$i] = 5;
+								$force_leaves[$i] = 5 - $f_leave;
 								$vacation_leaves[$i] = ($diff * 1.25) - $force_leaves[$i] - $v_leave;}}
 								$cred = DB::table('leavecredits')->where('employee_id', '=', $employee->id)->get();
 								if ($cred == null)
@@ -253,7 +261,7 @@ class Create_requestsController extends BaseController {
 						$check = DB::table('create_requests')->where('employee_id', '=', $emp_id)->where('status', '=', 'pending')->get();
 						if($check == null)
 						{
-							if ($validation->passes() && $sick_leaves[$i] >= 0 && $vacation_leaves[$i] >= 0)
+							if ($validation->passes() && $sick_leaves[$i] >= 0 && $vacation_leaves[$i] >= 0 && $force_leaves[$i] >= 0)
 							{
 								$this->create_request->create($input);
 

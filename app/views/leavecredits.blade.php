@@ -62,7 +62,7 @@
                            {{ Form::hidden('emp_id', $employee->id) }}
                           
                            <p style="color:black">{{ Form::number('deduction', "0")}}</p>
-                          <p style="color:black"> {{ Form::select('type', array('sick_leave' => 'sick leave', 'vacation_leave' => 'vacation leave')) }}</p>
+                          <p style="color:black"> {{ Form::select('type', array('sick_leave' => 'Sick Leave', 'vacation_leave' => 'Vacation Leave', 'force_leave' => 'Force Leave')) }}</p>
                        
                          {{ Form::submit('Leave Deduction', array('class' => 'btn btn-info')) }}          
              {{ Form::close() }}

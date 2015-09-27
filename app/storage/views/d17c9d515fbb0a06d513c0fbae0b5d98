@@ -67,7 +67,7 @@
 
                           
                            <p style="color:black"><?php echo Form::number('deduction', "0"); ?></p>
-                          <p style="color:black"> <?php echo Form::select('type', array('sick_leave' => 'sick leave', 'vacation_leave' => 'vacation leave')); ?></p>
+                          <p style="color:black"> <?php echo Form::select('type', array('sick_leave' => 'Sick Leave', 'vacation_leave' => 'Vacation Leave', 'force_leave' => 'Force Leave')); ?></p>
                        
                          <?php echo Form::submit('Leave Deduction', array('class' => 'btn btn-info')); ?>          
              <?php echo Form::close(); ?>
