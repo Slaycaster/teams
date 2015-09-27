@@ -48,11 +48,10 @@
 	Route::get('employee/schedulequery', array('uses' => 'EmployeeLoginController@showScheduleQuery'));
 	Route::get('employee/leavehistory', array('uses' => 'EmployeeLoginController@showLeaveHistory'));
 	Route::get('employee/requesthistory', array('uses' => 'EmployeeLoginController@showRequestHistory'));
-
-
-	//Route::any('dashboard', array('uses' => 'HomeController@showDashboard'));
-
-	//Route::get('maintenance', array('uses' => 'HomeController@showMaintenance'));
+	
+	/*MOBILE APP ROUTES*/
+	Route::post('api/schedule', array('uses' => 'MobileController@showSchedule'));
+	Route::post('api/leavecredits', array('uses' => 'MobileController@showLeaveCredits'));
 
 	Route::group(["before" => "auth"], function() {
 

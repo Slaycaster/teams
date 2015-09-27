@@ -145,6 +145,22 @@ $pdf->Output('reports/dtr.pdf');
 
 <iframe src="../reports/dtr.pdf" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
 
-
+<script type="text/javascript">
+    $(function(){
+    $(".dropdown").hover(            
+            function() {
+                $('.dropdown-menu', this).stop( true, true ).fadeIn("fast");
+                $(this).toggleClass('open');
+                $('b', this).toggleClass("caret caret-up");                
+            },
+            function() {
+                $('.dropdown-menu', this).stop( true, true ).fadeOut("fast");
+                $(this).toggleClass('open');
+                $('b', this).toggleClass("caret caret-up");                
+            });
+    });
+    
+</script>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make("layout_employee", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

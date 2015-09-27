@@ -19,4 +19,6 @@
 </div>
 {{ Form::submit('Generate PDF', array('class' => 'btn btn-success')) }}
 {{ Form::close() }}
+
+
 @stop
