@@ -1,0 +1,27 @@
+I. Policy Group Maintenance
+1. Assign employees - hindi na dapat makikita sa create form kapag may naka-assign na sa kanyang Policy Group
+2. Paayos ng footer.
+3. Paayos din ng "Edit Policy", mukang outdated pa and take note edit 'to ng policy itself, so wala rito yung mga subordinates.
+4. Dun sa view button, paki-gawang View/Edit Subordinates
+5. Tanggalin ang 'Overtime'
+
+II. Remove Terminal and Pay Period (as in)
+
+III. Arrange the Maintenance line-up in this order:
+Policy
+Branch - Department - Hierarchy Levels
+Hierarchy - Job Titles - Employee Type
+Schedule - Request Type - Employee
+*ibalik ulit yung holiday sa Policy
+
+IV. Transaction - Assign Schedule to Employees at Assign Hierarchy
+Dapat hindi na lalabas yung record ng employee kapag may naka-assign na sa kanya.
+
+V. Manual Deduct Leave Credits
+1. Isama ang Force Leave sa pag-adjust
+2. Capitalize each word, please (Sick Leave, Vacation Leave, Force Leave)
+
+VI. Manual Adjust DTR (must be working now, di na rin mahintay yung reports ng dtr ni rock eh)
+
+Lorenzo & Rock Well, asahan ko queries and reports niyo done by Sunday.
+Josh Mante, paki-send na sakin yung threading mo and yung DB mo na may 'Absences' para malagyan ng functionality yung Dashboard ng web and mobile app.

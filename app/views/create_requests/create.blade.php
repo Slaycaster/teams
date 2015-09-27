@@ -4,6 +4,9 @@
       <div class = "container">
             <div class = "row">
                   <div class = "col-md-9" >
+                  @if (Session::has('messageb'))
+         <div class="alert alert-warning">{{ Session::get('messageb') }}</div><br>
+      @endif
                         <h1 style = "color:white;">Create Request</h1>
                   </div>
             </div>

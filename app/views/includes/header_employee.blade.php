@@ -12,6 +12,7 @@
                 <div class = "collapse navbar-collapse navHeaderCollapse">
 
                         <ul class = "nav navbar-nav">
+                            <li><a href="{{ URL::to('employee/dashboard') }}">Dashboard</a></li>
                             <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Transactions<b class="caret"></b></a>
                               <ul class="dropdown-menu">
@@ -31,9 +32,12 @@
                                 @if( $supervisors->supervisor_id == $id)
                                 <li><a href="{{ URL::to('employee/employeesummary') }}">Employee Summary</a></li>
                                 <li><a href="{{ URL::to('employee/dtrsubordinates') }}">DTR Subordinates</a></li>
+                                <li><a href="{{ URL::to('employee/requesthistory') }}">Request History</a></li>
                                 @endif
                                 @endforeach
                                 <li><a href="{{ URL::to('employee/schedulequery') }}">Schedule</a></li>
+                                 <li><a href="{{ URL::to('employee/leavehistory') }}">Leave History</a></li>
+                                 <li><a href="{{ URL::to('employee/accumulated_hours') }}">Accumulated Hours</a></li>
                                 </ul>
                             <li class="dropdown"><a href = "#">Reports<b class="caret"></b></a>
                                 <ul class="dropdown-menu">

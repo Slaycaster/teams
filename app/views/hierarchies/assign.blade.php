@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            {{ Form::open(array('url' => 'transaction', 'method' => 'post')) }}
+            {{ Form::open(array('url' => 'addsubordinates', 'method' => 'post')) }}
             <table class="table">
                 <thead>
                     <tr class="filters">
@@ -60,17 +60,19 @@
                     <td align="center">{{ Form::checkbox($employ->id, $employ->id)}}</td>
                 </tr>
 
-                 @endforeach
+                     @endforeach
             
-       
                 </tbody>
             </table>
         </div>
+        </div>    
+ @if($is_post == 'true')
+
+        {{Form::hidden('hierarchy_id', $hierarchy_id)}}
         {{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
         {{ Form::close() }}
-    </div>
+ 
 
-@if($is_post == 'true')
     <div class="row">
         <div class="panel panel-primary filterable">
             <div class="panel-heading">
@@ -80,7 +82,7 @@
                 </div>
             </div>
 
-            {{ Form::open(array('url' => 'transaction', 'method' => 'post')) }}
+            {{ Form::open(array('url' => 'removesubordinates', 'method' => 'post')) }}
             <table class="table">
                 <thead>
                     <tr class="filters">
@@ -93,7 +95,7 @@
 
                 @foreach($hierarchy_subordinates as $sub)
                 <tr>
-                    @foreach($employs as $employ)
+                    @foreach($hierarchy_employs as $employ)
                         @if($employ->id == $sub->employee_id)
                            <td> {{$employ->fname}} </td>
                            <td>  {{$employ->lname}} </td>
@@ -103,18 +105,19 @@
                                 @endif
                             @endforeach
                         @endif
-                    @endforeach
-                     
+                      @endforeach
+                   
         
-                    <td align="center">{{ Form::checkbox($employ->id, $employ->id)}}</td>
+                    <td align="center">{{ Form::checkbox($sub->employee_id, $sub->employee_id)}}</td>
                 </tr>
-
+                         
                  @endforeach
             
        
                 </tbody>
             </table>
         </div>
+        {{Form::hidden('hierarchy_id', $hierarchy_id)}}
         {{ Form::submit('Remove', array('class' => 'btn btn-danger')) }}
         {{ Form::close() }}
     </div>

@@ -46,14 +46,15 @@
                 {{ Form::textarea('description') }}<br>
         
 
-        
-                <div class="label_white">{{ Form::label('exception_name', 'Exception name:') }}</div>
-                {{ Form::select('exceptiongroup_id', $exception_groups_id, Input::old('exceptiongroup_id'), array('class' => 'btn btn-default dropdown-toggle')) }}
             </div>
             <div class="col-md-5">
-                <div class="label_white">{{ Form::label('overtime_name', 'Overtime name:') }}</div>
 
-                {{ Form::select('overtime_id', $overtime_policies_id, Input::old('overtime_id'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi1', 'multiple'=>'multiple', 'name' => 'overtime_id[]')) }}<br>
+             <div class="label_white">{{ Form::label('exception_name', 'Exception name:') }}</div>
+                {{ Form::select('exceptiongroup_id', $exception_groups_id, Input::old('exceptiongroup_id'), array('class' => 'btn btn-default dropdown-toggle')) }}
+                
+               <!-- <div class="label_white">{{ Form::label('overtime_name', 'Overtime name:') }}</div>
+
+                {{ Form::select('overtime_id', $overtime_policies_id, Input::old('overtime_id'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi1', 'multiple'=>'multiple', 'name' => 'overtime_id[]')) }}<br>-->
 
         
                 <div class="label_white">{{ Form::label('holiday_name', 'Holiday name:') }}</div>
@@ -63,10 +64,10 @@
         
         
               
-    
+          <!--
                 <div class="label_white">{{ Form::label('credit_name', 'Credit name:') }}</div>
 
-                {{ Form::select('credit_id', $credit_policies_id, Input::old('credit_policies_id'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi7', 'multiple'=>'multiple', 'name' => 'credit_id[]')) }}<br>
+                {{ Form::select('credit_id', $credit_policies_id, Input::old('credit_policies_id'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi7', 'multiple'=>'multiple', 'name' => 'credit_id[]')) }}<br>-->
     
                 <div class="label_white">{{ Form::label('employees_id', 'Assign employees:') }}</div>
                 {{ Form::select('employees', $employees, Input::old('employees'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi', 'multiple'=>'multiple', 'name' => 'employees[]')) }}<br><br>
@@ -79,7 +80,8 @@
       </div>
       <div class="col-md-5">
         @foreach ($policy_groups as $policy_group)
-        <div class="cold-md-12">
+        <div class="cold-md-6">
+
           <div class="col-md-6" style="margin-bottom:5px">
                <div class="col-md-12 greytile" style="padding:5px">
                    <div class="col-md-5" >
@@ -88,17 +90,20 @@
                     <div class="col-md-7" style="margin-left:0px">
 
                <p style="color:white; font-size:20px"> {{$policy_group->policygroup_name}}</p>
-               <a href="{{ URL::to('policy_groups/' . $policy_group->id) }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id) }}', 'newwindow', 'width=450, height=500'); return false;">View</a>
+               <a href="{{ URL::to('policy_groups/' . $policy_group->id) }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id) }}', 'newwindow', 'width=450, height=500'); return false;">View/ Edit<br>Subordinates</a>
                     |
-               <a href="{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}', 'newwindow', 'width=450, height=450'); return false;">Edit</a>
+               <a href="{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}', 'newwindow', 'width=450, height=450'); return false;">Edit Group</a>
           </div>
+
+      
 
         </div>
       </div>
     </div>
+     @endforeach 
+    </div>
+   </div>
   </div>
-	     @endforeach 
-
 <script type="text/javascript">
 $("#multi").multiselect().multiselectfilter();
 $("#multi1").multiselect().multiselectfilter();

@@ -9,6 +9,9 @@
 @if (Session::has('message11'))
          <div class="alert alert-warning">{{ Session::get('message11') }}</div><br>
 @endif
+ @if (Session::has('message10'))
+         <div class="alert alert-warning">{{ Session::get('message10') }}</div><br>
+ @endif
 <h2>Approved Leaves for Excecution</h2>
 <br>
 <div class="label_white"><table class="table table-bordered">
@@ -28,8 +31,9 @@
 	</thead>
  <?php $a=0; ?>
 	<tbody>
+     @foreach ($create_requests as $create_request)
 		<tr style="color:white">
-            @foreach ($create_requests as $create_request)
+           
                                 <td>{{{ $create_request->employee_number }}}</td>
                                 <td>{{{ $create_request->fname}}}</td>
                                 <td>{{{ $create_request->lname }}}</td>
@@ -40,14 +44,35 @@
             					<td>{{{ $create_request->end_date }}}</td>
             				    <td>{{{ $diff[$a]}}}</td>
             					<td>{{{ $create_request->message }}}</td>
-                                 {{ Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')) }}    
-                                  {{ Form::hidden('emp_id', $create_request->id) }}
-                                   {{ Form::hidden('days', $diff[$a]) }}
+                                
+                                
+                                @if ($create_request->request_type == 'Sick Leave' or $create_request->request_type == 'Vacation Leave' or $create_request->request_type == 'Force Leave')
+                                  {{ Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')) }}  
+                                {{ Form::hidden('id', $create_request->id) }}
+                                {{ Form::hidden('emp_id', $create_request->employee_id) }}
+                                {{ Form::hidden('days', $diff[$a]) }}
+                                 {{ Form::hidden('start_date', $create_request->start_date) }}
+                                    {{ Form::hidden('end_date', $create_request->end_date) }}
                                 {{ Form::hidden('type', $create_request->request_type) }}
                                 <td>  {{ Form::submit('Execute Leave', array('class' => 'btn btn-info')) }}</td>
-                                  <?php $a++; ?> 
-            @endforeach
+                                {{Form::close()}}
+                                @endif
+                                 @if ($create_request->request_type != 'Sick Leave' and $create_request->request_type != 'Vacation Leave' and $create_request->request_type != 'Force Leave')
+                                 {{ Form::open(array('url' => 'leavesummary', 'method' => 'post', 'autocomplete' => 'off')) }}
+                                 {{ Form::hidden('id', $create_request->id) }} 
+                                    {{ Form::hidden('emp_id', $create_request->employee_id) }}
+                                    {{ Form::hidden('start_date', $create_request->start_date) }}
+                                    {{ Form::hidden('end_date', $create_request->end_date) }}
+                                    {{ Form::hidden('type', $create_request->request_type) }}   
+                                       <td>  {{ Form::submit('Execute Leave', array('class' => 'btn btn-danger')) }}</td>
+                                    {{Form::close()}}
+                                 @endif
+                         
 		</tr>
+      
+                                  <?php $a++; ?> 
+        @endforeach
+
 	</tbody>
 </table></div>
             </div>
@@ -61,6 +86,8 @@
             </div>
 
 <script type="text/javascript">
+
+
     $(function(){
     $(".dropdown").hover(            
             function() {

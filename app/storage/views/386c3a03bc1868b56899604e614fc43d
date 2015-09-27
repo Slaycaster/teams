@@ -37,7 +37,9 @@
         
             <div class="label_white"><?php echo Form::label('picture_path', 'Picture path:'); ?></div>
             <?php echo Form::file('picture_path'); ?><br>
-        
+
+            <?php echo Form::hidden('picture', $employee->picture_path); ?>
+
 
         
             <div class="label_white"><?php echo Form::label('address', 'Address:'); ?></div>

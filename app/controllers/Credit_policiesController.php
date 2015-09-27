@@ -48,7 +48,7 @@ class Credit_policiesController extends BaseController {
 	public function store()
 	{
 		$input = Input::all();
-
+		/*
 		$validation = Validator::make($input, Credit_policy::$rules);
 
 		if ($validation->passes())
@@ -57,11 +57,14 @@ class Credit_policiesController extends BaseController {
 
 			return Redirect::route('credit_policies.index');
 		}
-
+	
 		return Redirect::route('credit_policies.index')
 			->withInput()
 			->withErrors($validation)
 			->with('message', 'There were validation errors.');
+		*/
+			$this->credit_policy->create($input);
+			return Redirect::route('credit_policies.index');
 	}
 
 	/**

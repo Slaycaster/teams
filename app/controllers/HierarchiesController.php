@@ -242,7 +242,14 @@ class HierarchiesController extends BaseController {
 	public function assignSubordinates()
 	{
 		$hierarchies = ['Select a hierarchy...'] + DB::table('hierarchies')->lists('hierarchy_name', 'id');
-		$employs=DB::table('employs')->where('level_id', '=', '0')->get();
+		$employs=DB::table('employs')
+		 ->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
+		 ->where('level_id', '=', '0')->get();
 		$hierarchy_subordinates = DB::table('hierarchy_subordinates')->get();
 		$hierarchy_employs = DB::table('employs')->get();
 		$departments = DB::table('departments')->get();
@@ -262,7 +269,14 @@ class HierarchiesController extends BaseController {
 	{
 		$hierarchy_id = Input::get('hierarchy_id');
 		$hierarchies = ['Select a hierarchy...'] + DB::table('hierarchies')->lists('hierarchy_name', 'id');
-		$employs=DB::table('employs')->where('level_id', '=', '0')->get();
+		$employs=DB::table('employs')
+		->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
+		 ->where('level_id', '=', '0')->get();
 		$hierarchy_subordinates = DB::table('hierarchy_subordinates')->where('hierarchy_id', '=', $hierarchy_id)->get();
 		$hierarchy_employs = DB::table('employs')->get();
 		$departments = DB::table('departments')->get();
@@ -275,7 +289,8 @@ class HierarchiesController extends BaseController {
 			->with('departments', $departments)
 			->with('hierarchy_subordinates', $hierarchy_subordinates)
 			->with('hierarchy_employs', $hierarchy_employs)
-			->with('supervisors', $supervisors);	
+			->with('supervisors', $supervisors)
+			->with('hierarchy_id', $hierarchy_id);	
 	}
 
 	public function addExtraSubordinates()
@@ -291,6 +306,93 @@ class HierarchiesController extends BaseController {
 				
 			return Redirect::route('hierarchies.show');
 	}
+
+	public function addSubordinates()
+	{
+		$hierarchy_id = Input::get('hierarchy_id');
+		$employs = DB::table('employs')->get();
+
+			foreach ($employs as $employ) {
+				$id = DB::table('hierarchy_subordinates')->max('id');
+				if (Input::has($employ->id)) {
+					//Save here
+					$employee_id = Input::get($employ->id);
+					$id = $id + 1;
+					DB::table('hierarchy_subordinates')->insert(array(
+						array('id' => $id, 'hierarchy_id' => $hierarchy_id, 'employee_id' => $employee_id)
+				));
+				}
+			}
+				
+			$hierarchy_id = Input::get('hierarchy_id');
+		$hierarchies = ['Select a hierarchy...'] + DB::table('hierarchies')->lists('hierarchy_name', 'id');
+		$employs=DB::table('employs')
+		->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
+		 ->where('level_id', '=', '0')->get();
+		$hierarchy_subordinates = DB::table('hierarchy_subordinates')->where('hierarchy_id', '=', $hierarchy_id)->get();
+		$hierarchy_employs = DB::table('employs')->get();
+		$departments = DB::table('departments')->get();
+		$is_post = 'true';
+		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )->where('level_id', '>', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
+		return View::make('hierarchies.assign')
+			->with('hierarchies', $hierarchies)
+			->with('employs', $employs)
+			->with('is_post', $is_post)
+			->with('departments', $departments)
+			->with('hierarchy_subordinates', $hierarchy_subordinates)
+			->with('hierarchy_employs', $hierarchy_employs)
+			->with('supervisors', $supervisors)
+			->with('hierarchy_id', $hierarchy_id);	
+	}
+
+
+	public function removeSubordinates()
+	{
+		$hierarchy_id = Input::get('hierarchy_id');
+		$hierarchy_subordinates = DB::table('hierarchy_subordinates')->get();			
+		
+			foreach ($hierarchy_subordinates as $sub) {
+			
+				if (Input::has($sub->employee_id)) {
+					//Save here
+					$employee_id = Input::get($sub->employee_id);
+
+					DB::table('hierarchy_subordinates')->where('employee_id', '=', $employee_id)->delete();
+				}
+			
+		}		
+			$hierarchy_id = Input::get('hierarchy_id');
+		$hierarchies = ['Select a hierarchy...'] + DB::table('hierarchies')->lists('hierarchy_name', 'id');
+		$employs=DB::table('employs')
+		->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('hierarchy_subordinates')
+                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
+            })
+		 ->where('level_id', '=', '0')->get();
+		$hierarchy_subordinates = DB::table('hierarchy_subordinates')->where('hierarchy_id', '=', $hierarchy_id)->get();
+		$hierarchy_employs = DB::table('employs')->get();
+		$departments = DB::table('departments')->get();
+		$is_post = 'true';
+		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )->where('level_id', '>', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
+		return View::make('hierarchies.assign')
+			->with('hierarchies', $hierarchies)
+			->with('employs', $employs)
+			->with('is_post', $is_post)
+			->with('departments', $departments)
+			->with('hierarchy_subordinates', $hierarchy_subordinates)
+			->with('hierarchy_employs', $hierarchy_employs)
+			->with('supervisors', $supervisors)
+			->with('hierarchy_id', $hierarchy_id);	
+	}
+
+
 	public function removeSubordinate()
 	{
 		$hierarchy_id = Input::get('hierarchy_id');
