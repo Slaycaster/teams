@@ -22,7 +22,14 @@ class Policy_groupsController extends BaseController {
 	public function index()
 	{
 		$policy_groups = policy_group:: paginate(9);
-		$employees = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))->orderBy('lname', 'asc')->lists('full_name', 'id');
+		$employees = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+		 ->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('policygroup_employees')
+                      ->whereRaw('policygroup_employees.employee_id = employs.id');
+            })
+		->orderBy('lname', 'asc')->lists('full_name', 'id');
 		$exception_groups= DB::table('exception_groups')->get();
 		$exception_groups_id=DB::table('exception_groups')
 		->lists('exceptiongroup_name','id');
@@ -197,6 +204,12 @@ class Policy_groupsController extends BaseController {
 		$employees = DB::table('policygroup_employees')->where('policygroup_id', '=', $policy_group->id)->get();
 		$employee_lists = array();
 		$new_subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			->whereNotExists(function($query)
+            {
+                $query->select(DB::raw('employee_id'))
+                      ->from('policygroup_employees')
+                      ->whereRaw('policygroup_employees.employee_id = employs.id');
+            })
 			->orderBy('lname', 'asc')
 			->lists('full_name', 'id');
 		foreach ($employees as $employee) {

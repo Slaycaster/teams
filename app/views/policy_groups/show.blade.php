@@ -10,7 +10,7 @@
 
     <div class="col-md-12" style="padding:5px; margin-top:10px">
       <div class="col-md-4" >
-          <img style = "height:100px; width:100px;" src="{{ URL::asset('img/Department.png') }}">
+          <img style = "height:100px; width:100px;" src="{{ URL::asset('img/PremiumPolicy.png') }}">
       </div>
       <div class="col-md-8" style="margin-left:0px">
           <p style="color:white; font-size:30px"> <strong>{{$policy_group->policygroup_name}}</strong> <a href="#" onclick="window.opener.location.reload(true); window.close();" class="btn btn-warning">Close</a></p>
@@ -44,20 +44,6 @@
           @endforeach
        </div>
     </div>
-    <div class="col-md-12">
-       <div class="col-md-4">
-         <h5 style="color:white"> Overtime Policy/ies:</h5>
-       </div>
-       <div class="col-md-8">
-          @foreach($overtime_pivot as $overtime_p)
-            @foreach ($overtime_policies as $overtime)
-              @if ($overtime->id == $overtime_p->overtime_id)
-                <h5 style="color:white">{{$overtime->overtime_name}}</h5>
-              @endif
-            @endforeach
-          @endforeach
-       </div>
-    </div>
     
     <div class="col-md-12">
        <div class="col-md-4">
@@ -74,31 +60,17 @@
        </div>
     </div>
     
-    
-    <div class="col-md-12">
-       <div class="col-md-4">
-         <h5 style="color:white"> Leave Grant/s:</h5>
-       </div>
-       <div class="col-md-8">
-        @foreach($leavegrant_pivot as $leavegrant_p)
-          @foreach ($leavegrant_policies as $leavegrant)
-            @if ($leavegrant->id == $leavegrant_p->leavegrant_id)
-              <h5 style="color:white"> {{$leavegrant->name}}</h5>
-            @endif
-          @endforeach
-        @endforeach
-       </div>
-    </div> 
-  </div>
+
 
 {{ Form::open(array('url' => 'policy_groups/assign_policy', 'method' => 'post', 'autocomplete' => 'off')) }}
   <div style = "color:white; margin-top:50px">
       {{ Form::label('new_subordinates', 'Add new subordinate:') }}
       {{ Form::select('new_subordinates', $new_subordinates, Input::old('new_subordinates'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi', 'multiple'=>'multiple', 'name' => 'new_subordinates[]')) }}
       {{ Form::hidden('policygroup_id', $policy_group->id) }}
+      <br><br>
       {{ Form::submit('Add selected subordinates', array('class' => 'btn btn-info')) }}
   </div>
- 
+ <br><br>
 {{ Form::close() }}
     
 <table class="table table-bordered" style = "color:white;">
@@ -128,7 +100,7 @@
   @endfor
   </tbody>
 </table>
-
+</div>
 
 <script type="text/javascript">
 $("#multi").multiselect().multiselectfilter();

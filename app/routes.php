@@ -124,6 +124,8 @@
 		Route::resource('empdownloads', 'EmpdownloadsController');
 		Route::resource('leavecases', 'HomeController@showLeaveCases');
 		Route::post('leavesummary', array('uses' => 'HomeController@postLeaveSummary'));
+		Route::post('addsubordinates', array('uses' => 'HierarchiesController@addSubordinates'));
+		Route::post('removesubordinates', array('uses' => 'HierarchiesController@removeSubordinates'));
 	});
 
 ?>

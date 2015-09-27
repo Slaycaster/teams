@@ -45,7 +45,7 @@
             					<td><?php echo e($create_request->message); ?></td>
                                 
                                 
-                                <?php if($create_request->request_type == 'Sick Leave' or $create_request->request_type == 'Vacation Leave'): ?>
+                                <?php if($create_request->request_type == 'Sick Leave' or $create_request->request_type == 'Vacation Leave' or $create_request->request_type == 'Force Leave'): ?>
                                   <?php echo Form::open(array('url' => 'deduct', 'method' => 'post', 'autocomplete' => 'off')); ?>  
                                 <?php echo Form::hidden('id', $create_request->id); ?>
 
@@ -63,7 +63,7 @@
                                 <?php echo Form::close(); ?>
 
                                 <?php endif; ?>
-                                 <?php if($create_request->request_type != 'Sick Leave' and $create_request->request_type != 'Vacation Leave'): ?>
+                                 <?php if($create_request->request_type != 'Sick Leave' and $create_request->request_type != 'Vacation Leave' and $create_request->request_type != 'Force Leave'): ?>
                                  <?php echo Form::open(array('url' => 'leavesummary', 'method' => 'post', 'autocomplete' => 'off')); ?>
 
                                  <?php echo Form::hidden('id', $create_request->id); ?> 

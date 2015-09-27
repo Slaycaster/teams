@@ -66,7 +66,10 @@ class EmployeeLoginController extends BaseController
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
 			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
-			$count = DB::table('create_requests')->where('status','=','pending')->count();
+			$count = DB::table('create_requests')->join('hierarchy_subordinates', 'create_requests.employee_id', '=', 'hierarchy_subordinates.employee_id')
+			->join('hierarchies', 'hierarchy_subordinates.hierarchy_id', '=', 'hierarchies.id')
+			->where('supervisor_id', '=', $id)
+			->where('status','=','pending')->count();
 			return View::make('employs.dashboard')
 				->with('id', $id)
 				->with('name', $name)
@@ -132,7 +135,7 @@ class EmployeeLoginController extends BaseController
 			$name = Session::get('empname', 'default');
 			$email = Session::get('empemail', 'default');
 			$level = Session::get('emplevel', 'default');
-			$create_requests = DB::table('create_requests')->where('employee_id', '=', $id)->get();
+			$create_requests = DB::table('create_requests')->where('employee_id', '=', $id)->orderby('id', 'desc')->get();
 			$request_types = DB::table('request_types')->get();
 			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
 			return View::make('leavehistory')
