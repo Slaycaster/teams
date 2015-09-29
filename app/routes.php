@@ -97,8 +97,16 @@
 		Route::resource('empschedules', 'EmpschedulesController');
 		Route::resource('assign_overtimes','Assign_overtimesController');
 		Route::get('queries/dtr','HomeController@showManual');
+		Route::post('queries/dtr', array('uses' => 'HomeController@postManual'));
+		
+		Route::post('queries/dtr_adjusted', function()
+		 { if(Input::get('Change')) { $action = 'postManualAdjust'; }
+		 elseif(Input::get('Delete')) { $action = 'postManualDelete'; } 
+			return App::make('HomeController')->$action(); });
+
 		Route::get('emp_schedules/remove', array('uses' => 'EmpschedulesController@removeFromSched'));
 		Route::get('transactions/assign_hierarchy', array('uses' => 'HierarchiesController@assignSubordinates'));
+		Route::get('transactions/edit_dtr', array('uses' => 'HomeController@showEditDtr'));
 		Route::post('transactions/assign_hierarchy', array('uses' => 'HierarchiesController@postAssignSubordinates'));
 		Route::post('emp_schedules/remove', array('uses' => 'EmpschedulesController@postRemoveFromSched'));
 		Route::post('transaction', array('uses' => 'EmpschedulesController@delEmployeeFromSched'));

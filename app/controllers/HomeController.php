@@ -21,25 +21,230 @@ class HomeController extends BaseController {
 	}
 
 	public function showManual()
-	{
-			$id = Session::get('empid', 'default');
-			$name = Session::get('empname', 'default');
-			$email = Session::get('empemail', 'default');
-			$level = Session::get('emplevel', 'default');
-			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
-			$requests = DB::table('create_requests')->get();
+	{		$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $date->format('Y-m-d');
+			$ts=strtotime($now);
+			$year = date('Y', $ts);
+			$is_post = 'false';
 			$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
 			->lists('full_name', 'id');
-		return View::make('dtr_report')
-				->with('employs_id',$employs_id)
-				->with('id', $id)
-				->with('name', $name)
-				->with('email', $email)
-				->with('level', $level)
-				->with('employees', $employees)
-				->with('requests', $requests);
-		
-		
+			return View::make('dtr_report')
+			->with('employs_id', $employs_id)
+			->with('year', $year)
+			->with('is_post', $is_post);	
+	}
+
+	public function postManual()
+	{		$dtr_date = Input::get('dtr_date');
+			$emp_id = Input::get('employs_id');
+			$month = Input::get('month');
+			$get_year = Input::get('year');
+			$punch_in = DB::table('punchstatus')
+			->join('punches', 'time_in_punch_id', '=', 'punches.id')
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->get();
+
+			$punch_out = DB::table('punchstatus')
+			->join('punches', 'time_out_punch_id', '=', 'punches.id')
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->get();
+
+			$punch_day = DB::table('punchstatus')->select(DB::raw('DAY(date) as day, id'))
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->lists('day', 'id');
+			$month_name = date("F", mktime(0, 0, 0, $month, 10));
+			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $date->format('Y-m-d');
+			$ts=strtotime($now);
+			$year = date('Y', $ts);
+			$is_post = 'true';
+			$employee = DB::table('employs')->where('id', '=', $emp_id)->get();
+			$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			->lists('full_name', 'id');
+			return View::make('dtr_report')
+			->with('employs_id', $employs_id)
+			->with('year', $year)
+			->with('is_post', $is_post)
+			->with('punch_in', $punch_in)
+			->with('punch_out', $punch_out)
+			->with('punch_day', $punch_day)
+			->with('employee', $employee)
+			->with('emp_id', $emp_id)
+			->with('get_year', $get_year)
+			->with('month_name', $month_name)
+			->with('dtr_date', $dtr_date);	
+	}
+
+
+	public function postManualAdjust()
+	{		
+			$emp_id = Input::get('emp_id');
+			$month = Input::get('month');
+			$get_year = Input::get('year');
+			$dtr_date = Input::get('dtr_date');
+			$time_in = Input::get('time_in');
+			$time_out = Input::get('time_out');
+
+			$punch_date = DB::table('punchstatus')
+			->where('employee_id', '=', $emp_id)
+			->where('date', '=', $dtr_date)->get();
+
+			
+			if($punch_date == null and $time_in != null and $time_out != null)
+			{
+
+				DB::statement('INSERT INTO punches (date, time, employee_id) values (?, ?, ?)',
+				 array($dtr_date, $time_in, $emp_id) );
+
+				$t_in = DB::table('punches')->max('id');
+
+				DB::statement('INSERT INTO punches (date, time, employee_id) values (?, ?, ?)',
+				 array($dtr_date, $time_out, $emp_id) );
+
+				$t_out = DB::table('punches')->max('id');
+
+				DB::statement('INSERT INTO punchstatus (time_in, time_in_punch_id, break_in, break_in_punch_id, 
+					break_out, break_out_punch_id, time_out, time_out_punch_id, date, employee_id)
+					 values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+				 array('On-time', $t_in, null, null, null, null, 'On-time', $t_out, $dtr_date, $emp_id) );
+			}
+			if($punch_date != null and $time_in != null and $time_out != null)
+			{		
+				foreach($punch_date as $pd){
+					DB::statement('UPDATE punches SET time=:sur WHERE id=:res2',
+				 		array('sur' => $time_in, 'res2' => $pd->time_in_punch_id) );
+
+					DB::statement('UPDATE punches SET time=:sur WHERE id=:res2',
+				 		array('sur' => $time_out, 'res2' => $pd->time_out_punch_id) );
+
+				}
+			}
+
+			$punch_in = DB::table('punchstatus')
+			->join('punches', 'time_in_punch_id', '=', 'punches.id')
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->get();
+
+			$punch_out = DB::table('punchstatus')
+			->join('punches', 'time_out_punch_id', '=', 'punches.id')
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->get();
+
+			$punch_day = DB::table('punchstatus')->select(DB::raw('DAY(date) as day, id'))
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->lists('day', 'id');
+
+
+			$month_name = date("F", mktime(0, 0, 0, $month, 10));
+			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $date->format('Y-m-d');
+			$ts=strtotime($now);
+			$year = date('Y', $ts);
+			$is_post = 'true';
+			$employee = DB::table('employs')->where('id', '=', $emp_id)->get();
+			$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			->lists('full_name', 'id');
+			return View::make('dtr_report')
+			->with('employs_id', $employs_id)
+			->with('year', $year)
+			->with('is_post', $is_post)
+			->with('punch_in', $punch_in)
+			->with('punch_out', $punch_out)
+			->with('punch_day', $punch_day)
+			->with('employee', $employee)
+			->with('get_year', $get_year)
+			->with('month_name', $month_name)
+			->with('emp_id', $emp_id)
+			->with('dtr_date', $dtr_date);	
+	}
+
+	public function postManualDelete()
+	{		
+			$emp_id = Input::get('emp_id');
+			$month = Input::get('month');
+			$get_year = Input::get('year');
+			$dtr_date = Input::get('dtr_date');
+
+			$punch_date = DB::table('punchstatus')
+			->where('employee_id', '=', $emp_id)
+			->where('date', '=', $dtr_date)->get();
+
+			
+			if($punch_date != null)
+			{
+
+				foreach($punch_date as $pd){
+					DB::statement("DELETE FROM punches WHERE id=:sid", array('sid'=>$pd->time_in_punch_id));
+
+					DB::statement("DELETE FROM punches WHERE id=:sid", array('sid'=>$pd->time_out_punch_id));
+
+				}
+
+					DB::statement("DELETE FROM punchstatus WHERE employee_id=:sid AND date=:sdate", array('sid'=>$emp_id, 'sdate'=>$dtr_date));
+			}
+
+			$punch_in = DB::table('punchstatus')
+			->join('punches', 'time_in_punch_id', '=', 'punches.id')
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->get();
+
+			$punch_out = DB::table('punchstatus')
+			->join('punches', 'time_out_punch_id', '=', 'punches.id')
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->get();
+
+			$punch_day = DB::table('punchstatus')->select(DB::raw('DAY(date) as day, id'))
+			->where('punchstatus.employee_id', '=', $emp_id)
+			->where( DB::raw('MONTH(punchstatus.date)'), '=', $month)
+			->where( DB::raw('YEAR(punchstatus.date)'), '=', $get_year)
+			->orderby('punchstatus.date')
+			->lists('day', 'id');
+
+
+			$month_name = date("F", mktime(0, 0, 0, $month, 10));
+			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $date->format('Y-m-d');
+			$ts=strtotime($now);
+			$year = date('Y', $ts);
+			$is_post = 'true';
+			$employee = DB::table('employs')->where('id', '=', $emp_id)->get();
+			$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			->lists('full_name', 'id');
+			return View::make('dtr_report')
+			->with('employs_id', $employs_id)
+			->with('year', $year)
+			->with('is_post', $is_post)
+			->with('punch_in', $punch_in)
+			->with('punch_out', $punch_out)
+			->with('punch_day', $punch_day)
+			->with('employee', $employee)
+			->with('get_year', $get_year)
+			->with('month_name', $month_name)
+			->with('emp_id', $emp_id);	
 	}
 
 	public function showDashboard()
