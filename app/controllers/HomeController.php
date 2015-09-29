@@ -13,9 +13,9 @@ class HomeController extends BaseController {
 	|
 	|	Route::get('/', 'HomeController@showWelcome');
 	|
-	*/
+	*/ 
 
-	public function showWelcome()
+	 public function showWelcome()
 	{
 		return View::make('homepage');
 	}
@@ -44,16 +44,29 @@ class HomeController extends BaseController {
 
 	public function showDashboard()
 	{	$request= DB::table('create_requests')->where('status', '=', 'approved')->count();
-		return View::make('dashboard')
+		 return View::make('dashboard')
 		->with('request', $request);
 	}
 
-	public function showApproved()
-	{		
-			$create_requests= DB::table('create_requests')->join('employs', 'employs.id', '=', 'create_requests.employee_id')->where('create_requests.status', '=', 'approved')->get();
+	public function postLeaveSummary()
+	{
+		$id = Input::get('id');
+		$emp_id = Input::get('emp_id');
+		$start_date = Input::get('start_date');
+		$end_date = Input::get('end_date');
+		$request_type = Input::get('type');
+		DB::statement('INSERT INTO leavesummaries (employee_id, start_date, end_date, request_type) values (?, ?, ?, ?)',
+				 array($emp_id, $start_date, $end_date, $request_type) );
+
+		$create_requests = DB::table('create_requests')->where('id','=', $id)->where('status', '=', 'approved')->get();
 			
+			foreach ($create_requests as $create_request) {
+			
+			DB::statement('UPDATE create_requests SET status=:sur WHERE id=:res2',
+				 array('sur' => 'changed', 'res2' => $id) );
+		}
+		$create_requests= DB::table('create_requests')->join('employs', 'employs.id', '=', 'create_requests.employee_id')->where('create_requests.status', '=', 'approved')->get();
 			$i = 0;
-		
 			
 			   // MySQL datetime format
 		if ($create_requests != null)	{
@@ -72,18 +85,59 @@ class HomeController extends BaseController {
 			$day1 = date('d', $ts1); /* I'VE ADDED THE DAY VARIABLE OF DATE1 AND DATE2 */
 			$day2 = date('d', $ts2);
 
-			$diff[$i] = (($year2 - $year1) * 360) + (($month2 - $month1)*12) + ($day2 - $day1);
+			$diff[$i] = (($year2 - $year1) * 360) + (($month2 - $month1)*12) + ($day2 - $day1) + 1;
 			$i++;
+				}
+		} else {
+			$diff = 0;
 		}
-} else {
-	$diff = 0;
-}
+		Session::flash('message10', 'Leave successfully executed');
+		return View::make('approved_leave')
+		->with('create_requests', $create_requests)
+		->with('diff', $diff);
+
+
+	}
+
+	public function showApproved()
+	{		
+			$create_requests= DB::table('employs')->join('create_requests', 'create_requests.employee_id', '=','employs.id' )->where('create_requests.status', '=', 'approved')->get();
+			$i = 0;
+					
+			   // MySQL datetime format
+			if ($create_requests != null)
+			{
+				foreach ($create_requests as $employee)
+				{
+					$now = $employee->end_date;
+					$hdate = $employee->start_date;
+					$ts1=strtotime($hdate);
+					$ts2=strtotime($now);
+
+					$year1 = date('Y', $ts1);
+					$year2 = date('Y', $ts2);
+
+					$month1 = date('m', $ts1);
+					$month2 = date('m', $ts2);
+
+					$day1 = date('d', $ts1); /* I'VE ADDED THE DAY VARIABLE OF DATE1 AND DATE2 */
+					$day2 = date('d', $ts2);
+
+					$diff[$i] = (($year2 - $year1) * 360) + (($month2 - $month1)*12) + ($day2 - $day1) + 1;
+					$i++;
+				}
+			} else 
+			{
+				$diff = 0;
+			}
+
+
 		
 		return View::make('approved_leave')
 		->with('create_requests', $create_requests)
 		->with('diff', $diff);
+	
 	}
-
 	public function showLogin()
 	{
 		return View::make('login');
@@ -98,7 +152,6 @@ class HomeController extends BaseController {
 	{
 		return View::make('transaction');
 	}
-	
 	public function showPdfreports()
 	{
 	
@@ -107,54 +160,22 @@ class HomeController extends BaseController {
 	}
 	public function showPdfreportsbranch()
 	{
-	
-		return View::make('reportsbybranch');
-		
+		return View::make('reportsbybranch');	
 	}
-	
+
 	public function showPdfreportsdepartment()
 	{
-	
-		return View::make('reportsbydepartment');
-		
-	}	
-	
+		return View::make('reportsbydepartment');	
+	}
+
 	public function showPdfreportshierarchy()
 	{
-	
-		return View::make('reportsbyhierarchy');
-		
+		return View::make('reportsbyhierarchy');	
 	}
 
 	public function showQuery()
 	{
 		return View::make('query');
-	}
-
-	public function showDTR()
-	{
-		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
-			$id = Session::get('empid', 'default');
-			$name = Session::get('empname', 'default');
-			$email = Session::get('empemail', 'default');
-			$level = Session::get('emplevel', 'default');
-			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
-			$requests = DB::table('create_requests')->get();
-		return View::make('dailytimerecord')
-				->with('id', $id)
-				->with('name', $name)
-				->with('email', $email)
-				->with('level', $level)
-				->with('employees', $employees)
-				->with('supervisor', $supervisor)
-				->with('requests', $requests);
-		}
-		else
-		{
-			Session::flash('message', 'Please login first!');
-				return Redirect::to('login/emploee');
-		}
 	}
 
 	public function showQueryEmpbydept()
@@ -184,55 +205,6 @@ class HomeController extends BaseController {
 		->with('departmentss',$departmentss);
 	}
 
-	public function showQueryEmpbyhierarchy()
-	{
-
-		$hierarchy = DB::table('hierarchies')->get();
-		foreach ($hierarchy as $hierarchies) {
-			$employees = DB::table('hierarchy_subordinates')
-			->where('hierarchy_id', '=', $hierarchies->id)
-			->get();
-			$employee_lists = array();
-		}
-		
-		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname, "- ", name) as full_name'), 'employs.id' )
-		->join('levels', 'level_id', '=', 'levels.id')
-		->where('level_id', '>', '0')
-		->orderBy('lname', 'asc')->lists('full_name', 'id');
-		$new_subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
-			 ->whereNotExists(function($query)
-            {
-                $query->select(DB::raw('employee_id'))
-                      ->from('hierarchy_subordinates')
-                      ->whereRaw('hierarchy_subordinates.employee_id = employs.id');
-            })
-			->where('level_id', '=', '0')
-			->orderBy('lname', 'asc')
-			->lists('full_name', 'id');
-		
-		foreach ($employees as $employee) {
-			$subordinates = DB::table('employs')->where('employs.id', '=', $employee->employee_id)->get();	
-			array_push($employee_lists, $subordinates);
-		}
-			
-		sort($employee_lists);
-		return View::make('empbyhierarchy')
-		->with('employees',$employees)
-		->with('hierarchy',$hierarchy)
-		->with('employee_lists', $employee_lists)
-		->with('supervisors', $supervisors)
-		->with('subordinates',$subordinates)
-		->with('new_subordinates', $new_subordinates);	
-	}
-		
-
-
-	public function postshowQueryEmpbyhierarchy()
-	{
-		return View::make('empbyhierarchy');
-	}
-
-
 	public function showQueryEmpbybranch()
 	{
 		$employs = DB::table('employs')->get();
@@ -246,6 +218,102 @@ class HomeController extends BaseController {
 		->with('branchess',$branchess)
 		->with('departments',$departments);
 
+	}
+
+	
+	public function showPdfreportsleave()
+	{
+		$month = '';
+		$year = '';
+		return View::make('reportsleave')
+		->with('month',$month)
+		->with('year',$year);
+	}
+
+	public function postPdfreportsleave()
+	{
+		$month = Input::get('month');
+		$year = Input::get('year');
+		Session::put('month_query', $month);
+		Session::put('year_query', $year);
+		return View::make('showreportleave')
+		->with('month',$month)
+		->with('year',$year);	
+	}
+
+
+
+	public function showPdfreportsdtr()
+	{
+		$emp_id = Input::get('employs_id');
+		$month = Input::get('month');
+		$get_year = Input::get('year');
+		$lname = '';
+		$fname = '';
+		Session::put('emp_query', $emp_id);
+		Session::put('month_query', $month);
+		Session::put('year_query', $get_year);
+
+		$employee = DB::table('employs')->where('id', '=', $emp_id)->get();
+		foreach ($employee as $emp)
+		{
+			$fname = $emp->fname;
+			$lname = $emp->lname;
+		}
+
+		Session::put('emp_lname', $lname);
+		Session::put('emp_fname', $fname);
+		
+		$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+		$now = $date->format('Y-m-d');
+		$ts = strtotime($now);
+		$year = date('Y', $ts);
+		$is_post = 'true';
+		$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			->lists('full_name', 'id');
+		return View::make('admindtr')
+		->with('employs_id',$employs_id)
+		->with('emp_id', $emp_id)
+		->with('year',$year)
+		->with('is_post', $is_post);	
+	}
+
+	public function showLeaveCases()
+	{
+		//$employee_num = DB::table('create_requests')
+		//->select('employee_id')
+		//->lists('employee_id');
+		//$employee = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )
+		//->whereIn('id',$employee_num)
+		//->lists('full_name', 'id');
+		$status = '';
+		$leaves = DB::table('create_requests')->get();
+		$employs = DB::table('employs')->get();
+		return View::make('leavecases')
+		->with('leaves',$leaves)
+		//->with('employee',$employee)
+		->with('employs',$employs)
+		->with('status',$status);
+		//->with('employee_num',$employee_num);
+	}
+
+	public function postshowLeaveCases()
+	{
+		$status = Input::get('status');
+		$date = Input::get('date');
+		//$leavesdate = DB::table('create_requests')
+		//->where('request_date','=',$date)
+		//->get();
+		$leaves = DB::table('create_requests')
+		->where('status','=',$status)
+		->orWhere('request_date','=',$date)
+		->get();
+		$employs = DB::table('employs')->get();
+		return View::make('leavecases')
+		->with('leaves',$leaves)
+		//->with('leavesdate',$leavesdate)
+		->with('status',$status)
+		->with('employs',$employs);
 	}
 
 	public function showLeaveCredit()
@@ -424,7 +492,7 @@ class HomeController extends BaseController {
 				$sick_leave = Input::get('deduction') + $leavecredit->sick_leave;
 				$vacation_leave = $leavecredit->vacation_leave;
 				}
-			else {
+			if ($type == 'vacation_leave') {
 				$sick_leave = $leavecredit->sick_leave;
 				$vacation_leave = Input::get('deduction') + $leavecredit->vacation_leave;
 				}
@@ -444,7 +512,7 @@ class HomeController extends BaseController {
 				$sick_leave = Input::get('deduction');
 				$vacation_leave = '0';
 				}
-			else {
+			if ($type == 'vacation_leave') {
 				$sick_leave = '0';
 				$vacation_leave = Input::get('deduction');
 				}
@@ -455,7 +523,7 @@ class HomeController extends BaseController {
 
 			$employs = DB::table('employs')->get();
 			$credits = DB::table('leavecredits')->get();
-		$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
 			$now = $date->format('Y-m-d');
 			$i = 0;
 		
@@ -595,6 +663,107 @@ class HomeController extends BaseController {
 
 		}
 				
+				public function Deduct()
+	{
+		$leavecredits = DB::table('leavecredits')->get();
+		$emp_id = Input::get('emp_id');
+		$start_date = Input::get('start_date');
+		$end_date = Input::get('end_date');
+		$request_type = Input::get('type');
+		$id = Input::get('id');
+		$days = Input::get('days');
+		DB::statement('INSERT INTO leavesummaries (employee_id, start_date, end_date, request_type) values (?, ?, ?, ?)',
+				 array($emp_id, $start_date, $end_date, $request_type) );
+		$create_requests = DB::table('create_requests')->where('id','=', $id)->where('status', '=', 'approved')->get();
+		foreach ($create_requests as $create_request) {
+			
+			DB::statement('UPDATE create_requests SET status=:sur WHERE id=:res2',
+				 array('sur' => 'changed', 'res2' => $create_request->id) );
+		}
+		foreach ($leavecredits as $leavecredit)
+		{
+	
+		if ($leavecredit->employee_id == $emp_id)
+			{
+			$employee_id = $emp_id;
+			$type = Input::get('type');
+			if ($type == 'Sick Leave')
+				{
+				$sick_leave = Input::get('days') + $leavecredit->sick_leave;
+				$vacation_leave = $leavecredit->vacation_leave;
+				}
+			if ($type == 'Vacation Leave') {
+				$sick_leave = $leavecredit->sick_leave;
+				$vacation_leave = Input::get('days') + $leavecredit->vacation_leave;
+				}
+
+				DB::statement('UPDATE leavecredits SET sick_leave=:leave1 , vacation_leave=:leave2   WHERE employee_id=:res2',
+				 array('leave1' => $sick_leave, 'leave2' => $vacation_leave, 'res2' => $emp_id) );
+			}
+		}
+		$leavecredits = DB::table('leavecredits')->where('employee_id', '=', $emp_id)->get();
+		if ($leavecredits == null)
+		{
+			$id = DB::table('leavecredits')->max('id');
+			$id = $id + 1;
+			
+			$type = Input::get('type');
+			if ($type == 'Sick Leave')
+				{
+				$sick_leave = Input::get('days');
+				$vacation_leave = '0';
+				}
+			if ($type == 'Vacation Leave'){
+				$sick_leave = '0';
+				$vacation_leave = Input::get('days');
+					}
+			if ($type != 'Vacation Leave' && $type != 'Sick Leave'){
+				$sick_leave = '0';
+				$vacation_leave = '0';
+					}
+				DB::statement('INSERT INTO leavecredits (employee_id, sick_leave, vacation_leave) values (?, ?, ?)',
+				 array($emp_id, $sick_leave, $vacation_leave) );
+			}
+			
+
+			$create_requests= DB::table('create_requests')->join('employs', 'employs.id', '=', 'create_requests.employee_id')->where('create_requests.status', '=', 'approved')->get();
+			
+			$i = 0;
+		
+			
+			   // MySQL datetime format
+		if ($create_requests != null)	{
+			foreach ($create_requests as $employee) {
+			$now = $employee->end_date;
+			$hdate = $employee->start_date;
+			$ts1=strtotime($hdate);
+			$ts2=strtotime($now);
+
+			$year1 = date('Y', $ts1);
+			$year2 = date('Y', $ts2);
+
+			$month1 = date('m', $ts1);
+			$month2 = date('m', $ts2);
+
+			$day1 = date('d', $ts1); /* I'VE ADDED THE DAY VARIABLE OF DATE1 AND DATE2 */
+			$day2 = date('d', $ts2);
+
+			$diff[$i] = (($year2 - $year1) * 360) + (($month2 - $month1)*12) + ($day2 - $day1) + 1;
+			$i++;
+					}
+			} else {
+				$diff = 0;
+			}
+		
+		Session::flash('message11', 'Leave successfully executed, leave credits deducted from the employee');
+		return View::make('approved_leave')
+		->with('create_requests', $create_requests)
+		->with('diff', $diff);
+
+
+
+		}
+				
 	
 	public function showEmpSummary()
 	{
@@ -613,8 +782,6 @@ class HomeController extends BaseController {
 		->with('contracts',$contracts);
 
 	}
-
-	
 
 	public function showReport()
 	{
