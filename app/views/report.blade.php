@@ -13,25 +13,31 @@
 
 			<div class = "col-md-4">
 				<img src="{{ URL::asset('img/Request.png') }}">
-				<a style="color:white;" href="{{URL::to('report/branch')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Reports by Branch</a>
+				<a style="color:white;" href="{{URL::to('report/branch')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee by Branch</a>
 				<hr>
 			</div>
 
 			<div class = "col-md-4">
 				<img src="{{ URL::asset('img/Request.png') }}">
-				<a style="color:white;" href="{{URL::to('report/department')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Reports by Department</a>
+				<a style="color:white;" href="{{URL::to('report/department')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee by Department</a>
 				<hr>
 			</div>
 			
 			<div class = "col-md-4">
 				<img src="{{ URL::asset('img/Request.png') }}">
-				<a style="color:white;" href="{{URL::to('report/hierarchy')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Reports by Hierarchy</a>
+				<a style="color:white;" href="{{URL::to('report/hierarchy')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Hierarchy Structure</a>
 				<hr>
 			</div>
 			
 			<div class = "col-md-4">
 				<img src="{{ URL::asset('img/Request.png') }}">
-				<a style="color:white;" href="{{URL::to('report/leavecases')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Reports Leave Cases</a>
+				<a style="color:white;" href="{{URL::to('report/leavecases')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Leave Cases</a>
+				<hr>
+			</div>
+
+			<div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
+				<a style="color:white;" href="{{URL::to('report/dtr')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Daily Time Record</a>
 				<hr>
 			</div>
 

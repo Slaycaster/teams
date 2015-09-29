@@ -35,7 +35,7 @@
 	Route::resource('employee/accumulated_hours','EmployeeLoginController@showAccumulatedHours');
 	Route::post('change_password', array('uses' => 'EmployeeLoginController@changePassword'));
 	Route::get('employee/change_password', array('uses' => 'EmployeeLoginController@showChangePassword'));
-	Route::get('employee/dailytimerecord','EmployeeLoginController@showDTR');
+	Route::get('employee/dailytimerecord', array('uses' => 'EmployeeLoginController@showDTR'));
 	Route::get('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
 	Route::get('employee/empdownloads', array('uses' => 'EmployeeLoginController@showEmpdownload'));
 	Route::post('employee/empdownloadshow', array('uses' => 'EmployeeLoginController@postEmpdownload'));
@@ -48,6 +48,7 @@
 	Route::get('employee/schedulequery', array('uses' => 'EmployeeLoginController@showScheduleQuery'));
 	Route::get('employee/leavehistory', array('uses' => 'EmployeeLoginController@showLeaveHistory'));
 	Route::get('employee/requesthistory', array('uses' => 'EmployeeLoginController@showRequestHistory'));
+	Route::get('report/dtr', array('uses' => 'HomeController@showPdfreportsdtr'));
 	
 	/*MOBILE APP ROUTES*/
 	Route::post('api/schedule', array('uses' => 'MobileController@showSchedule'));
@@ -87,7 +88,7 @@
 			'as' => 'employs.search',
 			'uses' => 'EmploysController@postSearch'
 		));
-
+		
 		Route::resource('exception_groups', 'Exception_groupsController');
 		Route::resource('assign_exceptions', 'Assign_exceptionsController');
 		Route::resource('leave_grants', 'Leave_grantsController');
@@ -96,10 +97,17 @@
 		Route::resource('empschedules', 'EmpschedulesController');
 		Route::resource('assign_overtimes','Assign_overtimesController');
 		Route::get('queries/dtr','HomeController@showManual');
+		Route::post('queries/dtr', array('uses' => 'HomeController@postManual'));
+		
+		Route::post('queries/dtr_adjusted', function()
+		 { if(Input::get('Change')) { $action = 'postManualAdjust'; }
+		 elseif(Input::get('Delete')) { $action = 'postManualDelete'; } 
+			return App::make('HomeController')->$action(); });
 		Route::get('emp_schedules/remove', array('uses' => 'EmpschedulesController@removeFromSched'));
 		Route::get('transactions/assign_hierarchy', array('uses' => 'HierarchiesController@assignSubordinates'));
 		Route::post('transactions/assign_hierarchy', array('uses' => 'HierarchiesController@postAssignSubordinates'));
 		Route::post('emp_schedules/remove', array('uses' => 'EmpschedulesController@postRemoveFromSched'));
+		Route::get('transactions/edit_dtr', array('uses' => 'HomeController@showEditDtr'));
 		Route::post('transaction', array('uses' => 'EmpschedulesController@delEmployeeFromSched'));
 		Route::post('schedules/assign_employee', array('uses' => 'SchedulesController@addExtraEmployees'));
 		Route::post('schedules/remove_employee', array('uses' => 'SchedulesController@removeEmployees'));

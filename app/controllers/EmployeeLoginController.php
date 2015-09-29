@@ -12,7 +12,6 @@ class EmployeeLoginController extends BaseController
 		$rules = array(
 			'username'   => 'required', 
 			'password'=> 'required|alphaNum|min:4'
-
 			);
 
  
@@ -459,7 +458,7 @@ class EmployeeLoginController extends BaseController
 		}
 
 	}
-
+/*
 	public function postshowAccumulatedHours()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
@@ -541,7 +540,36 @@ class EmployeeLoginController extends BaseController
 		}
 
 	}
-
+*/
+	public function showDTR()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$month = Input::get('month');
+			$get_year = Input::get('year');
+			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$requests = DB::table('create_requests')->get();
+			Session::put('month_query', $month);
+			Session::put('year_query', $get_year);
+		return View::make('reportsdaily')
+				->with('id', $id)
+				->with('name', $name)
+				->with('email', $email)
+				->with('level', $level)
+				->with('employees', $employees)
+				->with('supervisor', $supervisor)
+				->with('requests', $requests);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}	
 
 	public function showExceptions()
 	{
@@ -586,32 +614,6 @@ class EmployeeLoginController extends BaseController
 				return Redirect::to('login/employee');
 		}
 	}
-
-    public function showDTR()
-	{
-		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
-			$id = Session::get('empid', 'default');
-			$name = Session::get('empname', 'default');
-			$email = Session::get('empemail', 'default');
-			$level = Session::get('emplevel', 'default');
-			$employees = DB::table('employs')->where('level_id', '=', '0')->get();
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
-			$requests = DB::table('create_requests')->get();
-		return View::make('reportsdaily')
-				->with('id', $id)
-				->with('name', $name)
-				->with('email', $email)
-				->with('level', $level)
-				->with('employees', $employees)
-				->with('supervisor', $supervisor)
-				->with('requests', $requests);
-		}
-		else
-		{
-			Session::flash('message', 'Please login first!');
-				return Redirect::to('login/employee');
-		}
-	}	
 	public function showRequestsAuthorization()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
