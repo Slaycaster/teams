@@ -456,7 +456,178 @@ class EmployeeLoginController extends BaseController
 			Session::flash('message', 'Please login first!');
 				return Redirect::to('login/employee');
 		}
-	}
+	}//show accumulated hours (post)
+
+	public function showAccumulatedSub()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) 
+		{
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$acchrs = 0;
+			$total = 0;
+			$overtime = 0;
+			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $datenow->format('Y-m-d');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$hierarchies = DB::table('hierarchies')
+			->select('id')
+			->where('supervisor_id','=',$id)
+			->lists('id');
+			$subordinates = DB::table('hierarchy_subordinates')
+			->select('employee_id')
+			->whereIn('hierarchy_id',$hierarchies)
+			->lists('employee_id');
+			$user = DB::table('employs')
+			->whereIn('id',$subordinates)
+			->get();
+			$employers=array();
+			$employee_lists = array();
+		
+			
+			foreach($user as $employs)
+			{	
+				$acchrs = 0;
+			$total = 0;
+			$overtime = 0;
+				$ifot = DB::table('overtime_subordinates')
+				->select('overtime_id')
+				->where('employee_id','=',$employs->id)
+				->lists('overtime_id');
+				if($ifot != null)
+				{
+					$allowedothr = DB::table('overtime_policies')
+					->where('id','=',$ifot)
+					->get();
+				}
+				$ifsched = DB::table('empschedules')
+				->select('schedule_id')
+				->where('employee_id','=',$employs->id)
+				->lists('schedule_id');
+				if($ifsched != null)
+				{
+					$schedto = DB::table('schedules')
+					->select('m_timeout')
+					->where('id','=',$ifsched)
+					->get();
+				}
+				$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+				$punchin = DB::table('punchstatus')
+				->select('time_in_punch_id')
+				->where('employee_id','=',$employs->id)
+				->where('date','=',$now)
+				->lists('time_in_punch_id');
+				$punchout =DB::table('punchstatus')
+				->select('time_out_punch_id')
+				->where('employee_id','=',$employs->id)
+				->where('date','=',$now)
+				->lists('time_out_punch_id');
+
+				if($punchin != null && $punchout != null)
+				{
+					$timein = DB::table('punches')
+					->where('id','=',$punchin)
+					->get();
+
+					$timeout = DB::table('punches')
+					->where('id','=',$punchout)
+					->get();
+
+					foreach($timein as $time_in)
+					{
+						foreach($timeout as $time_out)
+						{
+							foreach($schedto as $sched)
+							{
+								if($time_out->time > $sched->m_timeout)
+								{
+									if($ifot != null)
+									{
+										foreach($allowedothr as $hr)
+										{
+										foreach($schedto as $schedout)
+										{
+											$span = ($schedout->m_timeout + $hr->Allowed_number_of_hours) + $hr->active_after;
+											if($time_out->time > $span)
+											{
+												$overtime = ($span - $schedout->m_timeout) - $hr->active_after;
+											}
+											else
+											{	
+												$overtime = ($time_out->time - $schedout->m_timeout) - $hr->active_after;
+											}
+											$acchrs = $schedout->m_timeout - $time_in->time;
+											if($acchrs < 0 )
+											{
+												$acchrs = $acchrs + 12;
+											}
+											$total = $total + $acchrs + $overtime;
+										} 
+										}
+									}
+									else
+									{
+										foreach($schedto as $schedout)
+										{
+										$acchrs = $schedout->m_timeout - $time_in->time;
+										if($acchrs < 0 )
+										{
+											$acchrs = $acchrs + 12;
+							
+										}
+										$total = $total + $acchrs + $overtime;
+										}
+									}
+							
+								}
+								else
+								{
+									$acchrs = $time_out->time - $time_in->time;
+									if($acchrs < 0 )
+									{
+										$acchrs = $acchrs + 12;
+									}
+									$total = $total + $acchrs + $overtime;
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					$acchrs= 'walang time in';
+					$overtime ='wala kang time time in';
+					$total = 'wala ka ring time in';
+				}
+				$employers = array('id' => $employs->lname, 'total' => $total, 'acchrs' => $acchrs,'overtime' =>$overtime);
+				array_push($employee_lists, $employers);
+			}
+			
+			return View::make('accmltddhrssubodinates')
+				->with('id', $id)
+				
+				->with('name', $name)
+				->with('email', $email)
+				->with('supervisor', $supervisor)
+				
+				->with('level', $level)
+				->with('hierarchies',$hierarchies)
+				->with('subordinates',$subordinates)
+				->with('total',$total)
+				->with('overtime',$overtime)
+				->with('acchrs',$acchrs)
+				->with('employee_lists',$employee_lists)
+				->with('user',$user);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+		
+	}//show accumulated hours (subordinates)
 
 	public function showDTR()
 	{
