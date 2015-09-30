@@ -42,6 +42,9 @@
 	Route::post('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
 	Route::post('employee/pdfviewer', array('uses' => 'EmployeeLoginController@postPdf'));
 	Route::post('employee/accmldthrs', array('uses' => 'EmployeeLoginController@postshowAccumulatedHours'));
+	Route::post('employee/postpunctassessment', array('uses' => 'EmployeeLoginController@postshowPunctualityAssessment'));
+	Route::get('employee/accmltddhrssubodinates', array('uses' => 'EmployeeLoginController@showAccumulatedSub'));
+	Route::get('employee/punctassessmentsub', array('uses' => 'EmployeeLoginController@showPunctualitySub'));
 	Route::get('employee/leave_credits', array('uses' => 'EmployeeLoginController@showLeaveCredit'));
 	Route::get('employee/employeesummary', array('uses' => 'EmployeeLoginController@showEmployeeSummary'));
 	Route::get('employee/dtrsubordinates', array('uses' => 'EmployeeLoginController@showDtrSubordinates'));
@@ -49,6 +52,7 @@
 	Route::get('employee/leavehistory', array('uses' => 'EmployeeLoginController@showLeaveHistory'));
 	Route::get('employee/requesthistory', array('uses' => 'EmployeeLoginController@showRequestHistory'));
 	Route::get('report/dtr', array('uses' => 'HomeController@showPdfreportsdtr'));
+	Route::get('employee/punctassessment', array('uses' => 'EmployeeLoginController@showPunctualityAssessment'));
 	
 	/*MOBILE APP ROUTES*/
 	Route::post('api/schedule', array('uses' => 'MobileController@showSchedule'));
@@ -134,6 +138,8 @@
 		Route::post('addsubordinates', array('uses' => 'HierarchiesController@addSubordinates'));
 		Route::post('removesubordinates', array('uses' => 'HierarchiesController@removeSubordinates'));
 		Route::resource('absent_employee', 'HomeController@showAbsent');
+		Route::resource('accumulatedhours', 'HomeController@showAccumulatedHoursAdmin');
+		Route::resource('punctualityassessment', 'HomeController@showPunctualityAssessmentAdmin');
 	});
 
 ?>

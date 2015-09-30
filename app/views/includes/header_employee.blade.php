@@ -30,14 +30,17 @@
                             </li>
                                  @foreach($supervisor as $supervisors)
                                 @if( $supervisors->supervisor_id == $id)
-                                <li><a href="{{ URL::to('employee/employeesummary') }}">Employee Summary</a></li>
-                                <li><a href="{{ URL::to('employee/dtrsubordinates') }}">DTR Subordinates</a></li>
+                                <li><a href="{{ URL::to('employee/employeesummary') }}">Employee Summary - Subordinates</a></li>
+                                <li><a href="{{ URL::to('employee/dtrsubordinates') }}">DTR - Subordinates</a></li>
+                                 <li><a href="{{ URL::to('employee/accmltddhrssubodinates') }}">Accumulated Hours - Subordinates</a></li>
+                                 <li><a href="{{ URL::to('employee/punctassessmentsub') }}">Punctuality Assessment - Subordinates</a></li>
                                 <li><a href="{{ URL::to('employee/requesthistory') }}">Request History</a></li>
                                 @endif
                                 @endforeach
                                 <li><a href="{{ URL::to('employee/schedulequery') }}">Schedule</a></li>
                                  <li><a href="{{ URL::to('employee/leavehistory') }}">Leave History</a></li>
                                  <li><a href="{{ URL::to('employee/accumulated_hours') }}">Accumulated Hours</a></li>
+                                 <li><a href="{{ URL::to('employee/punctassessment') }}">Punctuality Assessment</a></li>
                                 </ul>
                             <li class="dropdown"><a href = "#">Reports<b class="caret"></b></a>
                                 <ul class="dropdown-menu">
