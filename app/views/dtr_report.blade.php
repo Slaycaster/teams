@@ -88,6 +88,7 @@
                          {{ Form::text('time_in', $in->time, array('autocomplete' => 'off', 'size' => '10')) }}
                         <br> <br>
                 @endforeach
+                </div>
                 <div class ='col-md-4' style="margin-top:-15px;">
                 <center><h2>PM</h2> </center> <br>
                 @foreach ($punch_out as $out)
@@ -95,7 +96,7 @@
                         <br> <br>
                  @endforeach
              
-        </div>       
+               </div>       
 </div>
 @endif
 </div>

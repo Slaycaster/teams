@@ -21,9 +21,12 @@ class Holiday_policiesController extends BaseController {
 	 */
 	public function index()
 	{
-		$holiday_policies = $this->holiday_policy->all();
 
-		return View::make('holiday_policies.index', compact('holiday_policies'));
+		$holiday_policies = $this->holiday_policy->all();
+		$branches = DB::table('branches')
+		->lists('branch_name','id');
+		return View::make('holiday_policies.index', compact('holiday_policies'))
+		->with('branches',$branches);
 	}
 
 	/**
@@ -45,10 +48,29 @@ class Holiday_policiesController extends BaseController {
 	{
 		$input = Input::all();
 		$validation = Validator::make($input, Holiday_policy::$rules);
-
+		$holiday_id = DB::table('holiday_policies')->max('id');
+		$holiday_id = $holiday_id + 1;
 		if ($validation->passes())
 		{
-			$this->holiday_policy->create($input);
+			$holiday = new Holiday_policy;
+			$holiday->holiday_name = Input::get('holiday_name');
+			$holiday->description = Input::get('description');
+			$holiday->default_schedule_status = Input::get('default_schedule_status');
+			$holiday->holiday_type = Input::get('holiday_type');
+			$holiday->recurring = Input::get('recurring');
+			$holiday->day_of_month = Input::get('day_of_month');
+			$holiday->month = Input::get('month');
+			$holiday->year = Input::get('year');
+
+			$branches = Input::get('branches');
+
+			foreach ($branches as $branch) {	
+				DB::table('branches_holidays')->insert(array(
+					array('holiday_id' => $holiday_id, 'branch_id' => $branch)
+				));
+			}
+				
+			$holiday->save();
 
 			return Redirect::route('holiday_policies.index');
 		}

@@ -8,7 +8,6 @@
 <p style="color:black">____________________________________</p>
 <p style="color:black">Name</p>
 
-
 <p style="color:black"> For the month of _____________ 20 ___ </p>
 <p style="color:black">Regular Days ___________ </p>
 <p style="color:black">Saturdays ___________ </p>

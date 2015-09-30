@@ -5,6 +5,7 @@ class Holiday_policy extends Eloquent {
 
 	public static $rules = array(
 		'holiday_name' => 'required',
-		'default_schedule_status' => 'required'
+		'default_schedule_status' => 'required',
+		'holiday_type'=>'required'
 	);
 }

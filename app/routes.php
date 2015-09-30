@@ -133,9 +133,12 @@
 		Route::post('leavesummary', array('uses' => 'HomeController@postLeaveSummary'));
 		Route::post('addsubordinates', array('uses' => 'HierarchiesController@addSubordinates'));
 		Route::post('removesubordinates', array('uses' => 'HierarchiesController@removeSubordinates'));
+		Route::resource('absent_employee', 'HomeController@showAbsent');
 	});
 
 ?>
+
+
 
 
 

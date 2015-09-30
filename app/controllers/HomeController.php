@@ -20,6 +20,19 @@ class HomeController extends BaseController {
 		return View::make('homepage');
 	}
 
+	public function showAbsent()
+	{
+		$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $date->format('Y-m-d');
+		$absents = DB::table('punchstatus')->join('employs','punchstatus.employee_id' , '=', 'employs.id')
+		->where('punchstatus.date', '=', $now)->where('time_in', '=', 'Absent')->get();
+		$departments = DB::table('departments')->get();
+		return View::make('absent_employee')
+			->with('absents', $absents)
+			->with('departments', $departments);
+		
+	}
+
 	public function showManual()
 	{
 			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
@@ -220,11 +233,16 @@ class HomeController extends BaseController {
 	}
 
 	public function showDashboard()
-	{	$request= DB::table('create_requests')->where('status', '=', 'approved')->count();
+	{	
+		$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+		$now = $date->format('Y-m-d');
+		$request= DB::table('create_requests')->where('status', '=', 'approved')->count();
+		$punch= DB::table('punchstatus')->where('date', '=', $now)->where('time_in', '=', 'Absent')->count();
 		 return View::make('dashboard')
-		->with('request', $request);
+		->with('request', $request)
+		->with('punch', $punch)
+		;
 	}
-
 	public function postLeaveSummary()
 	{
 		$id = Input::get('id');
@@ -396,7 +414,7 @@ class HomeController extends BaseController {
 		->with('departments',$departments);
 
 	}
-
+/*ROCK WELL =====================================================================*/
 	
 	public function showPdfreportsleave()
 	{
@@ -455,30 +473,19 @@ class HomeController extends BaseController {
 	
 	public function showLeaveCases()
 	{
-		//$employee_num = DB::table('create_requests')
-		//->select('employee_id')
-		//->lists('employee_id');
-		//$employee = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )
-		//->whereIn('id',$employee_num)
-		//->lists('full_name', 'id');
 		$status = '';
 		$leaves = DB::table('create_requests')->get();
 		$employs = DB::table('employs')->get();
 		return View::make('leavecases')
 		->with('leaves',$leaves)
-		//->with('employee',$employee)
 		->with('employs',$employs)
 		->with('status',$status);
-		//->with('employee_num',$employee_num);
 	}
 
 	public function postshowLeaveCases()
 	{
 		$status = Input::get('status');
 		$date = Input::get('date');
-		//$leavesdate = DB::table('create_requests')
-		//->where('request_date','=',$date)
-		//->get();
 		$leaves = DB::table('create_requests')
 		->where('status','=',$status)
 		->orWhere('request_date','=',$date)
@@ -486,10 +493,10 @@ class HomeController extends BaseController {
 		$employs = DB::table('employs')->get();
 		return View::make('leavecases')
 		->with('leaves',$leaves)
-		//->with('leavesdate',$leavesdate)
 		->with('status',$status)
 		->with('employs',$employs);
 	}
+/*ROCK WELL =========================================*/
 
 	public function showLeaveCredit()
 	{
@@ -499,9 +506,8 @@ class HomeController extends BaseController {
 		$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
 			$now = $date->format('Y-m-d');
 			$i = 0;
-		
-			
-			   // MySQL datetime format
+
+			// MySQL datetime format
 			
 			foreach ($employs as $employee) {
 			

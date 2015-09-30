@@ -17,9 +17,12 @@ class CreateHolidayPoliciesTable extends Migration {
 			$table->string('holiday_name');
 			$table->text('description');
 			$table->string('default_schedule_status');
+			$table->string('holiday_type');
 			$table->time('holiday_time');
 			$table->integer('day_of_month');
 			$table->string('month');
+			$table->string('year')
+			$table->integer('branches_holiday_id');
 			$table->timestamps();
 		});
 	}

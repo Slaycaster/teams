@@ -456,91 +456,8 @@ class EmployeeLoginController extends BaseController
 			Session::flash('message', 'Please login first!');
 				return Redirect::to('login/employee');
 		}
-
 	}
-/*
-	public function postshowAccumulatedHours()
-	{
-		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
-			$acchrs = 0;
-			$total = 0;
-			
-			
-			$datefrom = Input::get('datefrom');
-			$dateto = Input::get('dateto');
 
-			//$dateto = new Datetime();
-			//$datefrom = new DateTime();
-			//$difference = date_diff($datefrom,$dateto);
-			//$elapsed = $difference->format('%y years %m months %a days %h hours %i minutes %S seconds');
-			$id = Session::get('empid', 'default');
-			$name = Session::get('empname', 'default');
-			$email = Session::get('empemail', 'default');
-			$level = Session::get('emplevel', 'default');
-			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
-			$punchin = DB::table('punchstatus')
-			->select('time_in_punch_id')
-			->whereBetween('punchstatus.date', array($datefrom , $dateto))
-			->where('employee_id','=',$id)
-			//->where('date','=',$datefrom)
-			->lists('time_in_punch_id');
-
-			
-
-			$punchout =DB::table('punchstatus')
-			->select('time_out_punch_id')
-			->whereBetween('punchstatus.date', array($datefrom, $dateto))
-			->where('employee_id','=',$id)
-			->lists('time_out_punch_id');
-			
-
-
-			if($punchin != null && $punchout != null)
-			{
-				$timein = DB::table('punches')
-				->whereIn('id',$punchin)
-				->get();
-				
-				$timeout = DB::table('punches')
-				->whereIn('id',$punchout)
-				->get();
-				
-				foreach($timein as $time_in)
-				{
-					foreach($timeout as $time_out)
-					{
-						$acchrs = $time_out->time - $time_in->time;
-						if($acchrs < 0 )
-						{
-							
-							$acchrs = $acchrs + 12;
-							
-						}
-						
-					}
-					$total = $total + $acchrs;
-				}
-			}
-
-			return View::make('accumulated_hours')
-				->with('id', $id)
-				->with('name', $name)
-				->with('email', $email)
-				->with('total',$total)
-				->with('supervisor',$supervisor)
-				->with('punchin',$punchin)
-				->with('punchout',$punchout)
-				->with('acchrs',$acchrs)
-				->with('level', $level);
-			}	
-		else
-		{
-			Session::flash('message', 'Please login first!');
-				return Redirect::to('login/employee');
-		}
-
-	}
-*/
 	public function showDTR()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
@@ -555,7 +472,25 @@ class EmployeeLoginController extends BaseController
 			$requests = DB::table('create_requests')->get();
 			Session::put('month_query', $month);
 			Session::put('year_query', $get_year);
-		return View::make('reportsdaily')
+
+			$employee = DB::table('employs')->where('id', '=', $id)->get();
+			foreach ($employee as $emp)
+			{
+				$fname = $emp->fname;
+				$lname = $emp->lname;
+			}
+
+			Session::put('emp_lname', $lname);
+			Session::put('emp_fname', $fname);
+			
+			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $date->format('Y-m-d');
+			$ts = strtotime($now);
+			$year = date('Y', $ts);
+			$is_post = 'true';
+			$employs_id = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+				->lists('full_name', 'id');
+			return View::make('reportsdaily')
 				->with('id', $id)
 				->with('name', $name)
 				->with('email', $email)
@@ -567,7 +502,7 @@ class EmployeeLoginController extends BaseController
 		else
 		{
 			Session::flash('message', 'Please login first!');
-				return Redirect::to('login/employee');
+			return Redirect::to('login/employee');
 		}
 	}	
 
