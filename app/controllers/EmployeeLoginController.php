@@ -597,9 +597,9 @@ class EmployeeLoginController extends BaseController
 				}
 				else
 				{
-					$acchrs= 'walang time in';
-					$overtime ='wala kang time time in';
-					$total = 'wala ka ring time in';
+					$acchrs= 0;
+					$overtime = 0;
+					$total = 0;
 				}
 				$employers = array('id' => $employs->lname, 'total' => $total, 'acchrs' => $acchrs,'overtime' =>$overtime);
 				array_push($employee_lists, $employers);
@@ -611,7 +611,7 @@ class EmployeeLoginController extends BaseController
 				->with('name', $name)
 				->with('email', $email)
 				->with('supervisor', $supervisor)
-				
+				->with('now',$now)
 				->with('level', $level)
 				->with('hierarchies',$hierarchies)
 				->with('subordinates',$subordinates)
@@ -629,6 +629,239 @@ class EmployeeLoginController extends BaseController
 		
 	}//show accumulated hours (subordinates)
 
+	public function showPunctualityAssessment()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$dateto = "";
+			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $datenow->format('Y-m-d');
+			$ontime=DB::table('punchstatus')
+			->select('time_in')
+			->where('date','=',$now)
+			->where('time_in','=','On-Time')
+			->where('employee_id','=',$id)
+			->count();
+			$late=DB::table('punchstatus')
+			->select('time_in')
+			->where('date','=',$now)
+			->where('time_in','=','Late')
+			->where('employee_id','=',$id)
+			->count();
+			$earlyout = DB::table('punchstatus')
+			->select('time_out')
+			->where('date','=',$now)
+			->where('time_out','=','Early out')
+			->where('employee_id','=',$id)
+			->count();
+			$absent=DB::table('punchstatus')
+			->select('time_in')
+			->where('date','=',$now)
+			->where('time_in','=','Absent')
+			->where('employee_id','=',$id)
+			->count();
+			$earlybreak = DB::table('punchstatus')
+			->select('break_in')
+			->where('date','=',$now)
+			->where('break_in','=','Early break')
+			->where('employee_id','=',$id)
+			->count();
+			$longbreak = DB::table('punchstatus')
+			->select('break_out')
+			->where('date','=',$now)
+			->where('break_out','=','Long break')
+			->where('employee_id','=',$id)
+			->count();
+			return View::make('punctassessment')
+				->with('id', $id)
+				->with('ontime',$ontime)
+				->with('late',$late)
+				->with('absent',$absent)
+				->with('earlybreak',$earlybreak)
+				->with('longbreak',$longbreak)
+				->with('earlyout',$earlyout)
+				->with('name', $name)
+				->with('email', $email)
+				->with('supervisor', $supervisor)
+				->with('now',$now)
+				->with('dateto',$dateto)
+				->with('level', $level);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+	}
+	//show punctuality assessment
+
+	public function postshowPunctualityAssessment()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = Input::get('datefrom');
+			$datefrom = Input::get('datefrom');
+			$dateto = Input::get('dateto');
+			$ontime=DB::table('punchstatus')
+			->select('time_in')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('time_in','=','On-Time')
+			->where('employee_id','=',$id)
+			->count();
+			$late=DB::table('punchstatus')
+			->select('time_in')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('time_in','=','Late')
+			->where('employee_id','=',$id)
+			->count();
+			$earlyout = DB::table('punchstatus')
+			->select('time_out')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('time_out','=','Early out')
+			->where('employee_id','=',$id)
+			->count();
+			$absent=DB::table('punchstatus')
+			->select('time_in')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('time_in','=','Absent')
+			->where('employee_id','=',$id)
+			->count();
+			$earlybreak = DB::table('punchstatus')
+			->select('break_in')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('break_in','=','Early break')
+			->where('employee_id','=',$id)
+			->count();
+			$longbreak = DB::table('punchstatus')
+			->select('break_out')
+			->whereBetween('punchstatus.date', array($datefrom , $dateto))
+			->where('break_out','=','Long break')
+			->where('employee_id','=',$id)
+			->count();
+			return View::make('punctassessment')
+				->with('id', $id)
+				->with('ontime',$ontime)
+				->with('late',$late)
+				->with('absent',$absent)
+				->with('earlybreak',$earlybreak)
+				->with('longbreak',$longbreak)
+				->with('earlyout',$earlyout)
+				->with('name', $name)
+				->with('email', $email)
+				->with('supervisor', $supervisor)
+				->with('now',$now)
+				->with('dateto',$dateto)
+				->with('level', $level);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+
+	}
+	//show punctuality assessment (post)
+	public function showPunctualitySub()
+	{
+		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {
+			$id = Session::get('empid', 'default');
+			$name = Session::get('empname', 'default');
+			$email = Session::get('empemail', 'default');
+			$level = Session::get('emplevel', 'default');
+			$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+			$hierarchies = DB::table('hierarchies')
+			->select('id')
+			->where('supervisor_id','=',$id)
+			->lists('id');
+			$subordinates = DB::table('hierarchy_subordinates')
+			->select('employee_id')
+			->whereIn('hierarchy_id',$hierarchies)
+			->lists('employee_id');
+			$user = DB::table('employs')
+			->whereIn('id',$subordinates)
+			->get();
+			$employers=array();
+			$employee_lists = array();
+			$dateto = "";
+			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $datenow->format('Y-m-d');
+
+			foreach($user as $employs)
+			{	
+				$ontime=DB::table('punchstatus')
+				->select('time_in')
+				->where('date','=',$now)
+				->where('time_in','=','On-Time')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$late=DB::table('punchstatus')
+				->select('time_in')
+				->where('date','=',$now)
+				->where('time_in','=','Late')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$earlyout = DB::table('punchstatus')
+				->select('time_out')
+				->where('date','=',$now)
+				->where('time_out','=','Early out')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$absent=DB::table('punchstatus')
+				->select('time_in')
+				->where('date','=',$now)
+				->where('time_in','=','Absent')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$earlybreak = DB::table('punchstatus')
+				->select('break_in')
+				->where('date','=',$now)
+				->where('break_in','=','Early break')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$longbreak = DB::table('punchstatus')
+				->select('break_out')
+				->where('date','=',$now)
+				->where('break_out','=','Long break')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$employers = array('id' => $employs->lname, 'earlybreak' => $earlybreak, 'ontime' => $ontime,
+								   'longbreak' => $longbreak,'late' => $late,'earlyout' => $earlyout,'absent' =>$absent);
+				array_push($employee_lists, $employers);
+			}
+			return View::make('punctassessmentsub')
+				->with('id', $id)
+				->with('ontime',$ontime)
+				->with('late',$late)
+				->with('absent',$absent)
+				->with('earlybreak',$earlybreak)
+				->with('longbreak',$longbreak)
+				->with('earlyout',$earlyout)
+				->with('name', $name)
+				->with('email', $email)
+				->with('supervisor', $supervisor)
+				->with('now',$now)
+				->with('employee_lists',$employee_lists)
+				->with('dateto',$dateto)
+				->with('user',$user)
+				->with('level', $level);
+		}
+		else
+		{
+			Session::flash('message', 'Please login first!');
+				return Redirect::to('login/employee');
+		}
+
+	}
+	//show punctuality asssessment (subordinates)
 	public function showDTR()
 	{
 		if (Session::has('empid') && Session::has('empname') && Session::has('empemail')) {

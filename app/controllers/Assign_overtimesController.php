@@ -98,8 +98,7 @@ class Assign_overtimesController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
-	{
+	
 		public function show($id)
 		{
 			$assign_overtime = $this->assign_overtime->findOrFail($id);
@@ -123,7 +122,7 @@ class Assign_overtimesController extends BaseController {
 			->with('users',$users)
 			->with('employee_lists', $employee_lists);
 		}
-	}
+	
 
 	/**
 	 * Show the form for editing the specified resource.
