@@ -76,26 +76,57 @@
     <hr style='margin-top:-10px;'>
          <div class ='col-md-4' style="color:white; margin-top:-15px;" >  
             <center><h2>DAY</h2></center><br>
+           @for($date = 1; $date <= 31; $date++)
+              <? $curr_date = $year.'-'.date("m", mktime(0, 0, 0, $month, $month)).'-'.date("d", mktime(0, 0, 0, $month, $date));?>
           
-              @foreach ($punch_day as $day)
-                           <center>  <div class="label_white" style="margin-bottom:1px">{{ Form::label('day', $day) }}</center>
+                           <center>  <div class="label_white" style="margin-bottom:1px">{{ Form::label('day', $date) }}</center>
                             <br> 
-              @endforeach
+          
+
+                @endfor
          </div>
         <div class ='col-md-4' style="margin-top:-15px;">
                <center><h2>AM</h2></center><br>
-                @foreach ($punch_in as $in)
-                         {{ Form::text('time_in', $in->time, array('autocomplete' => 'off', 'size' => '10')) }}
-                        <br> <br>
-                @endforeach
+
+                @for($date = 1; $date <= 31; $date++)
+                      <?php $curr_date = $year.'-'.date("m", mktime(0, 0, 0, $month, $month)).'-'.date("d", mktime(0, 0, 0, $month, $date));?>
+
+                      <?php $hasTimeIn = false; ?>
+                        @foreach ($punch_in as $in)
+                            @if( $curr_date == $in->date)
+                            
+                                 {{ Form::text('time_in', $in->time, array('autocomplete' => 'off', 'size' => '10')) }} <br> <br>
+                                  <?php $hasTimeIn = true; ?>
+                            @endif
+                             
+
+                               
+                        @endforeach
+                         @if($hasTimeIn == false)
+                                   {{ Form::text('time_in', ' ', array('autocomplete' => 'off', 'size' => '10')) }}   <br> <br>
+                        @endif
+                @endfor
                 </div>
                 <div class ='col-md-4' style="margin-top:-15px;">
                 <center><h2>PM</h2> </center> <br>
+                    @for($date = 1; $date <= 31; $date++)
+                      <?php $curr_date = $year.'-'.date("m", mktime(0, 0, 0, $month, $month)).'-'.date("d", mktime(0, 0, 0, $month, $date));?>
+
+                      <?php $hasTimeOut = false; ?>
                 @foreach ($punch_out as $out)
-                          {{ Form::text('time_out', $out->time, array('autocomplete' => 'off', 'size' => '10')) }}
-                        <br> <br>
-                 @endforeach
-             
+                            @if( $curr_date == $out->date)
+                            
+                                 {{ Form::text('time_out', $out->time, array('autocomplete' => 'off', 'size' => '10')) }} <br> <br>
+                                  <?php $hasTimeOut = true; ?>
+                            @endif
+                             
+
+                               
+                        @endforeach
+                         @if($hasTimeOut == false)
+                                   {{ Form::text('time_out', ' ', array('autocomplete' => 'off', 'size' => '10')) }}   <br> <br>
+                        @endif
+                @endfor
                </div>       
 </div>
 @endif

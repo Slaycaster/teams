@@ -33,6 +33,19 @@ class HomeController extends BaseController {
 		
 	}
 
+	public function postAbsent()
+	{
+		$date_from = Input::get('date_from');
+		$date_to = Input::get('date_to');
+		$absents = DB::table('punchstatus')->join('employs','punchstatus.employee_id' , '=', 'employs.id')
+		->whereBetween('punchstatus.date', array($date_from , $date_to))->where('time_in', '=', 'Absent')->get();
+		$departments = DB::table('departments')->get();
+		return View::make('absent_employee')
+			->with('absents', $absents)
+			->with('departments', $departments);
+		
+	}
+
 	public function showManual()
 	{
 			$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
@@ -93,6 +106,7 @@ class HomeController extends BaseController {
 			->with('employee', $employee)
 			->with('emp_id', $emp_id)
 			->with('get_year', $get_year)
+			->with('month', $month)
 			->with('month_name', $month_name)
 			->with('dtr_date', $dtr_date);	
 	}
@@ -169,6 +183,7 @@ class HomeController extends BaseController {
 			->with('employee', $employee)
 			->with('get_year', $get_year)
 			->with('month_name', $month_name)
+			->with('month', $month)
 			->with('emp_id', $emp_id)
 			->with('dtr_date', $dtr_date);	
 	}
@@ -227,6 +242,7 @@ class HomeController extends BaseController {
 			->with('punch_out', $punch_out)
 			->with('punch_day', $punch_day)
 			->with('employee', $employee)
+			->with('month', $month)
 			->with('get_year', $get_year)
 			->with('month_name', $month_name)
 			->with('emp_id', $emp_id);	
