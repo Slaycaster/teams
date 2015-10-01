@@ -4,7 +4,7 @@
     <title>Reports | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<h1>Reports Leave Cases </h1>
+<h1>Leave Cases Report</h1>
 
 
 
@@ -24,15 +24,15 @@ class PDF extends FPDF
         $monthName = date("F", mktime(0, 0, 0, $month, 10));
         $this->SetFont('Arial','B',12);
         // Move to the right
-        $this->Cell(65);
+        $this->Cell(72);
         // Title
         $this->Cell(20,10,'Leave List of all Employees','C');
 
         $this->Ln(8);
 
-        $this->Cell(60);
+        $this->Cell(76);
         // Title
-        $this->Cell(20,10,'For the month of ' . $monthName . ' ' . $year,'C');
+        $this->Cell(20,10,'As of ' . $monthName . ' ' . $year,'C');
 
         $this->Ln(8);
     }
@@ -86,8 +86,9 @@ class PDF extends FPDF
         $this->SetY(-15);
         // Arial italic 8
         $this->SetFont('Arial','I',8);
-        // Page number
-        $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+        // Page number + Logo
+        $this->Image('img/teams_pahalang.png',159,283.5,16,7);
+        $this->Cell(0,10,'|    Page '.$this->PageNo().' of {nb}',0,0,'R');
     }
 
 }

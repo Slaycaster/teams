@@ -7,7 +7,6 @@
 <p style="color:black">____________________________________</p>
 <p style="color:black">Name</p>
 
-
 <p style="color:black"> For the month of _____________ 20 ___ </p>
 <p style="color:black">Regular Days ___________ </p>
 <p style="color:black">Saturdays ___________ </p>
@@ -402,4 +401,4 @@
     
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make("layout_employee", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make("layout", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

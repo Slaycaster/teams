@@ -7,12 +7,9 @@
   <?php endif; ?>
   <br>
                   <div class = "col-md-9" >
-                        <h1 style = "color:white;">Your Requests</h1>
+                        <h1 style = "color:white;">Pending Leave Request</h1>
                   </div>
             </div>
-
-            <br>
-            <br>
                   <div id="raleway" class="row">
 <div class = "row">
 	<br><br>

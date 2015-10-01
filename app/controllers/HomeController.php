@@ -365,7 +365,12 @@ class HomeController extends BaseController {
 
 	public function showPdfreportshierarchy()
 	{
-		return View::make('reportsbyhierarchy');	
+		$month = Input::get('month');
+		$get_year = Input::get('year');
+		Session::put('month_query', $month);
+		Session::put('year_query', $get_year);
+
+		return View::make('reportsbyhierarchy');
 	}
 
 	public function showQuery()
@@ -1032,9 +1037,10 @@ class HomeController extends BaseController {
 			
 		}
 	}
-
-
-
 	
+	public function chuchu()
+	{
+		return View::make('dailytimerecord');
+	}	
 
 }

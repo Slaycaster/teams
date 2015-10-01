@@ -14,7 +14,7 @@
 	Route::get('reportsdaily', array('uses' => 'HomeController@showPdfreports'));
 	Route::get('report/branch', array('uses' => 'HomeController@showPdfreportsbranch'));
 	Route::get('report/department', array('uses' => 'HomeController@showPdfreportsdepartment'));
-	Route::get('report/hierarchy', array('uses' => 'HomeController@showPdfreportshierarchy'));
+	
 	Route::get('report/leavecases', array('uses' => 'HomeController@showPdfreportsleave'));
 	Route::post('report/leavecases', array('uses' => 'HomeController@postPdfreportsleave'));
 	Route::get('logout', array('uses' => 'HomeController@doLogout'));
@@ -48,7 +48,7 @@
 	Route::get('employee/schedulequery', array('uses' => 'EmployeeLoginController@showScheduleQuery'));
 	Route::get('employee/leavehistory', array('uses' => 'EmployeeLoginController@showLeaveHistory'));
 	Route::get('employee/requesthistory', array('uses' => 'EmployeeLoginController@showRequestHistory'));
-	Route::get('report/dtr', array('uses' => 'HomeController@showPdfreportsdtr'));
+	
 	
 	/*MOBILE APP ROUTES*/
 	Route::post('api/schedule', array('uses' => 'MobileController@showSchedule'));
@@ -56,7 +56,9 @@
 
 	Route::group(["before" => "auth"], function() {
 
-
+		Route::get('chuchu', 'HomeController@chuchu');
+		Route::get('report/dtr', array('uses' => 'HomeController@showPdfreportsdtr'));
+		Route::get('report/hierarchy', array('uses' => 'HomeController@showPdfreportshierarchy'));
 		Route::resource('maintenance','HomeController@showMaintenance');
 		Route::resource('transaction','HomeController@showTransaction');
 		Route::resource('query','HomeController@showQuery');

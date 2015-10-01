@@ -7,7 +7,7 @@
                   @if (Session::has('messageb'))
          <div class="alert alert-warning">{{ Session::get('messageb') }}</div><br>
       @endif
-                        <h1 style = "color:white;">Create Request</h1>
+                        <h1 style = "color:white;">File a Leave Request</h1>
                   </div>
             </div>
 <div class = "container">

@@ -5,7 +5,7 @@
     <title>Reports | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<h1>Reports Leave Cases </h1>
+<h1>Leave Cases Report</h1>
 
 <div class='col-md-6'>
 <h3>Select Month</h3>

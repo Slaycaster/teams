@@ -88,6 +88,9 @@ class Create_requestsController extends BaseController {
 	public function store()
 	{
 		$input = Input::all();
+		$s_leave = 0;
+		$v_leave = 0;
+		$f_leave = 0;
 	
 		$validation = Validator::make($input, Create_request::$rules);
 	
