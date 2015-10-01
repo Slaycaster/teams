@@ -419,6 +419,213 @@ class HomeController extends BaseController {
 		->with('departments',$departments);
 
 	}
+
+	public function showAccumulatedHoursAdmin()
+	{
+		$acchrs = 0;
+			$total = 0;
+			$overtime = 0;
+			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $datenow->format('Y-m-d');
+			$user = DB::table('employs')
+			->get();
+			$employers=array();
+			$employee_lists = array();
+		
+			
+			foreach($user as $employs)
+			{	
+				$acchrs = 0;
+			$total = 0;
+			$overtime = 0;
+				$ifot = DB::table('overtime_subordinates')
+				->select('overtime_id')
+				->where('employee_id','=',$employs->id)
+				->lists('overtime_id');
+				if($ifot != null)
+				{
+					$allowedothr = DB::table('overtime_policies')
+					->where('id','=',$ifot)
+					->get();
+				}
+				$ifsched = DB::table('empschedules')
+				->select('schedule_id')
+				->where('employee_id','=',$employs->id)
+				->lists('schedule_id');
+				if($ifsched != null)
+				{
+					$schedto = DB::table('schedules')
+					->select('m_timeout')
+					->where('id','=',$ifsched)
+					->get();
+				}
+				$supervisor = DB::table('hierarchies')->select('supervisor_id')->get();
+				$punchin = DB::table('punchstatus')
+				->select('time_in_punch_id')
+				->where('employee_id','=',$employs->id)
+				->where('date','=',$now)
+				->lists('time_in_punch_id');
+				$punchout =DB::table('punchstatus')
+				->select('time_out_punch_id')
+				->where('employee_id','=',$employs->id)
+				->where('date','=',$now)
+				->lists('time_out_punch_id');
+
+				if($punchin != null && $punchout != null)
+				{
+					$timein = DB::table('punches')
+					->where('id','=',$punchin)
+					->get();
+
+					$timeout = DB::table('punches')
+					->where('id','=',$punchout)
+					->get();
+
+					foreach($timein as $time_in)
+					{
+						foreach($timeout as $time_out)
+						{
+							foreach($schedto as $sched)
+							{
+								if($time_out->time > $sched->m_timeout)
+								{
+									if($ifot != null)
+									{
+										foreach($allowedothr as $hr)
+										{
+										foreach($schedto as $schedout)
+										{
+											$span = ($schedout->m_timeout + $hr->Allowed_number_of_hours) + $hr->active_after;
+											if($time_out->time > $span)
+											{
+												$overtime = ($span - $schedout->m_timeout) - $hr->active_after;
+											}
+											else
+											{	
+												$overtime = ($time_out->time - $schedout->m_timeout) - $hr->active_after;
+											}
+											$acchrs = $schedout->m_timeout - $time_in->time;
+											if($acchrs < 0 )
+											{
+												$acchrs = $acchrs + 12;
+											}
+											$total = $total + $acchrs + $overtime;
+										} 
+										}
+									}
+									else
+									{
+										foreach($schedto as $schedout)
+										{
+										$acchrs = $schedout->m_timeout - $time_in->time;
+										if($acchrs < 0 )
+										{
+											$acchrs = $acchrs + 12;
+							
+										}
+										$total = $total + $acchrs + $overtime;
+										}
+									}
+							
+								}
+								else
+								{
+									$acchrs = $time_out->time - $time_in->time;
+									if($acchrs < 0 )
+									{
+										$acchrs = $acchrs + 12;
+									}
+									$total = $total + $acchrs + $overtime;
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					$acchrs= 0;
+					$overtime = 0;
+					$total = 0;
+				}
+				$employers = array('id' => $employs->lname, 'total' => $total, 'acchrs' => $acchrs,'overtime' =>$overtime);
+				array_push($employee_lists, $employers);
+			}
+			
+			return View::make('accumulatedhours')
+				->with('now',$now)
+				->with('total',$total)
+				->with('overtime',$overtime)
+				->with('acchrs',$acchrs)
+				->with('employee_lists',$employee_lists)
+				->with('user',$user);
+
+	}
+
+	public function showPunctualityAssessmentAdmin()
+	{
+			$employers=array();
+			$employee_lists = array();
+			$dateto = "";
+			$datenow = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $datenow->format('Y-m-d');
+			$user = DB::table('employs')
+			->get();
+			foreach($user as $employs)
+			{	
+				$ontime=DB::table('punchstatus')
+				->select('time_in')
+				->where('date','=',$now)
+				->where('time_in','=','On-Time')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$late=DB::table('punchstatus')
+				->select('time_in')
+				->where('date','=',$now)
+				->where('time_in','=','Late')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$earlyout = DB::table('punchstatus')
+				->select('time_out')
+				->where('date','=',$now)
+				->where('time_out','=','Early out')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$absent=DB::table('punchstatus')
+				->select('time_in')
+				->where('date','=',$now)
+				->where('time_in','=','Absent')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$earlybreak = DB::table('punchstatus')
+				->select('break_in')
+				->where('date','=',$now)
+				->where('break_in','=','Early break')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$longbreak = DB::table('punchstatus')
+				->select('break_out')
+				->where('date','=',$now)
+				->where('break_out','=','Long break')
+				->where('employee_id','=',$employs->id)
+				->count();
+				$employers = array('id' => $employs->lname, 'earlybreak' => $earlybreak, 'ontime' => $ontime,
+								   'longbreak' => $longbreak,'late' => $late,'earlyout' => $earlyout,'absent' =>$absent);
+				array_push($employee_lists, $employers);
+			}
+			return View::make('punctualityassessment')
+	
+				->with('ontime',$ontime)
+				->with('late',$late)
+				->with('absent',$absent)
+				->with('earlybreak',$earlybreak)
+				->with('longbreak',$longbreak)
+				->with('earlyout',$earlyout)
+				->with('now',$now)
+				->with('employee_lists',$employee_lists)
+				->with('dateto',$dateto)
+				->with('user',$user);
+	
+	}
 /*ROCK WELL =====================================================================*/
 	
 	public function showPdfreportsleave()

@@ -41,6 +41,18 @@
 				<hr>
 			</div>
 
+			<div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
+				<a style="color:white;" href="{{URL::to('accumulatedhours')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Accumulated Hours</a>
+				<hr>
+			</div>
+
+			<div class = "col-md-4">
+				<img src="{{ URL::asset('img/Request.png') }}">
+				<a style="color:white;" href="{{URL::to('punctualityassessment')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Punctuality Assessments</a>
+				<hr>
+			</div>
+
 
 		</div>
 @stop
