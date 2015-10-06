@@ -1,7 +1,7 @@
 @extends("layout")
 @section("content")
 <head>
-	<title>Dashboard | Time and Electronic Attendance Monitoring System</title>
+	<title>Administrator Portal | Time and Electronic Attendance Monitoring System</title>
 </head>
 <div class = "row">
 	<div class = "col-md-1" style = "margin-top:20px;">

@@ -19,7 +19,7 @@
 <div class="col-md-6">
   	<div class="col-md-12" style="padding:5px">
     	<div class="col-md-4" >
-          <img style = "height:48px; width:48px;" src="{{ URL::asset('img/Department.png') }}">
+          <img style = "height:75px; width:75px;" src="{{ URL::asset('img/Houses.png') }}">
     	</div>
     	
     	 <p style="color:white; font-size:30px"> <strong>{{$department->name}}</strong></p>

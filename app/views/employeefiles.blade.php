@@ -2,12 +2,12 @@
 @section("content")
 
 <head>
-    <title>Assign Employee Schedule | Time and Electronic Attendance Monitoring System</title>
+    <title>Employee Files | Time and Electronic Attendance Monitoring System</title>
 </head>
 
 
 <div class="col-md-12" style="margin-bottom:15px; margin-top:10px; margin-left:-10px">
-    <h1>Assign Employee Schedule</h1>
+    <h1>Employee Files</h1>
   </div>
 
 @if ($errors->any())

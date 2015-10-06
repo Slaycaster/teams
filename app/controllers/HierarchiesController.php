@@ -33,6 +33,8 @@ class HierarchiesController extends BaseController {
 			->lists('full_name', 'id');
 		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )->where('level_id', '>', '0')->orderBy('lname', 'asc')->lists('full_name', 'id');
 		$subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, employs.id'))
+		->where('status','!=','Inactive')
+		->where('status','!=','Terminated')
 		 ->whereNotExists(function($query)
             {
                 $query->select(DB::raw('employee_id'))
@@ -65,6 +67,8 @@ class HierarchiesController extends BaseController {
 			->lists('full_name', 'id');
 		$supervisors = Employ::select(DB::raw('concat(lname, ", ", fname) as full_name'), 'id' )->where('level_id', '=', $id_dropdown)->orderBy('lname', 'asc')->lists('full_name', 'id');
 		$subordinates = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, employs.id'))
+		->where('status','!=','Inactive')
+		->where('status','!=','Terminated')
 		 ->whereNotExists(function($query)
             {
                 $query->select(DB::raw('employee_id'))
@@ -173,10 +177,11 @@ class HierarchiesController extends BaseController {
 			->orderBy('lname', 'asc')
 			->lists('full_name', 'id');
 		foreach ($employees as $employee) {
-			$subordinates = DB::table('employs')->where('id', '=', $employee->employee_id)->get();			
+			$subordinates = DB::table('departments')->join('employs','departments.id' , '=', 'employs.department_id')->where('employs.id', '=', $employee->employee_id)->get();			
 			array_push($employee_lists, $subordinates);
 		}
 		sort($employee_lists);
+
 		return View::make('hierarchies.show', compact('hierarchy'))
 		->with('employee_lists', $employee_lists)
 		->with('supervisors', $supervisors)
@@ -243,6 +248,8 @@ class HierarchiesController extends BaseController {
 	{
 		$hierarchies = ['Select a hierarchy...'] + DB::table('hierarchies')->lists('hierarchy_name', 'id');
 		$employs=DB::table('employs')
+		->where('status','!=','Inactive')
+		->where('status','!=','Terminated')
 		 ->whereNotExists(function($query)
             {
                 $query->select(DB::raw('employee_id'))
@@ -270,6 +277,8 @@ class HierarchiesController extends BaseController {
 		$hierarchy_id = Input::get('hierarchy_id');
 		$hierarchies = ['Select a hierarchy...'] + DB::table('hierarchies')->lists('hierarchy_name', 'id');
 		$employs=DB::table('employs')
+		->where('status','!=','Inactive')
+		->where('status','!=','Terminated')
 		->whereNotExists(function($query)
             {
                 $query->select(DB::raw('employee_id'))

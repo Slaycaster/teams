@@ -19,12 +19,13 @@
             {{ Form::select('schedule_id', $schedule, Input::old('<br>schedule_id'), array('class' => 'btn btn-default dropdown-toggle target','id' => 'schedule_id', 'tabindex' => '2') ) }}
      
 {{ Form::close() }}
+<hr>
 <div class="container">
-    <hr>
+    
     <div class="row">
         <div class="panel panel-primary filterable">
             <div class="panel-heading">
-                <h3 class="panel-title">Users</h3>
+                <h3 class="panel-title">Employees</h3>
                 <div class="pull-right">
                     <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
                 </div>
@@ -78,8 +79,6 @@
         </div>
     </div>
 </div>
-    
-    <br>
             {{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
     
     

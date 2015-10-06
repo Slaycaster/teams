@@ -6,16 +6,8 @@
 </head>
 
 
-<div class="col-md-12" style="margin-top:-20px; margin-bottom:15px">
+<div class="col-md-12">
 <h1>Branch Maintenance</h1>
-<div class="col-md-4">
-        <div class="btn-group btn-breadcrumb">
-            <a href="{{ URL::to('dashboard') }}"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-            <a href="{{ URL::to('maintenance') }}"  class="btn btn-default">Maintenance</a>
-            <a class="btn btn-default">Branches</a>
-        </div>
-  </div>
-
 	<div class ="col-md-4">
     {{ $branches->links() }}
   </div>
@@ -26,7 +18,7 @@
 <div class="container" style="margin-top:30px">
   <div class = "row">
     <div class = "col-md-4">
-      <h3>Add a Branch</h3>
+      <h3>Add a Branch</h3><hr>
             {{ Form::open(array('route' => 'branches.store')) }}
 
                 
@@ -60,13 +52,13 @@
     {{ Form::close() }}
     </div>
     <div class = "col-md-8">
-      <h3>All Branches</h3>
+      <h3>All Branches</h3><hr>
       @foreach ($branches as $branch)
 
       <div class="col-md-5" style="margin-bottom:5px">
         <div class="col-md-12 greytile" style="padding:5px">
           <div class="col-md-5" >
-               <img style = "height:100px; width:100px;" src="{{ URL::asset('img/Kiosk.png') }}">
+               <img style = "height:80px; width:80px; margin-top:15px" src="{{ URL::asset('img/Branches.png') }}">
           </div>
           <div class="col-md-7" style="margin-left:0px">
 

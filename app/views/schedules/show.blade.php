@@ -1,7 +1,9 @@
 @extends("layout-noheader")
 @section("content")
 
-
+<head>
+    <title>Schedules | Time and Electronic Attendance Monitoring System</title>
+</head>
 <div class="col-md-12" style="margin-bottom:20px">
   <h1>Show Schedule</h1>
 </div>
@@ -10,7 +12,7 @@
 <div class="col-md-6">
   	<div class="col-md-12" style="padding:5px">
     	<div class="col-md-4" >
-          <img style = "height:32px; width:32px;" src="{{ URL::asset('img/Department.png') }}">
+          <img style = "height:75px; width:75px;" src="{{ URL::asset('img/Calendars.png') }}">
     	</div>
     	<div class="col-md-8" style="margin-left:0px">
     	 <p style="color:white; font-size:30px"> <strong>{{$schedule->schedule_name}}</strong></p>
@@ -40,7 +42,7 @@
           <h5 style="color:white"> MONDAY </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:white">{{$schedule->m_timein}} A.M. - {{$schedule->m_timeout}} P.M.</h5>
+          <h5 style="color:white">{{$schedule->m_timein}}  - {{$schedule->m_timeout}} </h5>
         </div>
     </div>
     <div class="col-md-12">
@@ -51,7 +53,7 @@
           <h5 style="color:Orange"> Break: </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:Orange">{{$mon_break->break_in}} A.M. - {{$mon_break->break_out}} P.M.</h5>
+          <h5 style="color:Orange">{{$mon_break->break_in}}  - {{$mon_break->break_out}} </h5>
           @endforeach
         </div>
     </div>
@@ -65,7 +67,7 @@
           <h5 style="color:white"> TUESDAY </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:white">{{$schedule->t_timein}} A.M. - {{$schedule->t_timeout}} P.M.</h5>
+          <h5 style="color:white">{{$schedule->t_timein}}  - {{$schedule->t_timeout}} </h5>
         </div>
     </div>
     <div class="col-md-12">
@@ -76,7 +78,7 @@
           <h5 style="color:Orange"> Break: </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:Orange">{{$tue_break->break_in}} A.M. - {{$tue_break->break_out}} P.M.</h5>
+          <h5 style="color:Orange">{{$tue_break->break_in}}  - {{$tue_break->break_out}} </h5>
           @endforeach        
         </div>
     </div>
@@ -90,7 +92,7 @@
           <h5 style="color:white"> WEDNESDAY </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:white">{{$schedule->w_timein}} A.M. - {{$schedule->w_timeout}} P.M.</h5>
+          <h5 style="color:white">{{$schedule->w_timein}}  - {{$schedule->w_timeout}} </h5>
         </div>
     </div>
     <div class="col-md-12">
@@ -101,7 +103,7 @@
           <h5 style="color:orange"> Break: </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:orange">{{$wed_break->break_in}} A.M. - {{$wed_break->break_out}} P.M.</h5>
+          <h5 style="color:orange">{{$wed_break->break_in}}  - {{$wed_break->break_out}} </h5>
           @endforeach
         </div>
     </div>
@@ -115,7 +117,7 @@
           <h5 style="color:white"> THURSDAY </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:white">{{$schedule->th_timein}} A.M. - {{$schedule->th_timeout}} P.M.</h5>
+          <h5 style="color:white">{{$schedule->th_timein}}  - {{$schedule->th_timeout}} </h5>
         </div>
     </div>
     <div class="col-md-12">
@@ -126,7 +128,7 @@
           <h5 style="color:orange"> Break: </h5>
         </div>        
         <div class="col-md-8">
-          <h5 style="color:orange">{{$thu_break->break_in}} A.M. - {{$thu_break->break_out}} P.M.</h5>
+          <h5 style="color:orange">{{$thu_break->break_in}}  - {{$thu_break->break_out}} </h5>
           @endforeach
         </div>
     </div>
@@ -142,7 +144,7 @@
           <h5 style="color:white"> FRIDAY </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:white">{{$schedule->f_timein}} A.M. - {{$schedule->f_timeout}} P.M.</h5>
+          <h5 style="color:white">{{$schedule->f_timein}}  - {{$schedule->f_timeout}} </h5>
         </div>
     </div>
     <div class="col-md-12">
@@ -153,7 +155,7 @@
           <h5 style="color:orange"> Break: </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:orange">{{$fri_break->break_in}} A.M. - {{$fri_break->break_out}} P.M.</h5>
+          <h5 style="color:orange">{{$fri_break->break_in}}  - {{$fri_break->break_out}} </h5>
           @endforeach        
         </div>
     </div>
@@ -167,7 +169,7 @@
           <h5 style="color:white"> SATURDAY </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:white">{{$schedule->sat_timein}} A.M. - {{$schedule->sat_timeout}} P.M.</h5>
+          <h5 style="color:white">{{$schedule->sat_timein}} - {{$schedule->sat_timeout}} </h5>
         </div>
     </div>
     <div class="col-md-12">
@@ -178,7 +180,7 @@
           <h5 style="color:orange"> Break: </h5>
         </div>
         <div class="col-md-8">
-          <h5 style="color:orange">{{$sat_break->break_in}} A.M. - {{$sat_break->break_out}} P.M.</h5>
+          <h5 style="color:orange">{{$sat_break->break_in}}  - {{$sat_break->break_out}} </h5>
           @endforeach
         </div>
     </div>
@@ -192,7 +194,7 @@
          <h5 style="color:white"> SUNDAY </h5>
       </div>
       <div class="col-md-8">
-       <h5 style="color:white">{{$schedule->sun_timein}} A.M. - {{$schedule->sun_timeout}} P.M.</h5>
+       <h5 style="color:white">{{$schedule->sun_timein}}  - {{$schedule->sun_timeout}} </h5>
       </div>
     </div>
     <div class="col-md-12">
@@ -203,7 +205,7 @@
         <h5 style="color:orange"> Break: </h5>
       </div>
       <div class="col-md-8">
-        <h5 style="color:orange">{{$sun_break->break_in}} A.M. - {{$sun_break->break_out}} P.M.</h5>
+        <h5 style="color:orange">{{$sun_break->break_in}}  - {{$sun_break->break_out}} </h5>
         @endforeach
       </div>
      </div>

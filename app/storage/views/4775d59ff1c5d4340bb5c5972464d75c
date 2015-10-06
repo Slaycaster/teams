@@ -1,0 +1,63 @@
+<?php $__env->startSection("content"); ?>
+
+<div class="label_white"><table id="scroll" class="table table-bordered">
+               <br><br>
+           
+              <tr>
+                        <th>Active</th>
+          
+                        <th>Exception name</th>
+                        <th>Severity</th>
+                        <th>Grace</th>
+                        <th>Watch window</th>
+                        <th>E-mail notification</th>
+          
+                  </tr>
+            <?php echo Form::open(array('url' => 'exception/edit', 'method' => 'post', 'autocomplete' => 'off')); ?>
+
+             <?php echo Form::hidden('group_id', $exception_id); ?>
+
+                  <?php foreach($exception_policies as $exception_policy): ?>
+                  
+                        <tr>
+                              <td align="center"><?php echo Form::checkbox($exception_policy->id, $exception_policy->id); ?> <?php echo $exception_policy->id; ?></td>
+                      
+                              <td><?php echo e($exception_policy->exception_name); ?></td>
+                              
+                                <td style = "color:black;"><?php echo Form::select($exception_policy->id.'exception_severity', array('Low' => 'Low', 'Medium' => 'Medium', 'High' => 'High', 'Critical' => 'Critical'), array('style' => 'color:black;')); ?>
+
+                                </td>
+                                
+                                <?php if($exception_policy->id == 1 || $exception_policy->id == 2 || $exception_policy->id == 4 || $exception_policy->id == 5 || $exception_policy->id == 6 || $exception_policy->id == 7 || $exception_policy->id == 8 || $exception_policy->id == 9 || $exception_policy->id == 10 || $exception_policy->id == 12 || $exception_policy->id == 13 || $exception_policy->id == 14 || $exception_policy->id == 15 ): ?>
+                                <td>
+                                
+                                  <?php echo Form::text($exception_policy->id.'exception_grace', null, array('placeholder' => 'hh:mm:ss', 'size' => '10', 'class' => 'form-control')); ?>
+
+                                
+                                </td>
+                                <td>
+                                  <?php echo Form::text($exception_policy->id.'exception_watchwindow', null, array('placeholder' => 'hh:mm:ss', 'size' => '10', 'class' => 'form-control')); ?>
+
+                                  
+                                </td>
+                                <?php else: ?>
+                                <td></td><td></td>
+                                <?php endif; ?>
+                                <td style = "color:black;">
+                                  <?php echo Form::select($exception_policy->id.'exception_emailnotification', array('Both' => 'Both', 'Superior' => 'Superior', 'Employee' => 'Employee'), array('style' => 'color:black;')); ?>
+
+                                </td>
+                        </tr>
+                              
+                  <?php endforeach; ?>
+                 </div>
+                 </table>
+               <input class = 'btn btn-info' type="submit" name="Insert" value="Insert">
+                <?php echo Form::close(); ?>
+
+            
+      </div>
+      
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make("layout", array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

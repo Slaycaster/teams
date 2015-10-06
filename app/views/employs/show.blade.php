@@ -152,8 +152,6 @@
 </div>
 </div>
 <div class="col-md-6">
-	<button id="b1" class="btn btn-primary"> View Timesheet</button><br><br>
-	<button id="b1" class="btn btn-primary"> Generate Daily Time Record</button><br><br>
 	<h5 style="color:white"> QR Code:</h5>
 	<img style = "height:150px; width:150px;" src="{{URL::asset('qrcodes').'/'.$employee->id.''.$employee->lname.''.$emp_fname.'.png'}}">
   

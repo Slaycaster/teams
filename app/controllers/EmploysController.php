@@ -28,6 +28,7 @@ class EmploysController extends BaseController {
 		$departments = DB::table('departments')->get();
 		$levels = DB::table('levels')->get();
 		$departments_id=DB::table('departments')
+		->where('status','!=','Disabled')
 		->lists('name','id');
 		$contracts= DB::table('contracts')->get();
 		$contracts_id=DB::table('contracts')

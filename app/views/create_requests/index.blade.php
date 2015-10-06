@@ -1,6 +1,6 @@
 @extends("layout_employee")
 @section("content")
-      <br><br><br>
+      <br><br>
       <div class = "container">
             <div class = "row">
                      @if (Session::has('message'))
@@ -8,13 +8,12 @@
   @endif
   <br>
                   <div class = "col-md-9" >
-                        <h1 style = "color:white;">Pending Leave Request</h1>
+                        <h1 style = "color:white;">File a Leave Request</h1>
                   </div>
             </div>
+            <hr>
                   <div id="raleway" class="row">
 <div class = "row">
-	<br><br>
-
 <p>{{ link_to_route('create_requests.create', 'Make a Request') }}</p>
 
 

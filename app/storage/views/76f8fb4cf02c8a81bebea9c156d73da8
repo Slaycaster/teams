@@ -10,14 +10,15 @@
 					<div class="col-md-7">
 					<!--
 						<div class = "container-fluid">
-							<video width="1366" height="768" autoplay="autoplay" loop="loop">
-						  <source src="<?php echo URL::asset('img/educational.mp4'); ?>" type="video/mp4">
+							<video controls muted width="426" height="320" autoplay="autoplay" loop="loop">
+						  <source src="<?php echo URL::asset('img/dancecraze.mp4'); ?>" type="video/mp4">
 						Your browser does not support the video tag.
 						</video>    
 						</div>
 					-->
+					
 						<img src="<?php echo URL::asset('img/teams_logo.png'); ?>" class="img-responsive" alt="INSERT PICTURE HERE" width="350" height="200">
-
+					
 						
 					
 						

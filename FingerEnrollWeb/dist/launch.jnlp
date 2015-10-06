@@ -21,6 +21,12 @@
 <jar href="lib/dpotapi.jar"/>
 <jar href="lib/dpotjni.jar"/>
 <jar href="lib/rs2xml.jar"/>
+<jar href="lib/rs2xml.jar"/>
+<jar href="lib/dpfpenrollment.jar"/>
+<jar href="lib/dpfpverification.jar"/>
+<jar href="lib/dpotapi.jar"/>
+<jar href="lib/dpotjni.jar"/>
+<jar href="lib/rs2xml.jar"/>
 </resources>
     <application-desc main-class="FingerprintEnroll">
     </application-desc>

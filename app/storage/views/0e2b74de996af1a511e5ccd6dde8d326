@@ -1,10 +1,10 @@
 <?php $__env->startSection("content"); ?>
 
 <head>
-    <title>Queries | Time and Electronic Attendance Monitoring System</title>
+    <title>Employee Summary | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<h3>Employee Summary </h3>
+<h1>Employee Summary </h1>
 
 <div class="container">
     
@@ -22,15 +22,16 @@
                 <thead>
                     <tr class="filters">
                     
-                        <th><input type="text" class="form-control" placeholder="fname"></th>
-                        <th><input type="text" class="form-control" placeholder="lname"></th>
-                        <th><input type="text" class="form-control" placeholder="phone number"></th>
-                        <th><input type="text" class="form-control" placeholder="email"></th>
-                        <th><input type="text" class="form-control" placeholder="hire date"></th>
-                        <th><input type="text" class="form-control" placeholder="job title"></th>
-                        <th><input type="text" class="form-control" placeholder="contract name"></th>
-                        <th><input type="text" class="form-control" placeholder="department"></th>
-                        <th><input type="text" class="form-control" placeholder="branch"></th>
+                        <th><input type="text" class="form-control" placeholder="First Name"></th>
+                        <th><input type="text" class="form-control" placeholder="Last Name"></th>
+                        <th><input type="text" class="form-control" placeholder="Phone Number"></th>
+                        <th><input type="text" class="form-control" placeholder="Status"></th>
+                        <th><input type="text" class="form-control" placeholder="Email"></th>
+                        <th><input type="text" class="form-control" placeholder="Hire Date"></th>
+                        <th><input type="text" class="form-control" placeholder="Job Title"></th>
+                        <th><input type="text" class="form-control" placeholder="Contract Name"></th>
+                        <th><input type="text" class="form-control" placeholder="Department"></th>
+                        <th><input type="text" class="form-control" placeholder="Branch"></th>
 
                     </tr>
                 </thead>
@@ -49,6 +50,11 @@
 
                     <td>
                         <?php echo $emp->phone; ?>
+
+                    </td>
+
+                    <td>
+                        <?php echo $emp->status; ?>
 
                     </td>
 

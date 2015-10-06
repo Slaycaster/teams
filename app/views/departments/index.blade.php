@@ -5,15 +5,8 @@
     <title>Departments | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<div class="col-md-12" style="margin-bottom:15px">
+<div class="col-md-12">
 <h1>Department Maintenance</h1>
- <div class="col-md-4">
-        <div class="btn-group btn-breadcrumb">
-            <a href="{{ URL::to('dashboard') }}"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-            <a href="{{ URL::to('maintenance') }}"  class="btn btn-default">Maintenance</a>
-            <a class="btn btn-default">Departments</a>
-        </div>
-  </div>
 
 	<div class="col-md-4" >
 		{{ $departments->links() }}
@@ -28,7 +21,7 @@
 
   <div class = "row">
       <div class = "col-md-4">
-        <h3>Add a Department</h3>
+        <h3>Add a Department</h3><hr>
         @if ($errors->any())
         <ul>
             {{ implode('', $errors->all('<li class="error">:message</li>')) }}
@@ -63,12 +56,12 @@
       </div>
 
       <div class = "col-md-8">
-        <h3>All Departments</h3>
+        <h3>All Departments</h3><hr>
         @foreach ($departments as $department)
           <div class="col-md-5" style="margin-bottom:5px">
             <div class="col-md-12 greytile" style="padding:5px">
               <div class="col-md-3">
-                   <img style = "height:32px; width:32px;" src="{{ URL::asset('img/Department.png') }}">
+                   <img style = "height:75px; width:75px; margin-left:-13px; margin-top:5px; " src="{{ URL::asset('img/Houses.png') }}">
               </div>
               <div class="col-md-9" style="margin-left:0px">
 
@@ -82,12 +75,12 @@
                      <p style="color:white; font-size:14px">
                       @foreach ($branches as $branch)
                       @if ($branch->id == $department->branch_id)
-                        <h5 style="color:white"> {{$branch->branch_name}}</h5>
+                        <h5 style="color:white"> {{$branch->branch_name}} - {{$department->code}}</h5>
                       @endif
                       @endforeach
                     </p>                    
                
-                   <p style="color:white; font-size:12px"> <strong>{{$department->code}}</strong> - 
+                  
                     <a href="{{ URL::to('departments/' . $department->id) }}" onclick="window.open('{{ URL::to('departments/' . $department->id) }}', 'newwindow', 'width=450, height=500'); return false;">View</a>
                     |
                     <a href="{{ URL::to('departments/' . $department->id . '/edit') }}" onclick="window.open('{{ URL::to('departments/' . $department->id . '/edit') }}', 'newwindow', 'width=450, height=450'); return false;">Edit</a>

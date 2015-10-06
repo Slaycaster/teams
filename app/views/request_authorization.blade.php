@@ -5,7 +5,7 @@
 	<div class = "container">
 		<div class = "row">
 			<div class = "col-md-9" >
-				<h1 style = "color:white;">Requests Authorization</h1>
+				<h1 style = "color:white;">Pending Leave Requests</h1>
 			</div>
 		</div>
 @if (Session::has('messages'))

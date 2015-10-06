@@ -5,8 +5,8 @@
     <title>Employee Summary | Time and Electronic Attendance Monitoring System</title>
 </head>
 <div class="container">
-    <h3>Your Subordinates</h3>
-    <hr>
+    <h1>Your Subordinates</h1>
+    <br>
     <div class="row">
         <div class="panel panel-primary filterable">
             <div class="panel-heading">
@@ -20,15 +20,15 @@
                 <thead>
                     <tr class="filters">
                     
-                        <th><input type="text" class="form-control" placeholder="fname"></th>
-                        <th><input type="text" class="form-control" placeholder="lname"></th>
-                    	<th><input type="text" class="form-control" placeholder="phone number"></th>
-                    	<th><input type="text" class="form-control" placeholder="email"></th>
-                    	<th><input type="text" class="form-control" placeholder="hire date"></th>
-                    	<th><input type="text" class="form-control" placeholder="job title"></th>
-                    	<th><input type="text" class="form-control" placeholder="contract name"></th>
-                        <th><input type="text" class="form-control" placeholder="department"></th>
-                        <th><input type="text" class="form-control" placeholder="branch"></th>
+                        <th><input type="text" class="form-control" placeholder="First Name"></th>
+                        <th><input type="text" class="form-control" placeholder="Last Name"></th>
+                    	<th><input type="text" class="form-control" placeholder="Phone Number"></th>
+                    	<th><input type="text" class="form-control" placeholder="E-mail"></th>
+                    	<th><input type="text" class="form-control" placeholder="Hire Date"></th>
+                    	<th><input type="text" class="form-control" placeholder="Job Title"></th>
+                    	<th><input type="text" class="form-control" placeholder="Contract"></th>
+                        <th><input type="text" class="form-control" placeholder="Department"></th>
+                        <th><input type="text" class="form-control" placeholder="Branch"></th>
                         
                     
    

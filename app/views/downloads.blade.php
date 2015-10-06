@@ -4,13 +4,14 @@
     <title>Downloadable Forms | Time and Electronic Attendance Monitoring System</title>
 </head>
         <div class="container">
-        <h3 styles="margin-left:100px">All Forms</h3><br>
+          <br><br><br>
+        <h1 styles="margin-left:100px">All Forms</h1><hr>
 
         @foreach ($downloads as $download)
             <div class="col-md-5" style="margin-bottom:5px">
         <div class="col-md-12 greytile" style="padding:5px">
           <div class="col-md-5" >
-               <img style = "height:80px; width:80px;" src="{{ URL::asset('img/Request.png') }}">
+               <img style = "height:80px; width:80px;" src="{{ URL::asset('img/Download.png') }}">
           </div>
           {{ Form::open(array('url' => 'employee/pdfviewer', 'method' => 'post', 'autocomplete' => 'off')) }}
           <div class="col-md-7" style="margin-left:-60px">

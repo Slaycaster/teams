@@ -35,18 +35,12 @@
  	<div class="label_white">{{ Form::label('supervisor', 'Supervisor:') }}</div>
  	<div class="label_white" style="font-size:20px">{{ Form::label('supervisor', $supervisor) }}</div>
  @endforeach
- <div class="label_white">{{ Form::label('new_subordinates', 'Add Employees:') }}</div>
-
- {{ Form::select('new_subordinates', $new_subordinates, Input::old('new_subordinates'), array('class' => 'btn btn-default dropdown-toggle', 'id' => 'multi', 'multiple'=>'multiple', 'name' => 'new_subordinates[]')) }}
- {{ Form::hidden('hierarchy_id', $hierarchy->id) }}
- {{ Form::submit('Add selected employees', array('class' => 'btn btn-info')) }}
-{{ Form::close() }}
 <div class="label_white"><table class="table table-bordered">
 	<thead>
 		<tr>
 			<th>Subordinates</th>
 			<th>Name</th>
-			<th>Actions</th>
+			<th>Department</th>
 		</tr>
 	</thead>
 
@@ -57,11 +51,7 @@
 			<td><img style = "height:100px; width:100px;" src="{{URL::asset('employees').'/'.$employee_list->id.''.$employee_list->lname.''.$emp_fname.'.jpg'}}"></td>
 			<td>{{{ $employee_list->lname}}}, {{{ $emp_fname}}}</td>
 			
-			<td>{{ Form::open(array('url' => 'hierarchies/remove_employee', 'method' => 'post', 'autocomplete' => 'off')) }}
-				 {{ Form::hidden('hierarchy_id', $hierarchy->id) }}
-				 {{ Form::hidden('employee_id', $employee_list->id) }}
-				 {{ Form::submit('Remove Employee', array('class' => 'btn btn-danger')) }}
-				{{ Form::close() }}</td>		
+			<td>{{{ $employee_list->name}}}</td>		
                                 
 		</tr>
 		 @endforeach

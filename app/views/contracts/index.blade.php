@@ -6,18 +6,9 @@
 </head>
 
 
-<div class="col-md-12" style="margin-top:-10px; margin-bottom:15px">
-<h1 style="margin-left:18px">Employee Type Maintenance</h1>
-  <div class="col-md-4">
-        <div class="btn-group btn-breadcrumb">
-            <a href="{{ URL::to('dashboard') }}"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-            <a href="{{ URL::to('maintenance') }}"  class="btn btn-default">Maintenance</a>
-            <a class="btn btn-default">Employee Type</a>
-        </div>
-  </div>
-
-  
-	
+<div class="col-md-12">
+<br>
+<h1>Employee Type Maintenance</h1>
 
 	 <div class ="col-md-4">
     {{ $contracts->links() }}
@@ -25,12 +16,10 @@
 	
 </div>
 
-
-	<div class="container" style="margin-top:30px">
-
+	<div class="container">
     <div class="row">
       <div class="col-md-4">
-        <h3>Add an Employee Type</h3>
+        <h3>Add an Employee Type</h3><hr>
                 @if ($errors->any())
                     <ul>
                         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
@@ -53,15 +42,15 @@
           {{ Form::close() }}
       </div>
       <div class="col-md-8">
-        <h3 style="margin-left:2%">All Employee Type</h3>
+        <h3 style="margin-left:2%">All Employee Type</h3><hr>
         @foreach ($contracts as $contract)
 
           <div class="col-md-4" style="margin-bottom:5px">
   	       <div class="col-md-12 greytile" style="padding:5px">
-    	       <div class="col-md-5" >
-           <img style = "height:70px; width:70px;" src="{{ URL::asset('img/Contract.png') }}">
+    	       <div class="col-md-4" >
+           <img style = "height:70px; width:70px; margin-top:5px; margin-bottom:5px;  margin-left:-10px" src="{{ URL::asset('img/Contract.png') }}">
     	         </div>
-    	     <div class="col-md-7" style="margin-left:0px">
+    	     <div class="col-md-8" style="margin-left:0px">
 
            <p style="color:white; font-size:14px"> {{$contract->contract_name}} 
            <p style="color:white; font-size:10px"> Duration: {{$contract->duration}} month/s</p>

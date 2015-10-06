@@ -2,25 +2,24 @@
 @section("content")
 
 <head>
-    <title>Queries | Time and Electronic Attendance Monitoring System</title>
+    <title>Leave Cases | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<h1>All Leave Cases </h1>
+<h1>All Leave Cases</h1>
 
-{{ Form::open(array('url' => 'queries/leavecases', 'method' => 'post')) }}
- 	<h3>Filter by Type</h3>
-	{{ Form::select('status',array('Select a status','Pending' => 'Pending', 'Approved' => 'Approved','Declined' => 'Declined','Changed'=>'Changed'),null,array('class' => 'btn btn-default dropdown-toggle target','id' => 'stats','tabindex' => '2'))}}<br>  
-
-
-
-{{ Form::open(array('url' => 'queries/leavecases', 'method' => 'post')) }}
-	<h3>Filter by Date</h3>
-	 {{ Form::text('date',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')) }}<br>
-{{ Form::close() }}
-
-
-
-
+<div class="row">
+    <div class = "col-md-4">
+        {{ Form::open(array('url' => 'queries/leavecases', 'method' => 'post')) }}
+        <h3>Filter by Type</h3>
+        {{ Form::select('status',array('Select a status','Pending' => 'Pending', 'Approved' => 'Approved','Declined' => 'Declined','Changed'=>'Changed'),null,array('class' => 'btn btn-default dropdown-toggle target','id' => 'stats','tabindex' => '2'))}}<br>  
+    </div>
+    <div class = "col-md-4">
+        {{ Form::open(array('url' => 'queries/leavecases', 'method' => 'post')) }}
+            <h3>Filter by Date</h3>
+             {{ Form::text('date',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')) }}<br>
+        {{ Form::close() }}
+    </div>
+</div>
 
 <div class="container">
     <hr>
@@ -37,11 +36,11 @@
                 <thead>
                     <tr class="filters">
                     
-                        <th><input type="text" class="form-control" placeholder="employee_name"></th>
-                        <th><input type="text" class="form-control" placeholder="request_date"></th>
-                        <th><input type="text" class="form-control" placeholder="request_type"></th>
-                        <th><input type="text" class="form-control" placeholder="message"></th>
-                        <th><input type="text" class="form-control" placeholder="status"></th>
+                        <th><input type="text" class="form-control" placeholder="Employee Name"></th>
+                        <th><input type="text" class="form-control" placeholder="Request Date"></th>
+                        <th><input type="text" class="form-control" placeholder="Request Type"></th>
+                        <th><input type="text" class="form-control" placeholder="Message"></th>
+                        <th><input type="text" class="form-control" placeholder="Status"></th>
                     
                     </tr>
                 </thead>
@@ -51,7 +50,7 @@
                     @foreach($employs as $employee_name)
                     @if($leave->employee_id == $employee_name->id)
                      <td>
-                        {{$employee_name->lname}},{{$employee_name->fname}}
+                        {{$employee_name->lname}}, {{$employee_name->fname}}
                     </td>
                     @endif
                     @endforeach

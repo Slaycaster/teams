@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css') }}">
     <script src="{{ URL::asset('js/jquery.min.js') }}"></script>
     <script src="{{ URL::asset('js/bootstrap.min.js') }}"></script>
-	<title>IT Login | Time and Electronic Attendance Monitoring System</title>
+	<title>IT Personnel Login | Time and Electronic Attendance Monitoring System</title>
 </head>
 	@if (Session::has('message'))
 		<div class="alert alert-danger">{{ Session::get('message') }}</div>
@@ -27,7 +27,7 @@
 				</div>
 
     			<div id="raleway" class="row" align="center">
-						<h2 id = "raleway">IT Login</h2>
+						<h2 id = "raleway">IT Personnel Login</h2>
 						<p id = "raleway">{{ $errors->first('username') }}
 						  				  {{ $errors->first('password') }}</p>
 

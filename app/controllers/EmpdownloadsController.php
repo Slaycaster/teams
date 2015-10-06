@@ -50,7 +50,7 @@ class EmpdownloadsController extends BaseController {
 		$id = $id + 1;
 		$input = Input::all();
 		$validation = Validator::make($input, Download::$rules);
-		$file = array('jpg' => Input::file('path'));
+		$file = array('pdf' => Input::file('path'));
 
 		if ($validation->passes())
 		{
@@ -62,7 +62,7 @@ class EmpdownloadsController extends BaseController {
 			$empdownload = new Empdownload;
 			$empdownload->employee_id = Input::get('employee_id');
 			$empdownload->file_name = Input::get('file_name');
-			$empdownload->path = 'employee_files/'."".Input::get('file_name')."".'.jpg';
+			$empdownload->path = 'employee_files/'."".Input::get('file_name')."".'.pdf';
 			$empdownload->save();
 
 

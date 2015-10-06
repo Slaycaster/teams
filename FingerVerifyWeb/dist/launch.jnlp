@@ -3,8 +3,8 @@
     <information>
         <title>FingerVerifyWeb</title>
         <vendor>Denimar</vendor>
-        <homepage href=""/>
-        <description>FingerVerifyWeb</description>
+        <homepage href="http://localhost/teams/public"/>
+        <description>FingerVerifyWeb using DigitalPersona</description>
         <description kind="short">FingerVerifyWeb</description>
     <offline-allowed/>
 </information>
@@ -15,7 +15,23 @@
     <resources>
         <j2se version="1.7+"/>
         <jar href="FingerVerifyWeb.jar" main="true"/>
-    <extension href="jnlpcomponent1.jnlp"/>
+    <jar href="lib/joda-time-2.8.2-javadoc.jar"/>
+<jar href="lib/joda-time-2.8.2-no-tzdb.jar"/>
+<jar href="lib/joda-time-2.8.2-sources.jar"/>
+<jar href="lib/joda-time-2.8.2.jar"/>
+<jar href="lib/joda-time-2.8.2-javadoc.jar"/>
+<jar href="lib/joda-time-2.8.2-no-tzdb.jar"/>
+<jar href="lib/joda-time-2.8.2-sources.jar"/>
+<jar href="lib/joda-time-2.8.2.jar"/>
+<jar href="lib/joda-time-2.8.2-javadoc.jar"/>
+<jar href="lib/joda-time-2.8.2-no-tzdb.jar"/>
+<jar href="lib/joda-time-2.8.2-sources.jar"/>
+<jar href="lib/joda-time-2.8.2.jar"/>
+<jar href="lib/joda-time-2.8.2-javadoc.jar"/>
+<jar href="lib/joda-time-2.8.2-no-tzdb.jar"/>
+<jar href="lib/joda-time-2.8.2-sources.jar"/>
+<jar href="lib/joda-time-2.8.2.jar"/>
+<extension href="jnlpcomponent1.jnlp"/>
 </resources>
     <application-desc main-class="FingerprintVerify">
     </application-desc>

@@ -72,6 +72,8 @@ class EmpschedulesController extends BaseController {
 		$empschedules = $this->empschedule->all();
 		$schedule = Schedule::paginate(9);
 		$employs=DB::table('employs')
+		->where('status','!=','Inactive')
+		->where('status','!=','Terminated')
 		->whereNotExists(function($query)
             {
                 $query->select(DB::raw('employee_id'))
@@ -100,6 +102,8 @@ class EmpschedulesController extends BaseController {
 		$schedule = DB::table('schedules')
 		->lists('schedule_name', 'id');
 		$employs = DB::table('employs')
+		->where('status','!=','Inactive')
+		->where('status','!=','Terminated')
 		->whereNotExists(function($query)
             {
                 $query->select(DB::raw('employee_id'))

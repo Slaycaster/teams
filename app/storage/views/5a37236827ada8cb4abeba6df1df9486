@@ -9,7 +9,7 @@
 			<div class = "col-md-12"></div>
 			<div class = "col-md-12"></div>
 			<br>
-			
+			<!--			
 			<div class = "col-md-4">
 				<img src="<?php echo URL::asset('img/Request.png'); ?>">
 				<a style="color:white;" href="<?php echo URL::to('empbydept'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee by Department</a>
@@ -21,22 +21,36 @@
 				<a style="color:white;" href="<?php echo URL::to('empbybranch'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee by Branch</a>
 				<hr>
 			</div>
+			-->
 
 			<div class = "col-md-4">
-				<img src="<?php echo URL::asset('img/Request.png'); ?>">
-				<a style="color:white;" href="<?php echo URL::to('leavecredits'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee Leave Credits</a>
-				<hr>
-			</div>
-
-			<div class = "col-md-4">
-				<img src="<?php echo URL::asset('img/Request.png'); ?>">
+				<img style = 'hieght:50px; width:50px ' src="<?php echo URL::asset('img/ContactsSummary.png'); ?>">
 				<a style="color:white;" href="<?php echo URL::to('empsummary'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee Summary</a>
 				<hr>
 			</div>
+
+			<div class = "col-md-4">
+				<img style = 'hieght:50px; width:50px ' src="<?php echo URL::asset('img/Animation.png'); ?>">
+				<a style="color:white;" href="<?php echo URL::to('leave_query'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Employee Leave Credits</a>
+				<hr>
+			</div>
+			
 			
 			<div class = "col-md-4">
-				<img src="<?php echo URL::asset('img/Request.png'); ?>">
+				<img style = 'hieght:50px; width:50px ' src="<?php echo URL::asset('img/Documents.png'); ?>">
 				<a style="color:white;" href="<?php echo URL::to('leavecases'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">All Leave Cases</a>
+				<hr>
+			</div>
+
+			<div class = "col-md-4">
+				<img style = 'hieght:50px; width:50px ' src="<?php echo URL::asset('img/Hour.png'); ?>">
+				<a style="color:white;" href="<?php echo URL::to('accumulatedhours'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Accumulated Hours</a>
+				<hr>
+			</div>
+
+			<div class = "col-md-4">
+				<img style = 'hieght:50px; width:50px ' src="<?php echo URL::asset('img/DTR.png'); ?>">
+				<a style="color:white;" href="<?php echo URL::to('punctualityassessment'); ?>"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Punctuality Assessments</a>
 				<hr>
 			</div>
 

@@ -1,17 +1,56 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-    <head>
-        <title>Test page for launching the application via JNLP</title>
-    </head>
-    <body>
-        <h3>Test page for launching the application via JNLP</h3>
-        <script src="http://java.com/js/deployJava.js"></script>
-        <script>
-            deployJava.createWebStartLaunchButton("launch.jnlp")
-        </script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" type="text/css" href="ext/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="ext/style.css">
+    <script src="ext/jquery.min.js"></script>
+    <script src="ext/bootstrap.min.js"></script>
+    <title>Finger Verification - Time and Attendance Monitoring System</title>
+    
+        <div class = "navbar navbar-default navbar-fixed-top">
+            <div class = "container">
+                               
+                <a href="#" class = "navbar-brand"><img style ="height:30px; margin-top:-4px;"src="img/teams_pahalang.png"/></a>
+                               
+                <button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+                        <span class = "icon-bar"></span>
+                        <span class = "icon-bar"></span>
+                        <span class = "icon-bar"></span>
+                </button>
+                               
+                <div class = "collapse navbar-collapse navHeaderCollapse">
+
+                        <ul class = "nav navbar-nav">
+                            <li><a href="http://localhost/teams/public">Time and Attendance Monitoring System</a></li>
+               
+                        </ul>
+                               
+                        <ul class="nav navbar-nav navbar-right">
+                        </ul>
+                </div>                               
+            </div>
+         </div>
+        
+</head>
+    <br><br><br>
+    <div class = "container">
+        <center><h1>TimE and Attendance Monitoring<br><h4>Fingerprint Verification Kiosk using Biometrics Scanner</h4><br><h4>For Time-in and Time-out</h4></h1></center>
+        <center>
+            <h3>Launch the Java Application</h3>
+            <script src="http://java.com/js/deployJava.js"></script>
+            <script>
+                deployJava.createWebStartLaunchButton("launch.jnlp")
+            </script>
+        </center>
         <!-- Or use the following link element to launch with the application -->
         <!--
         <a href="launch.jnlp">Launch the application</a>
         -->
-    </body>
-</html>
+    </div>
+
+        <div class = "container" style = "position: fixed; bottom: 0px; width: 100%;    height: 60px; background-color: #2c3e50; padding: 25px 0; text-align:center;">
+            <p style = "color:white;">Copyright &copy; 2015 - Fare Matrix</p>
+        </div>

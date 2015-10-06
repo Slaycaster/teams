@@ -1,59 +1,338 @@
 @extends("layout_employee")
 @section("content")
+<br><br><br>
 
 <head>
-    <title>DTR Subordinates | Time and Electronic Attendance Monitoring System</title>
+    <title>Daily Time Record | Time and Electronic Attendance Monitoring System</title>
 </head>
-<br><br><br>
-<h1 align="center">DTR Queries</h1>
 
+<h1>Daily Time Record - Subordinates</h1>
 
-<div class="col-md-2">
-</div>
-<div class="col-md-9" align="center" style="margin-top:55px; background-color:white; ">
-	<br>
-	 {{ Form::label('date', 'Date:') }}
-            {{ Form::text('date',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')) }}
-            <br>
-	<h1 style="color:black">Daily Time Record</h1>
-			<table class = "table table-bordered" align="center" style = "color:black;  width:800px;" >
-					<thead>
-						<td style = "text-align:center;"><b>Employee Name</b></td>
-						<td style = "text-align:center;" colspan=10><b>Time-in</b></td>
-						<td style = "text-align:center;" colspan=10><b>Break-in</b></td>
-						<td style = "text-align:center;" colspan=10><b>Break-out</b></td>
-						<td style = "text-align:center;" colspan=10><b>Time-out</b></td>
-						<td style = "text-align:center;" colspan=5><b>Undertime</b></td>
-							
-
-					</thead>
-					    
-					@foreach($user as $emp)
-					<tr>
-						<td style = "text-align:center;">{{$emp->lname}},{{$emp->fname}}</td>
-						
-						<td style = "text-align:center;" colspan=10></td>
-						<td style = "text-align:center;" colspan=10></td>
-						<td style = "text-align:center;" colspan=10></td>
-						<td style = "text-align:center;" colspan=10></td>
-						<td style = "text-align:center;">Hours</td>
-						<td style = "text-align:center;" ></td>
-						<td style = "text-align:center;">Minutes</td>
-						<td style = "text-align:center;" ></td>
-
-					</tr>
-					@endforeach
-				</table>
+<div class='col-md-4'>
+    {{ Form::open(array('url' => 'employee/dtrsubordinates', 'method' => 'get')) }}
+    <h3>Select a Subordinate</h3>
+        {{ Form::select('employs_id', $user, Input::get('employs_id'));}}<br><br>
 </div>
 
+<div class = 'col-md-4'>
+    <h3>Select a Month</h3>
+     {{ Form::selectMonth('month', Input::get('month'));}}<br><br>
+</div>
+
+<div class='col-md-4'>
+<h3>Select a Year</h3>
+
+     {{ Form::selectYear('year', date('Y'), 1960 , Input::get('year'))}}<br><br>
+</div>
+
+{{ Form::submit('Generate PDF', array('class' => 'btn btn-success')) }}
+{{ Form::close() }}
+
+
+<?php
+
+require('fpdf.php');
+
+class PDF extends FPDF
+{
+// Page header
+function Header()
+{
+    if (Session::has('empid')) 
+    {   
+
+        $id = Session::get('subid', 'default');
+        $month = Session::get('month_query', 'default');
+        $year = Session::get('year_query', 'default');
+        $empnames = DB::table('employs')
+            ->where('id', '=', $id)
+            ->get();
+        $monthName = date("F", mktime(0, 0, 0, $month, 10));
+        
+    }
+        
+   // Logo
+    // Arial bold 15
+    $this->SetFont('Arial','B',10);
+    // Move to the right
+    $this->Cell(80);
+    // Title
+    $this->Cell(20,10,'Daily Time Record','C');
+    // Line break
+    $this->Ln();
+    $this->SetFont('Arial','',10);
+    // Move to the right
+    $this->Cell(55);
+    // Title
+     foreach($empnames as $empname)
+    {
+        $this->Cell(20,10,$empname->lname .', '. $empname->fname,'C');    
+    }    
+    
+    $this->Ln(2);
+
+    $this->SetFont('Arial','',15);
+    // Move to the right
+    $this->Cell(52);
+    // Title
+    $this->Cell(20,10,'_______________________________','C');
+
+    $this->Ln(5);
+
+    $this->SetFont('Arial','',10);
+    // Move to the right
+    $this->Cell(90);
+    // Title
+    $this->Cell(20,10,'Name','C');
+
+    $this->Ln(8);
+
+    $this->SetFont('Arial','',11);
+    // Move to the right
+    $this->Cell(65);
+    // Title
+    $this->Cell(20,10,'For the month of ' . $monthName . ' ' . $year ,'C');
+
+    $this->Ln(4);
+    // Move to the right
+    $this->Cell(61);
+    // Title
+    $this->Cell(20,10,'Official Hours of Arrival and Departure','C');
+    $this->Ln();
+}
+                
+function BasicTable($header)
+{
+                
+        if (Session::has('empid')) 
+            {
+                $id = Session::get('subid', 'default');
+                $month = Session::get('month_query', 'default');
+                $year = Session::get('year_query', 'default');
+                $get_year = Session::get('year_query', 'default');
+                $start_date = $year.'/'.$month.'/01';
+                $end_date = $year.'/'.$month.'/31'; 
+                $empnames = DB::table('employs')
+                    ->where('id', '=', $id)
+                    ->get();
+            
+                $time_ins = DB::table('punches')
+                    ->join('punchstatus', 'punches.id', '=', 'punchstatus.time_in_punch_id')
+                    ->where('punches.employee_id', '=', $id)
+                    //->where('punchstatus.time_in', 'NOT like', 'Absent%')
+                    ->get();
+                $break_ins = DB::table('punches')
+                    ->join('punchstatus', 'punches.id', '=', 'punchstatus.break_in_punch_id')
+                    ->where('punches.employee_id', '=', $id)
+                    //->where('punchstatus.time_in', 'NOT like', 'Absent%')
+                    ->get();
+
+                $time_outs = DB::table('punches')
+                    ->join('punchstatus', 'punches.id', '=', 'punchstatus.time_out_punch_id')
+                    ->where('punches.employee_id', '=', $id)
+                    //->where('punchstatus.time_in', 'NOT like', 'Absent%')
+                    ->get();
+                $break_outs = DB::table('punches')
+                    ->join('punchstatus', 'punches.id', '=', 'punchstatus.break_out_punch_id')
+                    ->where('punches.employee_id', '=', $id)
+                    //->where('punchstatus.time_in', 'NOT like', 'Absent%')
+                    ->get();
+
+                $schedules = DB::table('empschedules')
+                    ->join('schedules', 'empschedules.schedule_id', '=', 'schedules.id')
+                    ->select('schedules.sun_timeout', 'schedules.m_timeout', 'schedules.t_timeout', 'schedules.w_timeout', 'schedules.th_timeout', 'schedules.f_timeout', 'schedules.sat_timeout')
+                    ->where('empschedules.employee_id', '=', $id)
+                    ->get();
+            }
+        
+            
+                $this->Cell(30);
+                foreach ($header as $col)
+                {
+                        if($col == 'Day')   
+                            $this->Cell(10,5,$col,1,0,'L');
+                        else if ($col == 'A.M.')
+                            $this->Cell(40,5,$col,1,0,'C');
+                        else if ($col == 'P.M.')
+                            $this->Cell(40,5,$col,1,0,'C');
+                        else if ($col == 'Undertime')
+                            $this->Cell(40,5,$col,1,0,'C');                               
+                }
+                $this->Ln();
+                $this->Cell(30);
+                $this->Cell(10,5,'',1,0,'L');
+                $this->Cell(20,5,'Arrival',1,0,'C');
+                $this->Cell(20,5,'Departure',1,0,'C');
+                $this->Cell(20,5,'Arrival',1,0,'C');
+                $this->Cell(20,5,'Departure',1,0,'C');
+                $this->Cell(20,5,'Hours',1,0,'C');
+                $this->Cell(20,5,'Minutes',1,0,'C');
+                $this->Ln();
 
 
 
- <script type="text/javascript">
-    $('#calendar').datepicker({
-        format: "yyyy-mm-dd"
-    });
-</script>
+                for($date = 1; $date <= 31; $date++)
+                {
+
+                    $curr_date = $year.'-'.date("m", mktime(0, 0, 0, $month, $month)).'-'.date("d", mktime(0, 0, 0, $month, $date));
+                    $format_day = strtotime($curr_date);
+                    $day_name = date('l', $format_day);
+        
+                    $this->Cell(30);
+                    $this->SetFont('Arial','',9); 
+                    $this->Cell(10,5,$date,1,0,'L');
+                    $hasTimeIn = false;
+                    $hasBreakIn = false;
+                    $hasTimeOut = false;
+                    $hasBreakOut = false;
+                    $hasUnderTime = false;
+                    $time_out_cmp = '';
+
+                    $this->SetFont('Arial','B',9);
+                    /*TIME-IN*/
+                    foreach($time_ins as $time_in)
+                    {   
+                        if($curr_date == $time_in->date)
+                        {
+                            $this->Cell(20,5,$time_in->time,1,0,'L'); //time-in    
+                            $hasTimeIn = true;
+                            foreach($break_ins as $break_in)
+                            {
+                                if($curr_date == $break_in->date)
+                                {
+                                    $this->Cell(20,5,$break_in->time,1,0,'L'); //time-in status
+                                    $hasBreakIn = true;        
+                                }
+                            }
+                        }
+                    }
+                    if($hasTimeIn == false)
+                    {
+                        $this->Cell(20,5,' ',1,0,'L'); //time-in    
+                    }
+                    if($hasBreakIn == false)
+                    {
+                        $this->Cell(20,5,' ',1,0,'L');   
+                    }
+
+                    /*TIME-OUT
+                        Medyo naiba logic dito, kasi dito break-out muna bago time-out ((:
+                    */
+                    $count = 0;
+                    foreach($break_outs as $break_out)
+                    {
+                        if($curr_date == $break_out->date)
+                        {
+                            $this->Cell(20,5,$break_out->time,1,0,'L');
+                            $hasBreakOut = true;
+                        }
+                    }
+                    if($hasBreakOut == false)
+                    {
+                        $this->Cell(20,5,' ',1,0,'L');   
+                    }
+                    foreach($time_outs as $time_out)
+                        {   
+                            if($curr_date == $time_out->date)
+                            {
+                                $this->Cell(20,5,$time_out->time,1,0,'L'); //time-out
+                                $hasTimeOut = true;
+                                //dd(date('h:i:s A', strtotime($time_out->time)));  
+                                $time_out_cmp = date('h:i:s A', strtotime($time_out->time)+43200);
+                                foreach($schedules as $schedule)
+                                {
+                                    switch ($day_name) {
+                                        case 'Sunday':
+                                            $sched_timeout = date('h:i:s A', strtotime($schedule->sun_timeout));
+                                            break;
+                                        case 'Monday':
+                                            $sched_timeout = date('h:i:s A', strtotime($schedule->m_timeout));
+                                            break;
+                                        case 'Tuesday':
+                                            $sched_timeout = date('h:i:s A', strtotime($schedule->t_timeout));
+                                            break;
+                                        case 'Wednesday':
+                                            $sched_timeout = date('h:i:s A', strtotime($schedule->w_timeout));
+                                            break;
+                                        case 'Thursday':
+                                            $sched_timeout = date('h:i:s A', strtotime($schedule->th_timeout));
+                                            break;
+                                        case 'Friday':
+                                            $sched_timeout = date('h:i:s A', strtotime($schedule->f_timeout));
+                                            break;
+                                        case 'Saturday':
+                                            $sched_timeout = date('h:i:s A', strtotime($schedule->sat_timeout));
+                                            break;
+                                        default:
+                                        break;
+                                    }
+                                    $timeout = strtotime($sched_timeout);
+                                    $punchout = strtotime($time_out_cmp);
+                                    $under = $timeout - $punchout;
+                                    if($under > 60)
+                                    {
+                                        $under_hours = floor(($under/60)/60);
+                                        $under_minutes = ($under/60)%60;
+                                        $hasUnderTime = true;    
+                                    }
+                                }
+                              
+                            }
+                            
+                        }
+
+                    if($hasTimeOut == false)
+                    {
+                        $this->Cell(20,5,' ',1,0,'L'); //time-out
+                    }
+
+                    if($hasUnderTime)
+                    {
+                        $this->Cell(20,5,$under_hours,1,0,'C');
+                        $this->Cell(20,5,$under_minutes,1,0,'C');
+                    }
+                    else
+                    {
+                        $this->Cell(20,5,'',1,0,'L');
+                        $this->Cell(20,5,'',1,0,'L');
+                    }
+                                         
+                    $this->Ln();
+                }
+}
+
+// Page footer
+function Footer()
+{
+    // Position at 1.5 cm from bottom
+    $this->SetY(-15);
+    // Arial italic 8
+    $this->SetFont('Arial','I',8);
+    // Page number + Logo
+    $this->Image('img/teams_pahalang.png',159,283.5,16,7);
+    $this->Cell(0,10,'|    Page '.$this->PageNo().' of {nb}',0,0,'R');
+}
+
+}
+// Instanciation of inherited class
+$employee = Session::get('subid', 'default'); 
+$lname = Session::get('sub_emp_lname', 'default');
+$fname = Session::get('sub_emp_fname', 'default');
+        
+$pdf = new PDF();
+$header = array('Day', 'A.M.', 'P.M.', 'Undertime');
+$pdf->AliasNbPages();
+$pdf->SetFont('Arial','',9);
+$pdf->AddPage();
+$pdf->BasicTable($header);
+$dynamic_name = $employee.$lname.$fname;
+$filename='reports/'.$dynamic_name.'dtr.pdf';
+$pdf->Output($filename);
+
+?>
+
+<br><br><iframe src="../reports/<?=$dynamic_name?>dtr.pdf" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
+
 <script type="text/javascript">
     $(function(){
     $(".dropdown").hover(            
@@ -70,6 +349,5 @@
     });
     
 </script>
-
 
 @stop

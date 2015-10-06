@@ -109,7 +109,7 @@
                   <div class="col-md-12" style="margin-bottom:5px">
                   	<div class="col-md-12 greytile" style="padding:5px">
                     	<div class="col-md-5" >
-                           <img style = "height:75px; width:75px;" src="{{ URL::asset('img/PremiumPolicy.png') }}">
+                           <img style = "height:80px; width:80px; margin-top:12px" src="{{ URL::asset('img/PremiumPolicy.png') }}">
                     	</div>
                     	<div class="col-md-7" style="margin-left:0px">
 
@@ -117,9 +117,10 @@
                          
                            <p style="color:white; font-size:12px"> <strong>{{$exception->description}}
                            </strong></p>
+                       
                            <a href="{{ URL::to('exception_policies/' . $exception->id) }}" onclick="window.open('{{ URL::to('exception_policies/' . $exception->id) }}', 'newwindow', 'width=450, height=500'); return false;">View</a>
                     |
-                    <a href="{{ URL::to('exception_policies/' . $exception->id . '/edit') }}" onclick="window.open('{{ URL::to('exception_policies/' . $exception->id . '/edit') }}', 'newwindow', 'width=450, height=450'); return false;">Edit</a>
+                    <a href="{{ URL::to('exception_policies/' . $exception->id . '/edit') }}" onclick="window.open('{{ URL::to('exception_policies/' . $exception->id . '/edit') }}', 'newwindow', 'width=1860, height=720'); return false;">Edit</a>
                        </div>
 
      </div>
@@ -130,6 +131,14 @@
 </div>
 </div>
 
+<script type="text/javascript">
+    window.onload = function() {
+    if(!window.location.hash) {        
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+}
+</script>
 
 <script type="text/javascript">
 $('.clockpicker').clockpicker();

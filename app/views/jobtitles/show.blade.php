@@ -12,7 +12,7 @@
 <div class="col-md-6">
   	<div class="col-md-12" style="padding:5px">
     	<div class="col-md-4" >
-          <img style = "height:100px; width:100px;" src="{{ URL::asset('img/Department.png') }}">
+          <img style = "height:100px; width:100px;" src="{{ URL::asset('img/Employees.png') }}">
 
     	</div>
     	<div class="col-md-8" style="margin-left:0px">

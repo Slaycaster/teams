@@ -5,15 +5,8 @@
     <title>Assign Overtime | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<div class="col-md-12" style="margin-top:-20px; margin-bottom:15px">
+<div class="col-md-12" style="margin-bottom:15px">
 	<h1>Assign Overtime</h1>
-	<div class="col-md-4">
-        <div class="btn-group btn-breadcrumb">
-            <a href="{{ URL::to('dashboard') }}"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-            <a href="{{ URL::to('maintenance') }}"  class="btn btn-default">Transaction</a>
-            <a class="btn btn-default">Assign Overtime</a>
-        </div>
-  	</div>
 
 	<div class ="col-md-4">
     	{{ $assign_overtimes->links() }}
@@ -26,7 +19,7 @@
 <div class = "col-md-12">
 		<div class = "col-md-6">
 			<h3>Choose Overtime Policy</h3>
-			<br>
+			<hr>
 			@if ($errors->any())
                     <ul>
                         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
@@ -59,10 +52,8 @@
             {{ Form::number('active_after', Input::get('active_after'), array('placeholder' => '0','autocomplete' => 'off', 'size' => '40')) }}<br><br>
 
             <div class="label_white">{{ Form::label('Allowed_number_of_hours', 'Allowed number of hours:') }}</div>
-
             {{ Form::number('Allowed_number_of_hours', Input::get('Allowed_number_of_hours'), array('placeholder' => '0','autocomplete' => 'off', 'size' => '40')) }}<br><br>
 				</fieldset>
-
 				<div class="label_white">{{ Form::label('name', 'Assign Overtime name:') }}</div>
             		{{ Form::text('name',Input::get('name'), array('placeholder' => 'Assign Overtime Name','autocomplete' => 'off', 'size' => '50' ,'id'=> 'Granted')) }}<br>
 				
@@ -93,7 +84,7 @@
 				 {{ Form::close() }}
 		</div>
 		<div class="col-md-6">
-			<h3>All Assigned Overtimes</h3>
+			<h3>All Assigned Overtimes</h3><hr>
 			@foreach ($assign_overtimes as $assign_overtime)
 			<div class="col-md-5" style="margin-bottom:5px">
         		
@@ -102,7 +93,7 @@
           				<img style = "height:75px; width:75px;" src="{{ URL::asset('img/Kiosk.png') }}">
           			</div>
           			<div class="col-md-7">
-          				<p style="color:white; font-size:14px"> <strong>{{$assign_overtime->name}}</strong>
+          				<p style="color:white; font-size:14px"> <strong>{{$assign_overtime->name}}</strong><br>
           					<a href="{{ URL::to('assign_overtimes/' . $assign_overtime->id) }}" onclick="window.open('{{ URL::to('assign_overtimes/' . $assign_overtime->id) }}', 'newwindow', 'width=450, height=500'); return false;">View</a> | <a href="{{ URL::to('assign_overtimes/' . $assign_overtime->id . '/edit') }}" onclick="window.open('{{ URL::to('assign_overtimes/' . $assign_overtime->id . '/edit') }}', 'newwindow', 'width=450, height=450'); return false;">Edit</a>
           			</div>
                 </div>

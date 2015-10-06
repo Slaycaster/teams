@@ -14,11 +14,11 @@
 
   	<div class="col-md-12" style="padding:5px">
     	<div class="col-md-4" >
-          <img style = "height:100px; width:100px;" src="{{ URL::asset('img/Department.png') }}">
+          <img style = "height:100px; width:100px;" src="{{ URL::asset('img/FormUpload.png') }}">
 </div>
       <div class="col-md-8" style="margin-left:0px">
        <p style="color:white; font-size:30px"> <strong>{{$download->file_name}}</strong></p>
-        <a href="{{ URL::to('employee/downloads/') }}" onclick="" class="btn btn-warning">Return to Downloadable Forms</a>
+      <a  style="margin-left:20px" href="#" onclick="window.opener.location.reload(true); window.close();" class="btn btn-warning">Return to Downloadable Forms</a>
        </div>
      </div>
      </div>

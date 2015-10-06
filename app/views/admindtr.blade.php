@@ -29,7 +29,7 @@
 {{ Form::submit('Generate PDF', array('class' => 'btn btn-success')) }}
 
 {{ Form::close() }}
-
+<hr>
 <?php
 
 
@@ -319,7 +319,7 @@ $pdf->Output($filename);
 
 ?>
 
-<br><br><iframe src="../reports/<?=$dynamic_name?>dtr.pdf" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
+<iframe src="../reports/<?=$dynamic_name?>dtr.pdf" title="downloads"  height= "450" width="100%"  frameborder="0" margin-left= "100px" target="Message"></iframe>
 
 <script type="text/javascript">
     $(function(){

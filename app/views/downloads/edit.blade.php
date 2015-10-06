@@ -1,25 +1,21 @@
-@extends('layouts.scaffold')
-
-@section('main')
+@extends('layout-noheader')
+@section('content')
 
 <h1>Edit Download</h1>
+<br><br>
 {{ Form::model($download, array('method' => 'PATCH', 'route' => array('downloads.update', $download->id))) }}
-	<ul>
-        <li>
-            {{ Form::label('file_name', 'File_name:') }}
+<div class="label_white">
+            {{ Form::label('file_name', 'File name:') }}
+</div>
             {{ Form::text('file_name') }}
-        </li>
-
-        <li>
+            <br><br>
+<div class="label_white">
             {{ Form::label('path', 'Path:') }}
+</div>
             {{ Form::text('path') }}
-        </li>
-
-		<li>
+            <br><br>
 			{{ Form::submit('Update', array('class' => 'btn btn-info')) }}
 			{{ link_to_route('downloads.show', 'Cancel', $download->id, array('class' => 'btn')) }}
-		</li>
-	</ul>
 {{ Form::close() }}
 
 @if ($errors->any())

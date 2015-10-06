@@ -28,16 +28,11 @@
 
   </head>
   <body>
-
     <div class = "container">
       @include("includes.header")
        @yield("content")
     </div>
       
-
-           
-
-
     <div class = "footer">
       @include("includes.footer")
     </div>

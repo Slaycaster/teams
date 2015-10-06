@@ -13,14 +13,14 @@
 			
 			
 			<div class = "col-md-4">
-				<img src="{{ URL::asset('img/Request.png') }}">
+				<img style= 'hieght:50px; width:50px' src="{{ URL::asset('img/Upload.png') }}">
 				<a style="color:white;" href="{{ URL::to('downloads') }}"class="btn btn-link btn-lg">Downloadable Forms</a>
 				<hr>
 			</div>
 
 
 			<div class = "col-md-4">
-				<img src="{{ URL::asset('img/Request.png') }}">
+				<img style= 'hieght:50px; width:50px' src="{{ URL::asset('img/Upload.png') }}">
 				<a style="color:white;" href="{{ URL::to('empdownloads') }}"class="btn btn-link btn-lg">Employee Files</a>
 				<hr>
 			</div>

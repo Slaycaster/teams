@@ -7,7 +7,7 @@
 
 
 
-<div class="col-md-12" style="margin-bottom:20px">
+<div class="col-md-12">
   <h1>Schedule Maintenance</h1>
     <div class="col-md-2">
   </div>
@@ -21,7 +21,7 @@
 <div class="container">
   <div class = "row">
     <div class = "col-md-7">
-        <h3>Add a Schedule</h3>
+        <h3>Add a Schedule</h3><hr>
         @if ($errors->any())
         <ul>
             {{ implode('', $errors->all('<li class="error">:message')) }}
@@ -506,15 +506,15 @@
         {{ Form::close() }}
     </div>
     <div class = "col-md-4">
-      <h3>All Schedules</h3>
+      <h3>All Schedules</h3><hr>
       @foreach ($schedules as $schedule)
       
         <div class="col-md-12 greytile" style="padding:5px">
           <div class="col-md-2" >
-              <br>  <img style = "height:32px; width:32px;" src="{{ URL::asset('img/Calendar.png') }}">
+              <br>  <img style = "height:50px; width:50px; margin-top:-17px;  margin-left:-05px" src="{{ URL::asset('img/Calendars.png') }}">
           </div>
           <div class="col-md-10" style="margin-left:0px">
-
+ 
                <p style="color:white; font-size:16px"> {{$schedule->schedule_name}}</p>
                 <p style="color:white; font-size:12px">
                     <a href="{{ URL::to('schedules/' . $schedule->id) }}" onclick="window.open('{{ URL::to('schedules/' . $schedule->id) }}', 'newwindow', 'width=450, height=500'); return false;">View</a>

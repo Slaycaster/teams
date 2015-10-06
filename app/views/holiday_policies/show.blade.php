@@ -51,18 +51,6 @@
   	 	</div>
   	 </div>
   	 <div class="col-md-12">
-     	<h4 style="color:white"> Holiday time:</h4>
-  	 </div>
-  	 <div class="col-md-12">
-  	 	<div class="col-md-1">
-  	 	</div>
-  	 	<div class="col-md-2">
-  	 	</div>
-  	 	<div class="col-md-9">
-  	 		<h5 style="color:white"> {{$holiday_policy->holiday_time}}</h5>
-  	 	</div>
-  	 </div>
-  	 <div class="col-md-12">
      	<h4 style="color:white"> Day of month:</h4>
   	 </div>
   	 <div class="col-md-12">
@@ -86,6 +74,21 @@
   	 		<h5 style="color:white"> {{$holiday_policy->month}}</h5>
   	 	</div>
   	 </div>
+     
+     <div class="col-md-12">
+      <h4 style="color:white"> Branches:</h4>
+     </div>
+     @foreach($branches as $branch)
+     <div class="col-md-12">
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-2">
+      </div>
+      <div class="col-md-9">
+        <h5 style="color:white"> {{$branch->branch_name}}</h5>
+      </div>
+     </div>
+     @endforeach
      <br>
   	 <a style = "margin-left:5%"href="#" onclick="window.opener.location.reload(true); window.close();" class="btn btn-warning">Close</a>
   	</div>

@@ -4,19 +4,13 @@
 <head>
     <title>Employees | Time and Electronic Attendance Monitoring System</title>
 </head>
-
+<h1 style="margin-left:25px">Employee Maintenance</h1>
 <div class="col-md-12" style="margin-top:5">
-  <div class="col-md-5">
-        <div class="btn-group btn-breadcrumb">
-            <a href="{{ URL::to('dashboard') }}"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-            <a href="{{ URL::to('maintenance') }}"  class="btn btn-default">Maintenance</a>
-            <a class="btn btn-default">Employee Maintenance</a>
-        </div>
-  </div>
+<br>
   <div class ="col-md-4">
     {{ $employees->links() }}
   </div>
-	<div class = "col-md-3">
+	<div class = "col-md-3" style="margin-top:20px">
         <div id="custom-search-input">
           {{ Form::model(null, array('route' => array('employs.search'))) }}
                     <div class="input-group col-md-12">

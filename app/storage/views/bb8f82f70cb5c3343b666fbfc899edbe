@@ -4,15 +4,8 @@
     <title>Departments | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<div class="col-md-12" style="margin-bottom:15px">
+<div class="col-md-12">
 <h1>Department Maintenance</h1>
- <div class="col-md-4">
-        <div class="btn-group btn-breadcrumb">
-            <a href="<?php echo URL::to('dashboard'); ?>"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-            <a href="<?php echo URL::to('maintenance'); ?>"  class="btn btn-default">Maintenance</a>
-            <a class="btn btn-default">Departments</a>
-        </div>
-  </div>
 
 	<div class="col-md-4" >
 		<?php echo $departments->links(); ?>
@@ -28,7 +21,7 @@
 
   <div class = "row">
       <div class = "col-md-4">
-        <h3>Add a Department</h3>
+        <h3>Add a Department</h3><hr>
         <?php if($errors->any()): ?>
         <ul>
             <?php echo implode('', $errors->all('<li class="error">:message</li>')); ?>
@@ -67,12 +60,12 @@
       </div>
 
       <div class = "col-md-8">
-        <h3>All Departments</h3>
+        <h3>All Departments</h3><hr>
         <?php foreach($departments as $department): ?>
           <div class="col-md-5" style="margin-bottom:5px">
             <div class="col-md-12 greytile" style="padding:5px">
               <div class="col-md-3">
-                   <img style = "height:32px; width:32px;" src="<?php echo URL::asset('img/Department.png'); ?>">
+                   <img style = "height:75px; width:75px; margin-left:-13px; margin-top:5px; " src="<?php echo URL::asset('img/Houses.png'); ?>">
               </div>
               <div class="col-md-9" style="margin-left:0px">
 
@@ -87,12 +80,12 @@
                      <p style="color:white; font-size:14px">
                       <?php foreach($branches as $branch): ?>
                       <?php if($branch->id == $department->branch_id): ?>
-                        <h5 style="color:white"> <?php echo $branch->branch_name; ?></h5>
+                        <h5 style="color:white"> <?php echo $branch->branch_name; ?> - <?php echo $department->code; ?></h5>
                       <?php endif; ?>
                       <?php endforeach; ?>
                     </p>                    
                
-                   <p style="color:white; font-size:12px"> <strong><?php echo $department->code; ?></strong> - 
+                  
                     <a href="<?php echo URL::to('departments/' . $department->id); ?>" onclick="window.open('<?php echo URL::to('departments/' . $department->id); ?>', 'newwindow', 'width=450, height=500'); return false;">View</a>
                     |
                     <a href="<?php echo URL::to('departments/' . $department->id . '/edit'); ?>" onclick="window.open('<?php echo URL::to('departments/' . $department->id . '/edit'); ?>', 'newwindow', 'width=450, height=450'); return false;">Edit</a>

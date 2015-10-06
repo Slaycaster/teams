@@ -27,6 +27,8 @@ class Assign_overtimesController extends BaseController {
 		$overtime_policies = DB::table('overtime_policies')
 		->lists('overtime_name', 'id');
 		$employees = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+			->where('status','!=','Inactive')
+			->where('status','!=','Terminated')
 			->orderBy('lname', 'asc')
 			->lists('full_name', 'id');
 		return View::make('assign_overtimes.index', compact('assign_overtimes'))

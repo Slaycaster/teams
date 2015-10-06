@@ -5,17 +5,9 @@
     <title>Hierarchies | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<div class="col-md-12" style=" margin-bottom:20px">
+<div class="col-md-12">
 
 <h1>Hierarchies Maintenance</h1>
-
-<div class="col-md-4">
-        <div class="btn-group btn-breadcrumb">
-            <a href="{{ URL::to('dashboard') }}"  class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
-            <a href="{{ URL::to('maintenance') }}"  class="btn btn-default">Maintenance</a>
-            <a class="btn btn-default">Hierarchies</a>
-        </div>
-  </div>
 
   <div class ="col-md-4">
     {{ $hierarchy->links() }}
@@ -23,19 +15,16 @@
 
 </div>
 
-<div class="container" style="margin-top:30px">
-  <div class = "row">
-      
-    <div class = "col-md-5" style="margin-left:-3%">
-    <h3 style="margin-left:8%">Add Hierarchy</h3>
+<div class="container">
+  <div class = "row"> 
+    <div class = "col-md-5">
+    <h3>Add Hierarchy</h3><hr>
                 @if ($errors->any())
                     <ul>  
                         {{ implode('', $errors->all('<li class="error">:message</li>')) }}
                     </ul>
                 @endif
                
-    <ul>
-            
             <h3>Filter by levels</h3>
             {{ Form::open(array('url' => 'hierarchies/index', 'method' => 'post')) }}
             {{ Form::select('levels_id', $levels, Input::old('<br>levels_id'), array('class' => 'btn btn-default dropdown-toggle target','id' => 'levels_id', 'tabindex' => '2') ) }}
@@ -79,16 +68,16 @@
 
 
   <div class = "col-md-7 ">
-        <h3 style="margin-left:3%">All Hierarchies</h3>
+        <h3 >All Hierarchies</h3><hr>
   @foreach ($hierarchy as $hierarchies)
   <?php $hierarchy_name = preg_replace('/\s+/', '', $hierarchies->hierarchy_name); ?>
 
   <div class="col-md-6" style="margin-bottom:5px">
-  	<div class="col-md-12 greytile" style="padding:5px">
-    	<div class="col-md-5" >
-           <img style = "height:100px; width:100px;" src="{{ URL::asset('img/Kiosk.png') }}">
-    	</div>
-    	<div class="col-md-7" style="margin-left:0px">
+    <div class="col-md-12 greytile" style="padding:5px">
+      <div class="col-md-5" >
+           <img style = "height:100px; width:100px; margin-top:13px" src="{{ URL::asset('img/Hierarchies.png') }}">
+      </div>
+      <div class="col-md-7" style="margin-left:0px">
 
            <p style="color:white; font-size:20px"> {{$hierarchies->hierarchy_name}}
            <p style="color:white; font-size:12px"> {{$hierarchies->description}}
@@ -101,7 +90,7 @@
      </div>
   <br><br><br><br><br>
   </div>
-	@endforeach 
+  @endforeach 
 </div>
 </div>
 </div>

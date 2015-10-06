@@ -23,6 +23,8 @@ class Policy_groupsController extends BaseController {
 	{
 		$policy_groups = policy_group:: paginate(9);
 		$employees = Employ::select(DB::raw('concat (lname, ", ", fname) as full_name, id'))
+		->where('status','!=','Inactive')
+		->where('status','!=','Terminated')
 		 ->whereNotExists(function($query)
             {
                 $query->select(DB::raw('employee_id'))
@@ -288,19 +290,17 @@ class Policy_groupsController extends BaseController {
 	public function edit($id)
 	{
 		$policy_group = $this->policy_group->find($id);
-		$accrual_policies=DB::table('accrual_policies')
-		->lists('accrual_name','id');
-		
+	
 		$exception_groups=DB::table('exception_groups')
 		->lists('exceptiongroup_name','id');
+
+		$holiday=DB::table('holiday_policies')
+		->join('policy_group_holiday', 'holiday_policies.id', '=', 'policy_group_holiday.holiday_id')
+		->join('policy_groups', 'policy_group_holiday.policy_group_id', '=', 'policy_groups.id')
+		->where('policy_groups.id', '=', $id)->get();
+
 		$holiday_policies=DB::table('holiday_policies')
 		->lists('holiday_name','id');
-		$overtime_policies=DB::table('overtime_policies')
-		->lists('overtime_name','id');
-		$premium_policies=DB::table('premium_policies')
-		->lists('premium_name','id');
-		$credit_policies=DB::table('credit_policies')
-		->lists('name','id');
 
 		if (is_null($policy_group))
 		{
@@ -308,13 +308,9 @@ class Policy_groupsController extends BaseController {
 		}
 
 		return View::make('policy_groups.edit', compact('policy_group'))
-		->with('accrual_policies',$accrual_policies)
-		
+		->with('holiday',$holiday)
 		->with('exception_groups',$exception_groups)
-		->with('holiday_policies',$holiday_policies)
-		->with('overtime_policies',$overtime_policies)
-		->with('premium_policies',$premium_policies)
-		->with('credit_policies', $credit_policies);
+		->with('holiday_policies',$holiday_policies);
 	}
 	/**
 	 * Update the specified resource in storage.
@@ -329,9 +325,40 @@ class Policy_groupsController extends BaseController {
 
 		if ($validation->passes())
 		{
+			
+		
 			$policy_group = $this->policy_group->find($id);
-			$policy_group->update($input);
+			$policy_groupid = Input::get('policy_groupid');
+			$policy_group->policygroup_name = Input::get('policygroup_name');
+			$policy_group->description = Input::get('description');
+			$policy_group->exception_id = Input::get('exceptiongroup_id');
 
+			if (Input::has('holiday_id')) {
+				$holidays = Input::get('holiday_id');
+
+				foreach ($holidays as $holiday) {
+					DB::table('policy_group_holiday')->insert(array(
+						array('policy_group_id' => $policy_groupid, 'holiday_id' => $holiday)
+
+					));
+				}
+
+			}
+
+			if (Input::has('holiday_id_delete')) {
+				$holidays = Input::get('holiday_id_delete');
+
+				foreach ($holidays as $holiday) {
+					DB::statement("DELETE FROM policy_group_holiday WHERE policy_group_id=:sid AND holiday_id=:sholiday",
+					 array('sid'=>$policy_groupid, 'sholiday'=>$holiday));
+
+				
+				}
+
+			}
+
+
+			$policy_group->update();
 			return Redirect::route('policy_groups.show', $id);
 		}
 

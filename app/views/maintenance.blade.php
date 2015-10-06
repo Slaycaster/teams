@@ -20,7 +20,7 @@
 						<div class = "col-md-3"><a style="color:white;" href="{{ URL::to('policy_groups') }}" class="btn btn-link">Policy Groups</a></div>
 						<div class = "col-md-3"><a style="color:white;" href="{{ URL::to('exception_policies') }}" class="btn btn-link">Exception</a></div>
 						<div class = "col-md-3"><a style="color:white;" href="{{ URL::to('holiday_policies') }}" class="btn btn-link">Holiday</a></div>
-						<!--<div class = "col-md-3"><a style="color:white;" href="{{ URL::to('overtime_policies') }}" class="btn btn-link">Overtime</a></div>-->
+						<div class = "col-md-3"><a style="color:white;" href="{{ URL::to('overtime_policies') }}" class="btn btn-link">Overtime</a></div>
 						<!--<div class = "col-md-3"><a style="color:white;" href="{{ URL::to('leave_grants') }}"class="btn btn-link">Leave Grants</a></div>-->
 						<!--<div class = "col-md-3"><a style="color:white;" href="{{ URL::to('credit_policies') }}"class="btn btn-link">Credit</a></div>-->
 					</div>
@@ -66,7 +66,7 @@
 
 
 			<div class = "col-md-4">
-				<img src="{{ URL::asset('img/Employee.png') }}">
+				<img src="{{ URL::asset('img/Worker.png') }}">
 				<a style="color:white;" href="{{ URL::to('jobtitles')}}"class="btn btn-link btn-lg" type = "button" data-toggle="collapse" data-target="#demo4">Job Titles</a>
 				<hr>
 			</div>

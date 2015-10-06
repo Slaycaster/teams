@@ -12,17 +12,8 @@
 	Route::get('infotechs/logout', array('uses' => 'InfotechLoginController@doLogout'));
 	Route::post('login', array('uses' => 'HomeController@doLogin'));
 	Route::get('reportsdaily', array('uses' => 'HomeController@showPdfreports'));
-	Route::get('report/branch', array('uses' => 'HomeController@showPdfreportsbranch'));
-	Route::get('report/department', array('uses' => 'HomeController@showPdfreportsdepartment'));
-	
-	Route::get('report/leavecases', array('uses' => 'HomeController@showPdfreportsleave'));
-	Route::post('report/leavecases', array('uses' => 'HomeController@postPdfreportsleave'));
 	Route::get('logout', array('uses' => 'HomeController@doLogout'));
 	Route::post('logout', array('uses' => 'HomeController@doLogout'));
-	Route::get('employee/timesheet', array('uses' => 'EmployeeLoginController@showTimeSheet'));
-	Route::get('employee/timesheet/table', array('uses' => 'EmployeeLoginController@showTimeSheetTable'));
-	Route::get('employee/timesheet/graph', array('uses' => 'EmployeeLoginController@showTimeSheetGraph'));
-	Route::get('employee/timesheet/dtr', array('uses' => 'EmployeeLoginController@showTimeSheetDtr'));
 	Route::get('employee/exceptions', array('uses' => 'EmployeeLoginController@showExceptions'));
 	Route::get('employee/accruals', array('uses' => 'EmployeeLoginController@showAccruals'));
 	Route::get('employee/requests_authorization', array('uses' => 'EmployeeLoginController@showRequestsAuthorization'));
@@ -42,27 +33,43 @@
 	Route::post('employee/downloads', array('uses' => 'EmployeeLoginController@showDownload'));
 	Route::post('employee/pdfviewer', array('uses' => 'EmployeeLoginController@postPdf'));
 	Route::post('employee/accmldthrs', array('uses' => 'EmployeeLoginController@postshowAccumulatedHours'));
+	Route::post('employee/accmldthrssub', array('uses' => 'EmployeeLoginController@postshowAccumulatedSub'));
 	Route::get('employee/leave_credits', array('uses' => 'EmployeeLoginController@showLeaveCredit'));
 	Route::post('employee/postpunctassessment', array('uses' => 'EmployeeLoginController@postshowPunctualityAssessment'));
+	Route::post('employee/punctassessmentsubpost', array('uses' => 'EmployeeLoginController@postshowPunctualitySub'));
 	Route::get('employee/accmltddhrssubodinates', array('uses' => 'EmployeeLoginController@showAccumulatedSub'));
 	Route::get('employee/punctassessmentsub', array('uses' => 'EmployeeLoginController@showPunctualitySub'));
 	Route::get('employee/employeesummary', array('uses' => 'EmployeeLoginController@showEmployeeSummary'));
 	Route::get('employee/dtrsubordinates', array('uses' => 'EmployeeLoginController@showDtrSubordinates'));
 	Route::get('employee/schedulequery', array('uses' => 'EmployeeLoginController@showScheduleQuery'));
 	Route::get('employee/leavehistory', array('uses' => 'EmployeeLoginController@showLeaveHistory'));
+	Route::post('employee/leavehistory', array('uses' => 'EmployeeLoginController@postLeaveHistory'));
 	Route::get('employee/requesthistory', array('uses' => 'EmployeeLoginController@showRequestHistory'));
 	Route::get('employee/punctassessment', array('uses' => 'EmployeeLoginController@showPunctualityAssessment'));
+	Route::get('employee/reports/assessment_sub', array('uses' => 'EmployeeLoginController@showPunctualityPDFSub'));
+	Route::get('employee/reports/assessment', array('uses' => 'EmployeeLoginController@showPunctualityPdfAssessment'));
+	Route::get('employee/reports/accumulated_sub', array('uses' => 'EmployeeLoginController@showAccumulatedPDFSub'));
+	Route::get('employee/reports/accumulated', array('uses' => 'EmployeeLoginController@showAccumulatedPDF'));
 	
 	
 	/*MOBILE APP ROUTES*/
 	Route::post('api/schedule', array('uses' => 'MobileController@showSchedule'));
 	Route::post('api/leavecredits', array('uses' => 'MobileController@showLeaveCredits'));
+	Route::post('api/changepassword', array('uses' => 'MobileController@changePassword'));
+	Route::post('api/assessment', array('uses' => 'MobileController@showPunctualityAssessment'));
+	Route::post('api/fileleave', array('uses' => 'MobileController@fileALeave'));
+	Route::post('api/accumulated', array('uses' => 'MobileController@showAccumulatedHours'));
 
 	Route::group(["before" => "auth"], function() {
 
-		Route::get('chuchu', 'HomeController@chuchu');
+
 		Route::get('report/dtr', array('uses' => 'HomeController@showPdfreportsdtr'));
 		Route::get('report/hierarchy', array('uses' => 'HomeController@showPdfreportshierarchy'));
+		Route::get('report/branch', array('uses' => 'HomeController@showPdfreportsbranch'));
+		Route::get('report/department', array('uses' => 'HomeController@showPdfreportsdepartment'));
+		Route::get('report/assessment', array('uses' => 'HomeController@showPdfAssessment'));
+		Route::get('report/leavecases', array('uses' => 'HomeController@postPdfreportsleave'));
+		Route::get('report/accumulated', array('uses' => 'HomeController@showAccumulatedDanceCraze'));
 		Route::resource('maintenance','HomeController@showMaintenance');
 		Route::resource('transaction','HomeController@showTransaction');
 		Route::resource('query','HomeController@showQuery');
@@ -109,6 +116,7 @@
 		 { if(Input::get('Change')) { $action = 'postManualAdjust'; }
 		 elseif(Input::get('Delete')) { $action = 'postManualDelete'; } 
 			return App::make('HomeController')->$action(); });
+
 		Route::get('emp_schedules/remove', array('uses' => 'EmpschedulesController@removeFromSched'));
 		Route::get('transactions/assign_hierarchy', array('uses' => 'HierarchiesController@assignSubordinates'));
 		Route::post('transactions/assign_hierarchy', array('uses' => 'HierarchiesController@postAssignSubordinates'));
@@ -130,6 +138,7 @@
 		Route::resource('empbybranch', 'HomeController@showQueryEmpbybranch');
 		Route::resource('downloads', 'DownloadsController');
 		Route::resource('leavecredits', 'HomeController@showLeaveCredit');
+		Route::resource('leave_query', 'HomeController@showLeaveQuery');
 		Route::resource('empsummary', 'HomeController@showEmpSummary');
 		Route::post('leavededuct', array('uses' => 'HomeController@LeaveDeduct'));
 		Route::post('deduct', array('uses' => 'HomeController@Deduct'));
@@ -139,9 +148,20 @@
 		Route::post('leavesummary', array('uses' => 'HomeController@postLeaveSummary'));
 		Route::post('addsubordinates', array('uses' => 'HierarchiesController@addSubordinates'));
 		Route::post('removesubordinates', array('uses' => 'HierarchiesController@removeSubordinates'));
+		Route::post('postaccumulatedhours', array('uses' => 'HomeController@postshowAccumulatedHoursAdmin'));
+		Route::post('postpunctualityassessment', array('uses' => 'HomeController@postshowPunctualityAssessmentAdmin'));
 		Route::resource('absent_employee', 'HomeController@showAbsent');
 		Route::resource('accumulatedhours', 'HomeController@showAccumulatedHoursAdmin');
 		Route::resource('punctualityassessment', 'HomeController@showPunctualityAssessmentAdmin');
+		Route::post('absent_employee', array('uses' => 'HomeController@postAbsent'));
+	 
+		Route::post('exception/edit', function()
+		 { if(Input::has('Edit')) { $action = 'postEdit'; }
+		 elseif(Input::has('Delete')) { $action = 'postDelete'; }
+		 elseif(Input::has('Update')) { $action = 'postUpdate'; } 
+		 elseif(Input::has('Add')) { $action = 'postAdd'; } 
+		 elseif(Input::has('Insert')) { $action = 'postInsert'; } 
+			return App::make('Exception_policiesController')->$action(); });
 	});
 
 ?>

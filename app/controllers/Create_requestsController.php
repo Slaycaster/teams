@@ -91,8 +91,32 @@ class Create_requestsController extends BaseController {
 		$s_leave = 0;
 		$v_leave = 0;
 		$f_leave = 0;
-	
 		$validation = Validator::make($input, Create_request::$rules);
+		$emp_id = Session::get('empid', 'default');
+		$emp_date = DB::table('employs')->where('employs.id', '=', $emp_id)->get();
+		$date = new DateTime("now", new DateTimeZone("Asia/Singapore"));
+			$now = $date->format('Y-m-d');
+
+			foreach($emp_date as $emp){
+
+			$hdate = $emp->hire_date;
+			
+			$ts1=strtotime($hdate);
+			$ts2=strtotime($now);
+
+			$year1 = date('Y', $ts1);
+			$year2 = date('Y', $ts2);
+
+			$month1 = date('m', $ts1);
+			$month2 = date('m', $ts2);
+
+			$day1 = date('d', $ts1); /* I'VE ADDED THE DAY VARIABLE OF DATE1 AND DATE2 */
+			$day2 = date('d', $ts2);
+
+			$day_counter = (($year2 - $year1) * 360) + (($month2 - $month1)*12) + ($day2 - $day1) + 1;
+		if ($day_counter >= 360)
+		{
+
 	
 			$now = Input::get('end_date');
 			$hdate = Input::get('start_date');
@@ -113,6 +137,7 @@ class Create_requestsController extends BaseController {
 
 			$leavecredits = DB::table('leavecredits')->get();
 			$emp_id = Session::get('empid', 'default');
+
 			foreach ($leavecredits as $leavecredit)
 		{
 	
@@ -262,6 +287,7 @@ class Create_requestsController extends BaseController {
 						}
 						
 						$check = DB::table('create_requests')->where('employee_id', '=', $emp_id)->where('status', '=', 'pending')->get();
+					
 						if($check == null)
 						{
 							if ($validation->passes() && $sick_leaves[$i] >= 0 && $vacation_leaves[$i] >= 0 && $force_leaves[$i] >= 0)
@@ -289,7 +315,18 @@ class Create_requestsController extends BaseController {
 						}
 						}
 							$i = $i + 1;
+
 					}
+					else{
+						Session::flash('messageb', 'Employee is not allowed to request for Leave');
+							return Redirect::route('create_requests.create')
+								->withInput()
+								->withErrors($validation)
+								->with('message', 'There were validation errors.');
+						}
+					}
+
+				}
 	
 
 	/**

@@ -25,6 +25,7 @@ class DepartmentsController extends BaseController {
 		$departments = Department::paginate(6);
 		$branches = DB::table('branches')->get();
 		$branches_id = DB::table('branches')
+		->where('status','!=','Disabled')
 		->lists('branch_name', 'id');
 		return View::make('departments.index', compact('departments'))
 		->with('departments', $departments)

@@ -9,34 +9,38 @@
 		<div class = "row">
 			
 			<div class = "col-md-9" >
-				<h1 style = "color:white;">Punctuality Assessment | {{$now}} to {{$dateto}}   </h1>
+				<br>
+				<h1 style = "color:white;">Punctuality Assessment | {{$now}} {{$to}} {{$dateto}}    </h1>
 			</div>
 		</div>
+		<hr>
 
 		
 		
 			<div id="raleway" class="row">
 				{{ Form::open(array('url' => 'employee/postpunctassessment', 'method' => 'post')) }}
-				
+				<div class = "col-md-4">
 					<div class="label_white">
 					{{ Form::label('choose_date', 'Date from:')}}
 					</div>
 					
-					 {{ Form::text('datefrom',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')) }}<br>
+					 {{ Form::text('datefrom',Input::get('datefrom'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')) }}
+				</div>
+
+				<div class = "col-md-4">
 					<div class="label_white">
 					{{ Form::label('choose_date', 'Date to:')}}
 					</div>
 
-					{{ Form::text('dateto',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar2','placeholder' => 'yyyy-mm-dd')) }}<br>
-					<br>
-				{{ Form::button('Go!', array('class' => 'btn btn-success','id' => 'query')) }}
-				{{ Form::close() }}	
+					{{ Form::text('dateto',Input::get('dateto'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar2','placeholder' => 'yyyy-mm-dd')) }}
+				</div>
 				<br>
+				<div class = "col-md-2">
+					{{ Form::button('Go!', array('class' => 'btn btn-success','id' => 'query')) }}
+				</div>
 				
-
-
-				
-
+				{{ Form::close() }}	
+				<br><br><br>
 				
 				{{ Form::open(array('url' => 'employee/postpunctassessment', 'method' => 'post')) }}
 			<div class = "row">

@@ -78,28 +78,24 @@
    
             {{ Form::close() }}
       </div>
-      <div class="col-md-5">
+      <div class="col-md-4">
         @foreach ($policy_groups as $policy_group)
-        <div class="cold-md-6">
+        <div class="cold-md-6" style="margin-bottom:5px">
 
-          <div class="col-md-6" style="margin-bottom:5px">
-               <div class="col-md-12 greytile" style="padding:5px">
+            <div class="col-md-8 greytile" style="padding:2px">
                    <div class="col-md-5" >
-                      <img style = "height:70px; width:70px;" src="{{ URL::asset('img/PremiumPolicy.png') }}">
+                      <img style = "height:90px; width:90px; margin-top:15px; margin-left:-10px" src="{{ URL::asset('img/PremiumPolicy.png') }}">
                    </div>
-                    <div class="col-md-7" style="margin-left:0px">
+                  <div class="col-md-7" style="margin-left:0px">
 
-               <p style="color:white; font-size:20px"> {{$policy_group->policygroup_name}}</p>
-               <a href="{{ URL::to('policy_groups/' . $policy_group->id) }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id) }}', 'newwindow', 'width=450, height=500'); return false;">View/ Edit<br>Subordinates</a>
-                    |
-               <a href="{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}', 'newwindow', 'width=450, height=450'); return false;">Edit Group</a>
+                   <p style="color:white; font-size:20px"> {{$policy_group->policygroup_name}}</p>
+                   <a href="{{ URL::to('policy_groups/' . $policy_group->id) }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id) }}', 'newwindow', 'width=450, height=500'); return false;">View/ Edit<br>Subordinates</a>
+                        |
+                   <a href="{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}" onclick="window.open('{{ URL::to('policy_groups/' . $policy_group->id . '/edit') }}', 'newwindow', 'width=450, height=450'); return false;">Edit Group</a>
+                  </div>
+
           </div>
-
-      
-
         </div>
-      </div>
-    </div>
      @endforeach 
     </div>
    </div>

@@ -1,28 +1,27 @@
 <?php $__env->startSection("content"); ?>
 
 <head>
-    <title>Queries | Time and Electronic Attendance Monitoring System</title>
+    <title>Leave Cases | Time and Electronic Attendance Monitoring System</title>
 </head>
 
-<h1>All Leave Cases </h1>
+<h1>All Leave Cases</h1>
 
-<?php echo Form::open(array('url' => 'queries/leavecases', 'method' => 'post')); ?>
+<div class="row">
+    <div class = "col-md-4">
+        <?php echo Form::open(array('url' => 'queries/leavecases', 'method' => 'post')); ?>
 
- 	<h3>Filter by Type</h3>
-	<?php echo Form::select('status',array('Select a status','Pending' => 'Pending', 'Approved' => 'Approved','Declined' => 'Declined','Changed'=>'Changed'),null,array('class' => 'btn btn-default dropdown-toggle target','id' => 'stats','tabindex' => '2')); ?><br>  
+        <h3>Filter by Type</h3>
+        <?php echo Form::select('status',array('Select a status','Pending' => 'Pending', 'Approved' => 'Approved','Declined' => 'Declined','Changed'=>'Changed'),null,array('class' => 'btn btn-default dropdown-toggle target','id' => 'stats','tabindex' => '2')); ?><br>  
+    </div>
+    <div class = "col-md-4">
+        <?php echo Form::open(array('url' => 'queries/leavecases', 'method' => 'post')); ?>
 
+            <h3>Filter by Date</h3>
+             <?php echo Form::text('date',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')); ?><br>
+        <?php echo Form::close(); ?>
 
-
-<?php echo Form::open(array('url' => 'queries/leavecases', 'method' => 'post')); ?>
-
-	<h3>Filter by Date</h3>
-	 <?php echo Form::text('date',Input::get('date'), array('autocomplete' => 'off', 'size' => '35','id' => 'calendar','placeholder' => 'yyyy-mm-dd')); ?><br>
-<?php echo Form::close(); ?>
-
-
-
-
-
+    </div>
+</div>
 
 <div class="container">
     <hr>
@@ -40,11 +39,11 @@
                 <thead>
                     <tr class="filters">
                     
-                        <th><input type="text" class="form-control" placeholder="employee_name"></th>
-                        <th><input type="text" class="form-control" placeholder="request_date"></th>
-                        <th><input type="text" class="form-control" placeholder="request_type"></th>
-                        <th><input type="text" class="form-control" placeholder="message"></th>
-                        <th><input type="text" class="form-control" placeholder="status"></th>
+                        <th><input type="text" class="form-control" placeholder="Employee Name"></th>
+                        <th><input type="text" class="form-control" placeholder="Request Date"></th>
+                        <th><input type="text" class="form-control" placeholder="Request Type"></th>
+                        <th><input type="text" class="form-control" placeholder="Message"></th>
+                        <th><input type="text" class="form-control" placeholder="Status"></th>
                     
                     </tr>
                 </thead>
@@ -54,7 +53,7 @@
                     <?php foreach($employs as $employee_name): ?>
                     <?php if($leave->employee_id == $employee_name->id): ?>
                      <td>
-                        <?php echo $employee_name->lname; ?>,<?php echo $employee_name->fname; ?>
+                        <?php echo $employee_name->lname; ?>, <?php echo $employee_name->fname; ?>
 
                     </td>
                     <?php endif; ?>

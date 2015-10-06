@@ -8,10 +8,8 @@
          <div class="alert alert-warning">{{ Session::get('message10') }}</div><br>
       @endif
 			<h1 style = "color:white;">Leave Credits</h1>
-
+            <hr>
 			 <div class="container">
-    
-    <hr>
     <div class="row">
         <div class="panel panel-primary filterable">
             <div class="panel-heading">
@@ -24,9 +22,9 @@
                 <thead>
                     <tr class="filters">
                     
-                        <th><input type="text" class="form-control" placeholder="employee_number"></th>
-                        <th><input type="text" class="form-control" placeholder="lname"></th>
-                        <th><input type="text" class="form-control" placeholder="accumulated leave"></th>
+                        <th><input type="text" class="form-control" placeholder="Employee Number"></th>
+                        <th><input type="text" class="form-control" placeholder="Name"></th>
+                        <th><input type="text" class="form-control" placeholder="Accumulated Leave"></th>
                   
                     </tr>
                     <tr>
@@ -35,7 +33,7 @@
                         <th style="text-align:center">Sick Leave</th>
                         <th style="text-align:center">Vacation Leave</th>
                         <th style="text-align:center">Force Leave</th>
-                        <th style="text-align:center">Adjust Leave</th>
+                        <th style="text-align:center">Deduct Leave</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +55,7 @@
                     <td>
                         {{$force_leave[$a] }}
                     </td>
-                    <td>
+                        <td>
                       {{ Form::open(array('url' => 'leavededuct', 'method' => 'post', 'autocomplete' => 'off')) }}    
                            {{ Form::hidden('emp_id', $employee->id) }}
                           

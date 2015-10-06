@@ -2,27 +2,32 @@
 @section("content")
 
 <head>
-    <title>Reports | Time and Electronic Attendance Monitoring System</title>
+    <title>Hierarchy List Report | Time and Electronic Attendance Monitoring System</title>
 </head>
 
 <h1>Hierarchy List Report</h1>
-<br>
-
-<div class='col-md-6'>
+<div class = "row">
+    <div class='col-md-3'>
     {{ Form::open(array('url' => 'report/hierarchy', 'method' => 'get')) }}
 
-<h3>Select a Month</h3>
-     {{ Form::selectMonth('month', Input::get('month'));}}<br><br>
+    <h3>Select a Month</h3>
+         {{ Form::selectMonth('month', Input::get('month'));}}<br><br>
+    </div>
+
+    <div class='col-md-3'>
+    <h3>Select a Year</h3>
+
+         {{ Form::selectYear('year', date('Y'), 1960 , Input::get('year'))}}<br><br>
+    </div>
+
+    <div class ='col-md-3'>
+        <br><br>
+        {{ Form::submit('Generate PDF', array('class' => 'btn btn-success')) }}
+        {{ Form::close() }}
+    </div>
 </div>
 
-<div class='col-md-6'>
-<h3>Select a Year</h3>
-
-     {{ Form::selectYear('year', date('Y'), 1960 , Input::get('year'))}}<br><br>
-</div>
-
-{{ Form::submit('Generate PDF', array('class' => 'btn btn-success')) }}
-{{ Form::close() }}
+<hr>
 <?php
 
 
@@ -128,8 +133,6 @@ class PDF extends FPDF
 $pdf = new PDF();
 $header = array('Last Name', 'First Name', 'E-mail', 'Phone #');
 $pdf->AliasNbPages();
-
-
 $pdf->SetFont('Arial','',12);
 $pdf->AddPage();
 $pdf->BasicTable($header, $employs, $branchess, $branches, $departments);

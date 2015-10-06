@@ -6,25 +6,18 @@
 </head>
 <br><br><br>
 
-<h1 align="center">Schedule</h1>
-<br>
-<h2 align="center">Current Schedule </h2>
+<h1>Your Current Schedule</h1>
 	@foreach($schedule as $sched)
 		@if(empty($sched))
-		<h4 align="center" style="color:red"> Not assigned</h4>
+		<h4 style="color:red">Not assigned to any schedule!</h4>
 		@else
-		<h4 align="center"> {{$sched->schedule_name}}</h4>
+		<h4> {{$sched->schedule_name}} - {{$sched->description}}</h4>
 		@endif
+		<hr>
+<div class="col-md-11" align="left" style="background-color:white; ">
 	
-<div class="col-md-1">
-</div>
-
-<div class="col-md-11" align="center" style="margin-top:20px; background-color:white; ">
-	
-	<h3 style="color:black">{{$sched->description}}</h3>
-	<br>
-	
-			<table class = "table table-bordered" align="center" style = "color:black;  width:1000px;" >
+	<h3 style="color:black"></h3>
+			<table class = "table table-bordered" align="left" style = "color:black;  width:1000px;" >
 					<thead>
 						<td style = "text-align:center;" colspan=10><b>Monday</b></td>
 						<td style = "text-align:center;" colspan=10><b>Tuesday</b></td>
@@ -39,37 +32,37 @@
 					
 					<tr>
 						@if($sched->m_timein != '00:00:00')
-						<td style = "text-align:center;" colspan=10>{{$sched->m_timein}} AM - {{$sched->m_timeout}} PM</td>
+						<td style = "text-align:center;" colspan=10>{{$sched->m_timein}} - {{$sched->m_timeout}}</td>
 						@else
 						<td style = "text-align:center; color:red" colspan=10><b>NO SCHEDULE</b></td>
 						@endif
 						@if($sched->t_timein != '00:00:00')
-						<td style = "text-align:center;" colspan=10>{{$sched->t_timein}} AM - {{$sched->t_timeout}} PM</td>
+						<td style = "text-align:center;" colspan=10>{{$sched->t_timein}} - {{$sched->t_timeout}}</td>
 						@else
 						<td style = "text-align:center; color:red" colspan=10><b>NO SCHEDULE</b></td>
 						@endif
 						@if($sched->w_timein != '00:00:00')
-						<td style = "text-align:center;" colspan=10>{{$sched->w_timein}} AM - {{$sched->w_timeout}} PM</td>
+						<td style = "text-align:center;" colspan=10>{{$sched->w_timein}} - {{$sched->w_timeout}}</td>
 						@else
 						<td style = "text-align:center; color:red" colspan=10><b>NO SCHEDULE</b></td>
 						@endif
 						@if($sched->th_timein != '00:00:00')
-						<td style = "text-align:center;" colspan=10>{{$sched->th_timein}} AM - {{$sched->th_timeout}} PM</td>
+						<td style = "text-align:center;" colspan=10>{{$sched->th_timein}} - {{$sched->th_timeout}}</td>
 						@else
 						<td style = "text-align:center; color:red" colspan=10><b>NO SCHEDULE</b></td>
 						@endif
 						@if($sched->f_timein != '00:00:00')
-						<td style = "text-align:center;" colspan=10>{{$sched->f_timein}} AM - {{$sched->f_timeout}} PM</td>
+						<td style = "text-align:center;" colspan=10>{{$sched->f_timein}} - {{$sched->f_timeout}} </td>
 						@else
 						<td style = "text-align:center; color:red" colspan=10><b>NO SCHEDULE</b></td>
 						@endif
 						@if($sched->sat_timein != '00:00:00')
-						<td style = "text-align:center;" colspan=10>{{$sched->sat_timein}} AM - {{$sched->sat_timeout}} PM</td>
+						<td style = "text-align:center;" colspan=10>{{$sched->sat_timein}} - {{$sched->sat_timeout}}</td>
 						@else
 						<td style = "text-align:center; color:red" colspan=10><b>NO SCHEDULE</b></td>
 						@endif
 						@if($sched->sun_timein != '00:00:00')
-						<td style = "text-align:center;" colspan=10>{{$sched->sun_timein}} AM - {{$sched->sun_timeout}} PM</td>
+						<td style = "text-align:center;" colspan=10>{{$sched->sun_timein}} - {{$sched->sun_timeout}}</td>
 						@else
 						<td style = "text-align:center; color:red" colspan=10><b>NO SCHEDULE</b></td>
 						@endif

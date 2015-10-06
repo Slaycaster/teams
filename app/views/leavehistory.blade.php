@@ -3,22 +3,44 @@
       <br><br><br>
       <div class = "container">
             <div class = "row">
-                
-                      <br>
                   <div class = "col-md-9" >
                         <h1 style = "color:white;">Leave History</h1>
                   </div>
             </div>
+            <hr>
 
-            <br>
-            <br>
                   <div id="raleway" class="row">
 <div class = "row">
+        {{ Form::open(array('url' => 'employee/leavehistory', 'method' => 'post', 'autocomplete' => 'off')) }}
+   
+      
+      <div class="col-md-2">
+
+        <div class="label_white">{{ Form::label('layout', ' Month:') }}</div>
+        {{ Form::selectMonth('month', Input::get('month'), array('class' => 'btn btn-default dropdown-toggle'))}}<br>
+      </div>
+
+      <div class="col-md-2">
+        <div class="label_white">
+      
+        {{ Form::label('layout', ' Year:') }}  </div>
+        {{ Form::selectRange('year', $year, 1995  , Input::get('year'), array('class' => 'btn btn-default dropdown-toggle'))}}
+        </div>
+        <br>
+            <div class="col-md-2">
+                <div class="label_white" style="margin-top:-5px;">
+                     <td>  {{ Form::submit('Go', array('class' => 'btn btn-warning', 'style'=>'padding-left:30px; padding-right:30px; padding-top:7px; padding-bottom:7px;')) }}</td><br>
+                 </div>
+        {{Form::close()}}
+    </div>
+    <br>
+</div>
+
 	<br><br>
 
-	<div class="label_white"><table class="table table-bordered">
+	<div><table class="table table-bordered" style = "background-color:white;">
 		<thead>
-			<tr style="color:white">
+			<tr>
 				<th>Status</th>
 				<th>Request date</th>
 				<th>Start date</th>
@@ -33,7 +55,7 @@
 
 		<tbody>
 			@foreach ($create_requests as $create_request)
-				<tr style="color:white">
+				<tr>
 					<td>{{{ $create_request->status }}}</td>
 					<td>{{{ $create_request->request_date }}}</td>
 					<td>{{{ $create_request->start_date }}}</td>
